@@ -12,7 +12,7 @@
 /* ── LAYOUT ──────────────────────────────────────────────────── */
 .pagina {
   max-width: 900px; margin: 0 auto;
-  padding: calc(68px + var(--s4)) var(--s4) var(--s7);
+  padding: calc(80px + var(--s4)) var(--s4) var(--s7);
   display: flex; flex-direction: column; gap: var(--s4);
 }
 
@@ -42,15 +42,12 @@
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
-/* Círculo SVG do timer */
 .timer-anel { position: relative; width: 240px; height: 240px; flex-shrink: 0; }
 .timer-anel svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .timer-anel__trilha { fill: none; stroke: var(--border); stroke-width: 8; }
 .timer-anel__progresso {
   fill: none; stroke: var(--accent); stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 691; /* 2π×110 */
-  stroke-dashoffset: 0;
+  stroke-linecap: round; stroke-dasharray: 691; stroke-dashoffset: 0;
   transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
 }
 .timer-anel__progresso.pausa { stroke: #f59e0b; }
@@ -67,7 +64,6 @@
   text-transform: uppercase; letter-spacing: .1em;
 }
 
-/* Sessão atual */
 .sessao-atual {
   text-align: center; padding: 10px var(--s3);
   background: var(--accent-glow); border: 1px solid var(--border-hover);
@@ -76,7 +72,6 @@
 .sessao-atual__label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .06em; }
 .sessao-atual__nome { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-top: 2px; }
 
-/* Controles */
 .timer-controles { display: flex; align-items: center; gap: var(--s2); }
 .btn-controle {
   width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--border);
@@ -85,39 +80,34 @@
   transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 .btn-controle:hover { border-color: var(--border-hover); color: var(--text-primary); }
-.btn-controle svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; }
+.btn-controle svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
 .btn-play {
-  width: 68px; height: 68px; background: var(--accent); color: #0d1b2a;
-  border-color: var(--accent);
+  width: 68px; height: 68px; background: var(--accent); color: #0d1b2a; border-color: var(--accent);
 }
-.btn-play:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #0d1b2a; }
-.btn-play svg { width: 26px; height: 26px; }
+.btn-play:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-play svg { width: 26px; height: 26px; fill: currentColor; }
 
-/* Modos de tempo */
-.timer-modos { display: flex; gap: var(--s1); background: var(--bg-base); border-radius: var(--r-md); padding: 4px; }
+.timer-modos { display: flex; gap: 4px; background: var(--bg-base); border-radius: var(--r-md); padding: 4px; }
 .modo-btn {
   flex: 1; padding: 7px 12px; border: none; border-radius: var(--r-sm);
   background: none; color: var(--text-secondary); font-family: var(--font-body);
-  font-size: 12px; font-weight: 600; cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;
 }
-.modo-btn.ativo { background: var(--bg-surface); color: var(--accent); box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+.modo-btn.ativo { background: var(--bg-surface); color: var(--accent); box-shadow: var(--shadow-sm); }
 
 /* ── PAINEL LATERAL ──────────────────────────────────────────── */
 .painel-lateral { display: flex; flex-direction: column; gap: var(--s3); }
 .secao {
   background: var(--bg-surface); border: 1px solid var(--border);
   border-radius: var(--r-lg); padding: var(--s3);
-  transition: background 0.4s, border-color 0.4s;
 }
 .secao__titulo {
   font-family: var(--font-display); font-size: 14px; font-weight: 700;
   color: var(--text-primary); margin-bottom: var(--s2);
   display: flex; align-items: center; gap: 8px;
 }
-.secao__titulo svg { width: 15px; height: 15px; stroke: var(--accent); stroke-width: 2.5; }
+.secao__titulo svg { width: 15px; height: 15px; stroke: var(--accent); stroke-width: 2.5; fill: none; }
 
-/* Stats de sessão */
 .stats-sessao { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
 .stat-mini {
   background: var(--bg-base); border: 1px solid var(--border); border-radius: var(--r-md);
@@ -126,452 +116,345 @@
 .stat-mini__val { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--accent); line-height: 1; }
 .stat-mini__label { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
 
-/* Histórico de sessões */
-.sessao-hist {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12px;
-}
-.sessao-hist:last-child { border-bottom: none; padding-bottom: 0; }
-.sessao-hist__icone { font-size: 16px; flex-shrink: 0; }
-.sessao-hist__info { flex: 1; }
+.sessao-hist { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.sessao-hist:last-child { border-bottom: none; }
+.sessao-hist__icone { font-size: 16px; }
 .sessao-hist__nome { font-weight: 600; color: var(--text-primary); font-size: 13px; }
-.sessao-hist__meta { color: var(--text-secondary); }
 .sessao-hist__dur { font-weight: 700; color: var(--accent); font-family: var(--font-display); }
 
-/* Seletor de tarefa */
-.tarefa-seletor {
-  display: flex; flex-direction: column; gap: 6px;
-}
 .tarefa-opcao {
   display: flex; align-items: center; gap: 10px; padding: 9px 10px;
   background: var(--bg-base); border: 1px solid var(--border); border-radius: var(--r-sm);
-  cursor: pointer; transition: border-color 0.2s, background 0.2s; font-size: 13px;
+  cursor: pointer; transition: 0.2s; font-size: 13px; margin-bottom: 6px;
 }
-.tarefa-opcao:hover { border-color: var(--border-hover); }
 .tarefa-opcao.selecionada { border-color: var(--accent); background: var(--accent-glow); }
-.tarefa-opcao__check { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.2s; }
-.tarefa-opcao.selecionada .tarefa-opcao__check { background: var(--accent); }
-.tarefa-opcao__nome { flex: 1; font-weight: 600; color: var(--text-primary); }
-.tarefa-opcao__mat { font-size: 11px; color: var(--text-secondary); }
+.tarefa-opcao__check { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: 0.2s; }
+.tarefa-opcao.selecionada .tarefa-opcao__check { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
 
-/* Estado vazio */
-.estado-vazio {
-  display: flex; flex-direction: column; align-items: center;
-  padding: var(--s3) var(--s2); gap: 8px; text-align: center;
-}
-.estado-vazio svg { width: 32px; height: 32px; stroke: var(--border-hover); stroke-width: 1.5; }
-.estado-vazio p { font-size: 12px; color: var(--text-secondary); }
+.estado-vazio { display: flex; flex-direction: column; align-items: center; padding: 20px; gap: 8px; text-align: center; opacity: 0.6; }
+.estado-vazio svg { width: 32px; stroke: var(--text-secondary); fill: none; }
 
-/* Notificação de fim */
 .notif {
   position: fixed; top: 88px; left: 50%; transform: translateX(-50%) translateY(-20px);
-  background: var(--bg-surface); border: 1px solid var(--border-hover);
-  border-radius: var(--r-lg); padding: 14px var(--s3); font-size: 14px; font-weight: 600;
-  color: var(--text-primary); box-shadow: var(--shadow-card); z-index: 999;
-  opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none;
-  display: flex; align-items: center; gap: 10px; white-space: nowrap;
+  background: var(--bg-surface); border: 1px solid var(--accent);
+  border-radius: var(--r-lg); padding: 14px 24px; font-size: 14px; font-weight: 600;
+  box-shadow: var(--shadow-lg); z-index: 999; opacity: 0; transition: 0.3s; pointer-events: none;
 }
 .notif.visivel { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ── RESPONSIVO ──────────────────────────────────────────────── */
 @media (max-width: 800px) { .foco-grid { grid-template-columns: 1fr; } }
-@media (max-width: 500px) { .timer-num { font-size: 44px; } .timer-anel { width: 200px; height: 200px; } }
   </style>
 </head>
 <body>
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo</a>
 
-<nav class="nav" id="nav-principal" aria-label="Menu Principal">
-  <div class="nav__inner">
-    <a href="index.html" class="nav__logo">
-      <span class="nav__logo-dot" aria-hidden="true"></span>StudyFlow
-    </a>
-    <ul class="nav__links" id="nav-links" role="list">
-      <li><a href="index.html">Início</a></li>
-      <li><a href="index.html#funcionalidades">Funcionalidades</a></li>
-      <li><a href="perfil.html">Perfil</a></li>
-      <li><a href="cronograma.html">Cronograma</a></li>
-      <li><a href="foco.html" aria-current="page">Modo Foco</a></li>
-    </ul>
-    <div class="nav__actions">
-      <div class="toggle-tema" title="Alternar tema">
-        <input type="checkbox" id="toggle-tema" class="toggle-tema__input" role="switch" aria-label="Alternar tema">
-        <label for="toggle-tema" class="toggle-tema__track" aria-hidden="true">
-          <span class="toggle-tema__thumb"><span id="icone-tema">🌙</span></span>
-        </label>
-        <label for="toggle-tema" class="toggle-tema__label" id="label-tema">Dark</label>
-      </div>
-      <a href="#" class="btn-nav">Começar grátis →</a>
-    </div>
-    <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<!-- NOTIFICAÇÃO -->
-<div class="notif" id="notif">🍅 <span id="notif-msg">Pomodoro concluído!</span></div>
-
-<main class="pagina">
-
-  <div>
-    <h1 class="page-header__titulo">Modo <span>Foco</span></h1>
-    <p class="page-header__sub">Temporizador Pomodoro — concentre-se por 25 minutos</p>
-  </div>
-
-  <div class="foco-grid">
-
-    <!-- TIMER PRINCIPAL -->
-    <div class="timer-card">
-
-      <!-- Modos -->
-      <div class="timer-modos">
-        <button class="modo-btn ativo" data-modo="pomodoro" data-min="25">🍅 Pomodoro</button>
-        <button class="modo-btn" data-modo="pausa-curta" data-min="5">☕ Pausa curta</button>
-        <button class="modo-btn" data-modo="pausa-longa" data-min="15">🛋️ Pausa longa</button>
-      </div>
-
-      <!-- Anel SVG -->
-      <div class="timer-anel">
-        <svg viewBox="0 0 240 240">
-          <circle class="timer-anel__trilha" cx="120" cy="120" r="110"/>
-          <circle class="timer-anel__progresso" id="anel-prog" cx="120" cy="120" r="110"/>
-        </svg>
-        <div class="timer-anel__centro">
-          <div class="timer-num" id="timer-display">25:00</div>
-          <div class="timer-modo" id="timer-modo-label">Pomodoro</div>
+  <nav class="nav" id="nav-principal" aria-label="Menu Principal">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-dot" aria-hidden="true"></span>StudyFlow
+      </a>
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="index.html#hero">Início</a></li>
+        <li><a href="index.html#funcionalidades">Funcionalidades</a></li>
+        <li><a href="perfil.html">Perfil</a></li>
+        <li><a href="cronograma.html">Cronograma</a></li>
+        <li><a href="foco.html" aria-current="page">Modo Foco</a></li>
+      </ul>
+      <div class="nav__actions">
+        <div class="toggle-tema" title="Alternar tema">
+          <input type="checkbox" id="toggle-tema" class="toggle-tema__input" role="switch">
+          <label for="toggle-tema" class="toggle-tema__track">
+            <span class="toggle-tema__thumb"><span id="icone-tema">🌙</span></span>
+          </label>
+          <label for="toggle-tema" class="toggle-tema__label" id="label-tema">Dark</label>
         </div>
       </div>
-
-      <!-- Tarefa atual -->
-      <div class="sessao-atual" id="sessao-atual-wrap">
-        <div class="sessao-atual__label">Estudando agora</div>
-        <div class="sessao-atual__nome" id="sessao-atual-nome">Nenhuma tarefa selecionada</div>
-      </div>
-
-      <!-- Controles -->
-      <div class="timer-controles">
-        <button class="btn-controle" id="btn-reiniciar" title="Reiniciar" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
-        </button>
-        <button class="btn-controle btn-play" id="btn-play" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </button>
-        <button class="btn-controle" id="btn-pular" title="Pular" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
-        </button>
-      </div>
-
-      <!-- Contador de pomodoros -->
-      <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary)">
-        <span>Sessões hoje:</span>
-        <span id="pomodoros-hoje" style="font-family:var(--font-display);font-weight:700;color:var(--accent);font-size:16px">0</span>
-        <span style="font-size:16px" id="pomodoros-icones">○○○○</span>
-      </div>
+      <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </nav>
 
-    <!-- PAINEL LATERAL -->
-    <div class="painel-lateral">
+  <div class="notif" id="notif">🍅 <span id="notif-msg">Pomodoro concluído!</span></div>
 
-      <!-- STATS -->
-      <div class="secao">
-        <div class="secao__titulo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          Sessão de Hoje
+  <main class="pagina" id="conteudo-principal">
+    <header>
+      <h1 class="page-header__titulo">Modo <span>Foco</span></h1>
+      <p class="page-header__sub">Temporizador Pomodoro — técnica para alta produtividade</p>
+    </header>
+
+    <div class="foco-grid">
+      <div class="timer-card">
+        <div class="timer-modos">
+          <button class="modo-btn ativo" data-modo="pomodoro" data-min="25">🍅 Pomodoro</button>
+          <button class="modo-btn" data-modo="pausa-curta" data-min="5">☕ Pausa</button>
+          <button class="modo-btn" data-modo="pausa-longa" data-min="15">🛋️ Longa</button>
         </div>
-        <div class="stats-sessao">
-          <div class="stat-mini">
-            <div class="stat-mini__val" id="s-pomodoros">0</div>
-            <div class="stat-mini__label">Pomodoros</div>
-          </div>
-          <div class="stat-mini">
-            <div class="stat-mini__val" id="s-minutos">0</div>
-            <div class="stat-mini__label">Minutos focados</div>
+
+        <div class="timer-anel">
+          <svg viewBox="0 0 240 240">
+            <circle class="timer-anel__trilha" cx="120" cy="120" r="110"/>
+            <circle class="timer-anel__progresso" id="anel-prog" cx="120" cy="120" r="110"/>
+          </svg>
+          <div class="timer-anel__centro">
+            <div class="timer-num" id="timer-display">25:00</div>
+            <div class="timer-modo" id="timer-modo-label">Pomodoro</div>
           </div>
         </div>
-      </div>
 
-      <!-- TAREFAS PARA FOCAR -->
-      <div class="secao">
-        <div class="secao__titulo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-          Tarefas de Hoje
+        <div class="sessao-atual" id="sessao-atual-wrap">
+          <div class="sessao-atual__label">Estudando agora</div>
+          <div class="sessao-atual__nome" id="sessao-atual-nome">Nenhuma tarefa selecionada</div>
         </div>
-        <div class="tarefa-seletor" id="tarefa-seletor"></div>
-      </div>
 
-      <!-- HISTÓRICO -->
-      <div class="secao">
-        <div class="secao__titulo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Histórico de Sessões
+        <div class="timer-controles">
+          <button class="btn-controle" id="btn-reiniciar" title="Reiniciar">
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+          </button>
+          <button class="btn-controle btn-play" id="btn-play">
+            <svg viewBox="0 0 24 24" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button class="btn-controle" id="btn-pular" title="Pular">
+            <svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+          </button>
         </div>
-        <div id="historico-lista"></div>
+
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary)">
+          <span>Hoje:</span>
+          <span id="pomodoros-hoje" style="font-weight:700;color:var(--accent)">0</span>
+          <span id="pomodoros-icones">○○○○</span>
+        </div>
       </div>
 
+      <div class="painel-lateral">
+        <div class="secao">
+          <div class="secao__titulo">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            Progresso Diário
+          </div>
+          <div class="stats-sessao">
+            <div class="stat-mini">
+              <div class="stat-mini__val" id="s-pomodoros">0</div>
+              <div class="stat-mini__label">Sessões</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini__val" id="s-minutos">0</div>
+              <div class="stat-mini__label">Minutos</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="secao">
+          <div class="secao__titulo">
+            <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1"/><circle cx="3" cy="12" r="1"/><circle cx="3" cy="18" r="1"/></svg>
+            Focar em:
+          </div>
+          <div class="tarefa-seletor" id="tarefa-seletor"></div>
+        </div>
+
+        <div class="secao">
+          <div class="secao__titulo">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Histórico Recente
+          </div>
+          <div id="historico-lista"></div>
+        </div>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<div class="toast" id="toast">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-  <span id="toast-msg"></span>
-</div>
+  <script>
+    // ── TEMA (Sincronizado com o Index) ──────────────────────
+    const inputTema = document.getElementById('toggle-tema');
+    const labelTema = document.getElementById('label-tema');
+    const iconeTema = document.getElementById('icone-tema');
+    const htmlEl    = document.documentElement;
 
-<script>
-// ── TEMA ──────────────────────────────────────────────────────
-const inputTema = document.getElementById('toggle-tema');
-const labelTema = document.getElementById('label-tema');
-const iconeTema = document.getElementById('icone-tema');
-const htmlEl    = document.documentElement;
-if (localStorage.getItem('sf-tema') === 'light') {
-  inputTema.checked = true; htmlEl.setAttribute('data-tema','light');
-  labelTema.textContent = 'Light'; iconeTema.textContent = '☀️';
-}
-inputTema.addEventListener('change', () => {
-  const l = inputTema.checked;
-  htmlEl.setAttribute('data-tema', l ? 'light' : 'dark');
-  labelTema.textContent = l ? 'Light' : 'Dark';
-  iconeTema.textContent = l ? '☀️' : '🌙';
-  localStorage.setItem('sf-tema', l ? 'light' : 'dark');
-});
+    function aplicarTema(tema) {
+      htmlEl.setAttribute('data-tema', tema);
+      const isLight = tema === 'light';
+      inputTema.checked = isLight;
+      labelTema.textContent = isLight ? 'Light' : 'Dark';
+      iconeTema.textContent = isLight ? '☀️' : '🌙';
+    }
 
-// ── NAV ───────────────────────────────────────────────────────
-const nav = document.getElementById('nav-principal');
-window.addEventListener('scroll', () => nav.classList.toggle('rolado', window.scrollY > 20), { passive: true });
-const navToggle = document.getElementById('nav-toggle');
-const navLinks  = document.getElementById('nav-links');
-navToggle.addEventListener('click', () => {
-  const ab = navToggle.classList.toggle('aberto');
-  navLinks.classList.toggle('aberto');
-  navToggle.setAttribute('aria-expanded', ab);
-});
+    const temaSalvo = localStorage.getItem('sf-tema') || 'dark';
+    aplicarTema(temaSalvo);
 
-// ── TOAST ─────────────────────────────────────────────────────
-function toast(msg) {
-  document.getElementById('toast-msg').textContent = msg;
-  const t = document.getElementById('toast');
-  t.classList.add('visivel');
-  setTimeout(() => t.classList.remove('visivel'), 2500);
-}
-
-function notificar(msg) {
-  document.getElementById('notif-msg').textContent = msg;
-  const n = document.getElementById('notif');
-  n.classList.add('visivel');
-  setTimeout(() => n.classList.remove('visivel'), 4000);
-  // API de notificação do browser
-  if (Notification.permission === 'granted') {
-    new Notification('StudyFlow 🍅', { body: msg });
-  }
-}
-
-// ── MODOS DO TIMER ─────────────────────────────────────────────
-const MODOS = {
-  'pomodoro':    { label: '🍅 Foco',       min: 25 },
-  'pausa-curta': { label: '☕ Pausa',       min: 5  },
-  'pausa-longa': { label: '🛋️ Pausa longa', min: 15 },
-};
-let modoAtual = 'pomodoro';
-
-// ── ESTADO DO TIMER ────────────────────────────────────────────
-const CIRCUNFERENCIA = 2 * Math.PI * 110; // ≈ 691
-let totalSegundos = 25 * 60;
-let segundosRestantes = totalSegundos;
-let rodando = false;
-let intervalo = null;
-let tarefaSelecionada = null;
-let pomodorosHoje = parseInt(localStorage.getItem('sf-pomodoros-hoje') || '0');
-let minutosHoje   = parseInt(localStorage.getItem('sf-minutos-hoje')   || '0');
-let historico     = [];
-try { historico = JSON.parse(localStorage.getItem('sf-historico') || '[]'); } catch {}
-
-// Reseta contadores se o dia mudou
-const hoje = new Date().toDateString();
-if (localStorage.getItem('sf-foco-dia') !== hoje) {
-  pomodorosHoje = 0; minutosHoje = 0; historico = [];
-  localStorage.setItem('sf-foco-dia', hoje);
-  localStorage.setItem('sf-pomodoros-hoje', '0');
-  localStorage.setItem('sf-minutos-hoje', '0');
-  localStorage.setItem('sf-historico', '[]');
-}
-
-// ── RENDER ANEL ────────────────────────────────────────────────
-function renderAnel() {
-  const pct    = segundosRestantes / totalSegundos;
-  const offset = CIRCUNFERENCIA * (1 - pct);
-  const anel   = document.getElementById('anel-prog');
-  anel.style.strokeDasharray  = CIRCUNFERENCIA;
-  anel.style.strokeDashoffset = offset;
-  anel.classList.toggle('pausa', modoAtual !== 'pomodoro');
-}
-
-function renderDisplay() {
-  const m = Math.floor(segundosRestantes / 60);
-  const s = segundosRestantes % 60;
-  document.getElementById('timer-display').textContent =
-    String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-  document.getElementById('timer-modo-label').textContent = MODOS[modoAtual].label;
-  document.title = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} — StudyFlow`;
-}
-
-function renderStats() {
-  document.getElementById('s-pomodoros').textContent = pomodorosHoje;
-  document.getElementById('s-minutos').textContent   = minutosHoje;
-  document.getElementById('pomodoros-hoje').textContent = pomodorosHoje;
-  // Ícones de pomodoro (4 por ciclo)
-  const ciclo = pomodorosHoje % 4;
-  document.getElementById('pomodoros-icones').textContent =
-    '🍅'.repeat(ciclo) + '○'.repeat(4 - ciclo);
-}
-
-// ── RENDER HISTÓRICO ───────────────────────────────────────────
-function renderHistorico() {
-  const lista = document.getElementById('historico-lista');
-  if (historico.length === 0) {
-    lista.innerHTML = `<div class="estado-vazio">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <p>Nenhuma sessão ainda hoje</p></div>`;
-    return;
-  }
-  lista.innerHTML = [...historico].reverse().slice(0, 6).map(h => `
-    <div class="sessao-hist">
-      <span class="sessao-hist__icone">${h.modo === 'pomodoro' ? '🍅' : '☕'}</span>
-      <div class="sessao-hist__info">
-        <div class="sessao-hist__nome">${h.tarefa || 'Sessão livre'}</div>
-        <div class="sessao-hist__meta">${h.hora} · ${h.minutos} min</div>
-      </div>
-      <span class="sessao-hist__dur">+${h.minutos}m</span>
-    </div>`).join('');
-}
-
-// ── TAREFAS DO DIA ─────────────────────────────────────────────
-function renderTarefasSeletor() {
-  const fmtHoje = new Date().toISOString().split('T')[0];
-  let tarefas = [];
-  try { tarefas = JSON.parse(localStorage.getItem('sf-tarefas') || '[]'); } catch {}
-  const do_dia = tarefas.filter(t => t.data === fmtHoje && !t.feita);
-
-  const seletor = document.getElementById('tarefa-seletor');
-  if (do_dia.length === 0) {
-    seletor.innerHTML = `<div class="estado-vazio">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      <p>Nenhuma tarefa pendente hoje.<br><a href="cronograma.html" style="color:var(--accent)">Adicionar no Cronograma →</a></p></div>`;
-    return;
-  }
-  seletor.innerHTML = do_dia.map(t => `
-    <div class="tarefa-opcao${tarefaSelecionada === t.id ? ' selecionada' : ''}" data-id="${t.id}">
-      <div class="tarefa-opcao__check"></div>
-      <div>
-        <div class="tarefa-opcao__nome">${t.nome}</div>
-        <div class="tarefa-opcao__mat">${t.materia} · P = ${t.U * t.C}</div>
-      </div>
-    </div>`).join('');
-
-  seletor.querySelectorAll('.tarefa-opcao').forEach(el => {
-    el.addEventListener('click', () => {
-      tarefaSelecionada = parseInt(el.dataset.id);
-      const t = do_dia.find(x => x.id === tarefaSelecionada);
-      document.getElementById('sessao-atual-nome').textContent = t ? t.nome : 'Nenhuma tarefa selecionada';
-      renderTarefasSeletor();
+    inputTema.addEventListener('change', () => {
+      const novoTema = inputTema.checked ? 'light' : 'dark';
+      aplicarTema(novoTema);
+      localStorage.setItem('sf-tema', novoTema);
     });
-  });
-}
 
-// ── CONTROLE DO TIMER ──────────────────────────────────────────
-function iniciar() {
-  rodando = true;
-  document.getElementById('icone-play').outerHTML = `<rect id="icone-play" x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`;
-  intervalo = setInterval(() => {
-    segundosRestantes--;
+    // ── NAVEGAÇÃO ───────────────────────────────────────────
+    const nav = document.getElementById('nav-principal');
+    window.addEventListener('scroll', () => nav.classList.toggle('rolado', window.scrollY > 20), { passive: true });
+    
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks  = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      const ab = navToggle.classList.toggle('aberto');
+      navLinks.classList.toggle('aberto');
+      navToggle.setAttribute('aria-expanded', ab);
+    });
+
+    // ── LÓGICA DO TIMER ──────────────────────────────────────
+    const MODOS = {
+      'pomodoro':    { label: 'Pomodoro',    min: 25 },
+      'pausa-curta': { label: 'Pausa Curta', min: 5  },
+      'pausa-longa': { label: 'Pausa Longa', min: 15 },
+    };
+    
+    const CIRCUNFERENCIA = 691; 
+    let modoAtual = 'pomodoro';
+    let totalSegundos = 25 * 60;
+    let segundosRestantes = totalSegundos;
+    let rodando = false;
+    let intervalo = null;
+    let tarefaSelecionada = null;
+
+    // Persistência de Dados
+    let pomodorosHoje = parseInt(localStorage.getItem('sf-pomodoros-hoje') || '0');
+    let minutosHoje   = parseInt(localStorage.getItem('sf-minutos-hoje')   || '0');
+    let historico     = JSON.parse(localStorage.getItem('sf-historico') || '[]');
+
+    function renderAnel() {
+      const pct = segundosRestantes / totalSegundos;
+      const offset = CIRCUNFERENCIA * (1 - pct);
+      const anel = document.getElementById('anel-prog');
+      anel.style.strokeDashoffset = offset;
+      anel.classList.toggle('pausa', modoAtual !== 'pomodoro');
+    }
+
+    function renderDisplay() {
+      const m = Math.floor(segundosRestantes / 60);
+      const s = segundosRestantes % 60;
+      const tempoFmt = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      document.getElementById('timer-display').textContent = tempoFmt;
+      document.getElementById('timer-modo-label').textContent = MODOS[modoAtual].label;
+      document.title = `${tempoFmt} • Foco`;
+    }
+
+    function renderStats() {
+      document.getElementById('s-pomodoros').textContent = pomodorosHoje;
+      document.getElementById('s-minutos').textContent = minutosHoje;
+      document.getElementById('pomodoros-hoje').textContent = pomodorosHoje;
+      const ciclo = pomodorosHoje % 4;
+      document.getElementById('pomodoros-icones').textContent = '🍅'.repeat(ciclo) + '○'.repeat(4 - ciclo);
+    }
+
+    function renderTarefasSeletor() {
+      const tarefas = JSON.parse(localStorage.getItem('sf-tarefas') || '[]');
+      const hoje = new Date().toISOString().split('T')[0];
+      const pendentes = tarefas.filter(t => t.data === hoje && !t.feita);
+      
+      const seletor = document.getElementById('tarefa-seletor');
+      if (pendentes.length === 0) {
+        seletor.innerHTML = `<div class="estado-vazio"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p>Sem tarefas para hoje</p></div>`;
+        return;
+      }
+
+      seletor.innerHTML = pendentes.map(t => `
+        <div class="tarefa-opcao ${tarefaSelecionada === t.id ? 'selecionada' : ''}" data-id="${t.id}">
+          <div class="tarefa-opcao__check"></div>
+          <span class="tarefa-opcao__nome">${t.nome}</span>
+        </div>
+      `).join('');
+
+      seletor.querySelectorAll('.tarefa-opcao').forEach(el => {
+        el.onclick = () => {
+          tarefaSelecionada = Number(el.dataset.id);
+          const t = pendentes.find(x => x.id === tarefaSelecionada);
+          document.getElementById('sessao-atual-nome').textContent = t.nome;
+          renderTarefasSeletor();
+        };
+      });
+    }
+
+    function notificar(msg) {
+      const n = document.getElementById('notif');
+      document.getElementById('notif-msg').textContent = msg;
+      n.classList.add('visivel');
+      setTimeout(() => n.classList.remove('visivel'), 4000);
+      if (Notification.permission === 'granted') new Notification("StudyFlow", { body: msg });
+    }
+
+    function concluirSessao() {
+      clearInterval(intervalo);
+      rodando = false;
+      document.getElementById('icone-play').innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+
+      if (modoAtual === 'pomodoro') {
+        pomodorosHoje++;
+        minutosHoje += MODOS[modoAtual].min;
+        localStorage.setItem('sf-pomodoros-hoje', pomodorosHoje);
+        localStorage.setItem('sf-minutos-hoje', minutosHoje);
+        
+        const h = { 
+          modo: 'pomodoro', 
+          minutos: MODOS[modoAtual].min, 
+          hora: new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}),
+          tarefa: document.getElementById('sessao-atual-nome').textContent
+        };
+        historico.unshift(h);
+        localStorage.setItem('sf-historico', JSON.stringify(historico.slice(0,10)));
+        
+        notificar("Pomodoro concluído! Hora de descansar.");
+        renderStats();
+        setTimeout(() => trocarModo(pomodorosHoje % 4 === 0 ? 'pausa-longa' : 'pausa-curta'), 1000);
+      } else {
+        notificar("Pausa finalizada! Pronto para o próximo?");
+        setTimeout(() => trocarModo('pomodoro'), 1000);
+      }
+    }
+
+    function trocarModo(modo) {
+      modoAtual = modo;
+      totalSegundos = MODOS[modo].min * 60;
+      segundosRestantes = totalSegundos;
+      rodando = false;
+      clearInterval(intervalo);
+      document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('ativo', b.dataset.modo === modo));
+      document.getElementById('icone-play').innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+      renderDisplay();
+      renderAnel();
+    }
+
+    document.getElementById('btn-play').onclick = () => {
+      if (rodando) {
+        clearInterval(intervalo);
+        document.getElementById('icone-play').innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+      } else {
+        if (Notification.permission === 'default') Notification.requestPermission();
+        document.getElementById('icone-play').innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+        intervalo = setInterval(() => {
+          segundosRestantes--;
+          renderDisplay();
+          renderAnel();
+          if (segundosRestantes <= 0) concluirSessao();
+        }, 1000);
+      }
+      rodando = !rodando;
+    };
+
+    document.getElementById('btn-reiniciar').onclick = () => {
+      segundosRestantes = totalSegundos;
+      renderDisplay();
+      renderAnel();
+    };
+
+    document.getElementById('btn-pular').onclick = concluirSessao;
+
+    document.querySelectorAll('.modo-btn').forEach(btn => {
+      btn.onclick = () => trocarModo(btn.dataset.modo);
+    });
+
+    // Início
     renderDisplay();
     renderAnel();
-    if (segundosRestantes <= 0) concluirSessao();
-  }, 1000);
-  // Pede permissão de notificação
-  if (Notification.permission === 'default') Notification.requestPermission();
-}
-
-function pausar() {
-  rodando = false;
-  clearInterval(intervalo);
-  document.getElementById('btn-play').querySelector('rect,polygon,svg')?.remove();
-  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
-}
-
-function concluirSessao() {
-  clearInterval(intervalo);
-  rodando = false;
-
-  if (modoAtual === 'pomodoro') {
-    pomodorosHoje++;
-    minutosHoje += MODOS[modoAtual].min;
-    localStorage.setItem('sf-pomodoros-hoje', pomodorosHoje);
-    localStorage.setItem('sf-minutos-hoje', minutosHoje);
-
-    // Registra no histórico
-    const hora = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
-    const tarefa = (() => {
-      try {
-        const ts = JSON.parse(localStorage.getItem('sf-tarefas') || '[]');
-        const t  = ts.find(x => x.id === tarefaSelecionada);
-        return t ? t.nome : null;
-      } catch { return null; }
-    })();
-    historico.push({ modo: modoAtual, minutos: MODOS[modoAtual].min, hora, tarefa });
-    localStorage.setItem('sf-historico', JSON.stringify(historico));
-
-    notificar('🍅 Pomodoro concluído! Hora da pausa.');
-    toast('🎉 +' + MODOS[modoAtual].min + ' minutos de foco!');
     renderStats();
-    renderHistorico();
-
-    // Sugere pausa automaticamente
-    const modo = pomodorosHoje % 4 === 0 ? 'pausa-longa' : 'pausa-curta';
-    setTimeout(() => trocarModo(modo), 800);
-  } else {
-    notificar('☕ Pausa concluída! Vamos focar.');
-    setTimeout(() => trocarModo('pomodoro'), 800);
-  }
-
-  // Reset botão play
-  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
-}
-
-function trocarModo(modo) {
-  modoAtual = modo;
-  totalSegundos = MODOS[modo].min * 60;
-  segundosRestantes = totalSegundos;
-  rodando = false;
-  clearInterval(intervalo);
-  document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('ativo', b.dataset.modo === modo));
-  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
-  renderDisplay();
-  renderAnel();
-}
-
-// ── EVENTOS ────────────────────────────────────────────────────
-document.getElementById('btn-play').addEventListener('click', () => {
-  if (rodando) pausar(); else iniciar();
-});
-document.getElementById('btn-reiniciar').addEventListener('click', () => {
-  clearInterval(intervalo); rodando = false;
-  segundosRestantes = totalSegundos;
-  renderDisplay(); renderAnel();
-  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
-});
-document.getElementById('btn-pular').addEventListener('click', () => {
-  clearInterval(intervalo); concluirSessao();
-});
-document.querySelectorAll('.modo-btn').forEach(btn => {
-  btn.addEventListener('click', () => trocarModo(btn.dataset.modo));
-});
-
-// ── INIT ───────────────────────────────────────────────────────
-renderDisplay();
-renderAnel();
-renderStats();
-renderHistorico();
-renderTarefasSeletor();
-</script>
+    renderTarefasSeletor();
+  </script>
 </body>
 </html>
