@@ -9,246 +9,743 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ── AJUSTES ESPECÍFICOS DO PERFIL ─────────────────────────── */
-    .pagina {
-      max-width: 1100px; margin: 0 auto;
-      padding: calc(80px + var(--s5)) var(--s4) var(--s7);
-      display: grid; grid-template-columns: 320px 1fr;
-      gap: var(--s4); align-items: start;
-    }
+/* ── LAYOUT ─────────────────────────────────────────────────── */
+.pagina {
+  max-width: 1100px; margin: 0 auto;
+  padding: calc(68px + var(--s5)) var(--s4) var(--s7);
+  display: grid; grid-template-columns: 320px 1fr;
+  gap: var(--s4); align-items: start;
+}
 
-    /* Card Perfil */
-    .card {
-      background: var(--bg-surface); border: 1px solid var(--border);
-      border-radius: var(--r-xl); overflow: hidden; position: relative;
-      display: flex; flex-direction: column; align-items: center; box-shadow: var(--shadow-card);
-    }
-    .card__header {
-      height: 120px; width: 100%;
-      background: linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%);
-      position: relative;
-    }
-    .card__avatar {
-      width: 100px; height: 100px; background: var(--bg-surface);
-      border: 4px solid var(--bg-base); border-radius: 50%;
-      margin-top: -50px; z-index: 2; display: flex;
-      align-items: center; justify-content: center; font-size: 48px;
-    }
-    .card__info { padding: 20px; text-align: center; width: 100%; }
-    .card__nome { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--text-primary); }
-    .card__curso { color: var(--text-secondary); font-size: 14px; margin-bottom: 15px; }
+/* ── CARD PERFIL ────────────────────────────────────────────── */
+.card {
+  position: relative; width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+  border-radius: var(--r-xl); background: var(--bg-surface);
+  border: 1px solid var(--border); box-shadow: var(--shadow-card);
+  overflow: hidden; transition: background 0.4s ease, border-color 0.4s ease;
+}
+.card__img {
+  height: 140px; width: 100%;
+  background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 50%, #0ea5e9 100%);
+  position: relative;
+}
+.card__img-grid {
+  position: absolute; inset: 0; opacity: 0.3;
+  background-image:
+    linear-gradient(rgba(56,189,248,.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,.3) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.card__avatar {
+  position: relative; margin-top: -50px; width: 100px; height: 100px;
+  background: var(--bg-surface); border-radius: 50%;
+  border: 3px solid var(--border-hover);
+  display: flex; justify-content: center; align-items: center;
+  box-shadow: 0 0 0 4px var(--bg-base), 0 4px 16px rgba(0,0,0,.3);
+  z-index: 1; font-size: 48px; transition: background 0.4s ease;
+}
+.card__title {
+  margin-top: var(--s2); font-family: var(--font-display);
+  font-weight: 700; font-size: 20px; color: var(--text-primary); padding: 0 var(--s3);
+}
+.card__subtitle { margin-top: 4px; font-size: 14px; color: var(--text-secondary); padding: 0 var(--s3); }
+.card__nivel {
+  margin-top: var(--s2); display: inline-flex; align-items: center; gap: 6px;
+  background: var(--accent-glow); border: 1px solid var(--border-hover);
+  color: var(--accent); font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 99px;
+}
+.card__xp { width: calc(100% - 48px); margin: var(--s2) var(--s3) 0; }
+.card__xp-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.card__xp-track { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.card__xp-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #7dd3fc); border-radius: 99px; transition: width 0.6s ease; }
+.card__wrapper { display: flex; padding: var(--s3); width: 100%; justify-content: center; }
+.card__btn {
+  height: 38px; padding: 0 20px; border: 2px solid var(--text-primary); border-radius: var(--r-sm);
+  font-family: var(--font-body); font-weight: 700; font-size: 13px;
+  color: var(--text-primary); background: transparent; white-space: nowrap; cursor: pointer;
+  transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.card__btn-solid { background: var(--accent); color: #0d1b2a; border-color: var(--accent); }
+.card__btn-solid:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.card__btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.5; }
 
-    /* Barra de XP */
-    .xp-container { width: 100%; padding: 0 20px 20px; }
-    .xp-label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px; color: var(--text-secondary); }
-    .xp-barra { height: 8px; background: var(--bg-base); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
-    .xp-fill { height: 100%; background: var(--accent); width: 0%; transition: width 1s ease; }
+/* ── PAINEL ─────────────────────────────────────────────────── */
+.painel { display: flex; flex-direction: column; gap: var(--s3); }
+.painel__titulo {
+  font-family: var(--font-display); font-size: clamp(30px, 4vw, 46px);
+  font-weight: 800; letter-spacing: -2px; line-height: 1.05; color: var(--text-primary);
+}
+.painel__titulo span {
+  background: linear-gradient(135deg, var(--accent) 0%, #7dd3fc 60%, #bae6fd 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.painel__subtitulo { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
 
-    /* Stats Grid */
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 25px; }
-    .stat-card {
-      background: var(--bg-surface); border: 1px solid var(--border);
-      padding: 15px; border-radius: var(--r-lg); text-align: center;
-    }
-    .stat-card__valor { display: block; font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--accent); }
-    .stat-card__label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; }
+/* ── STATS ──────────────────────────────────────────────────── */
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); }
+.stat-card {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: var(--s3);
+  transition: border-color 0.25s ease, transform 0.25s ease, background 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.stat-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+.stat-card:hover::before { opacity: 1; }
+.stat-card__icone {
+  width: 40px; height: 40px; border-radius: var(--r-md);
+  background: var(--accent-glow); border: 1px solid var(--border-hover);
+  display: flex; align-items: center; justify-content: center; margin-bottom: var(--s2);
+}
+.stat-card__icone svg { width: 20px; height: 20px; stroke: var(--accent); stroke-width: 2; }
+.stat-card__valor { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--accent); letter-spacing: -1px; line-height: 1; }
+.stat-card__label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
 
-    /* Modal Ajustes */
-    .avatar-op { 
-      cursor: pointer; font-size: 30px; padding: 10px; border-radius: 10px; 
-      border: 1px solid var(--border); transition: 0.2s; text-align: center;
-    }
-    .avatar-op:hover { background: var(--accent-glow); border-color: var(--accent); }
-    .avatar-op.selecionado { border-color: var(--accent); background: var(--accent-glow); }
+/* ── SEÇÃO GENÉRICA ─────────────────────────────────────────── */
+.secao {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: var(--s3);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+.secao__titulo {
+  font-family: var(--font-display); font-size: 15px; font-weight: 700;
+  color: var(--text-primary); margin-bottom: var(--s2);
+  display: flex; align-items: center; gap: 8px;
+}
+.secao__titulo svg { width: 16px; height: 16px; stroke: var(--accent); stroke-width: 2.5; flex-shrink: 0; }
 
-    @media (max-width: 900px) {
-      .pagina { grid-template-columns: 1fr; }
-    }
+/* ── METAS ──────────────────────────────────────────────────── */
+.meta-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.meta-item:last-child { border-bottom: none; padding-bottom: 0; }
+.meta-item__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.meta-item__nome { font-size: 13px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
+.meta-item__nome svg { width: 13px; height: 13px; stroke: var(--text-secondary); stroke-width: 2; }
+.meta-item__valores { font-size: 12px; color: var(--text-secondary); }
+.meta-item__track { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.meta-item__fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), #7dd3fc); transition: width 0.6s ease; }
+.meta-item__fill.aviso  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.meta-item__fill.ok     { background: linear-gradient(90deg, #22c55e, #4ade80); }
+
+/* ── GRÁFICO DE BARRAS ──────────────────────────────────────── */
+.grafico-barras { display: flex; align-items: flex-end; gap: 8px; height: 120px; margin-top: var(--s2); }
+.barra-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.barra-col__fill {
+  width: 100%; border-radius: var(--r-sm) var(--r-sm) 0 0;
+  background: linear-gradient(180deg, rgba(56,189,248,.5), rgba(56,189,248,.15));
+  min-height: 4px; position: relative; cursor: default;
+  transition: filter 0.2s ease;
+}
+.barra-col__fill.hoje { background: linear-gradient(180deg, var(--accent), #0ea5e9); box-shadow: 0 0 16px var(--accent-glow); }
+.barra-col__fill:hover { filter: brightness(1.3); }
+.barra-col__fill::after {
+  content: attr(data-horas); position: absolute; top: -26px; left: 50%;
+  transform: translateX(-50%); background: var(--bg-base); border: 1px solid var(--border-hover);
+  color: var(--text-primary); font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 4px; white-space: nowrap;
+  opacity: 0; transition: opacity 0.2s ease; pointer-events: none;
+}
+.barra-col__fill:hover::after { opacity: 1; }
+.barra-col__label { font-size: 10px; color: var(--text-secondary); font-weight: 600; }
+.barra-col__label.hoje { color: var(--accent); }
+
+/* ── SEQUÊNCIA ──────────────────────────────────────────────── */
+.sequencia__dias { display: flex; gap: 5px; flex-wrap: wrap; margin-top: var(--s2); }
+.dia {
+  width: 34px; height: 34px; border-radius: var(--r-sm);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 600; gap: 1px;
+  border: 1px solid var(--border); background: var(--bg-base); transition: background 0.2s ease;
+}
+.dia__num { font-size: 12px; font-weight: 700; }
+.dia.feito { background: var(--accent-glow); border-color: var(--border-hover); color: var(--accent); }
+.dia.hoje  { background: var(--accent); color: #0d1b2a; border-color: var(--accent); }
+.dia.falhou { opacity: 0.3; }
+
+/* ── DISCIPLINAS ────────────────────────────────────────────── */
+.disciplina-item {
+  display: flex; align-items: center; gap: var(--s2);
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.disciplina-item:last-child { border-bottom: none; }
+.disciplina-item__icone {
+  width: 36px; height: 36px; border-radius: var(--r-sm);
+  background: var(--accent-glow); border: 1px solid var(--border-hover);
+  display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+}
+.disciplina-item__info { flex: 1; min-width: 0; }
+.disciplina-item__nome { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.disciplina-item__sub { font-size: 12px; color: var(--text-secondary); }
+.disciplina-item__barra-wrap { width: 70px; }
+.disciplina-item__barra-track { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.disciplina-item__barra-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), #7dd3fc); }
+.btn-delete {
+  background: none; border: none; cursor: pointer; padding: 6px; border-radius: var(--r-sm);
+  color: var(--text-secondary); transition: color 0.2s ease, background 0.2s ease;
+  display: flex; align-items: center; flex-shrink: 0;
+}
+.btn-delete:hover { color: #ef4444; background: rgba(239,68,68,.1); }
+.btn-delete svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2.5; }
+
+/* Estado vazio */
+.estado-vazio {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--s4) var(--s3); gap: var(--s2); text-align: center;
+}
+.estado-vazio svg { width: 40px; height: 40px; stroke: var(--border-hover); stroke-width: 1.5; }
+.estado-vazio__titulo { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.estado-vazio__desc { font-size: 12px; color: var(--text-secondary); opacity: 0.7; }
+
+.btn-add-disciplina {
+  width: 100%; margin-top: var(--s2); padding: 9px; background: none;
+  border: 1px dashed var(--border); border-radius: var(--r-sm);
+  color: var(--text-secondary); font-family: var(--font-body); font-size: 13px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.btn-add-disciplina:hover { border-color: var(--accent); color: var(--accent); }
+.btn-add-disciplina svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.5; }
+
+/* ── RESPONSIVO ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .pagina { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 500px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
   </style>
 </head>
 <body>
 
-<nav class="nav" id="nav-principal">
+<nav class="nav" id="nav-principal" aria-label="Menu Principal">
   <div class="nav__inner">
-    <a href="index.html" class="nav__logo"><span class="nav__logo-dot"></span>StudyFlow</a>
-    
-    <ul class="nav__links" id="nav-links">
+    <a href="index.html" class="nav__logo">
+      <span class="nav__logo-dot" aria-hidden="true"></span>StudyFlow
+    </a>
+    <ul class="nav__links" id="nav-links" role="list">
       <li><a href="index.html">Início</a></li>
-      <li><a href="cronograma.html">Cronograma</a></li>
-      <li><a href="foco.html">Modo Foco</a></li>
+      <li><a href="index.html#funcionalidades">Funcionalidades</a></li>
       <li><a href="perfil.html" aria-current="page">Perfil</a></li>
+      <li><a href="#cronograma">Cronograma</a></li>
+      <li><a href="#foco">Modo Foco</a></li>
     </ul>
-
     <div class="nav__actions">
-      <div class="toggle-tema">
-        <input type="checkbox" id="toggle-tema" class="toggle-tema__input">
-        <label for="toggle-tema" class="toggle-tema__track">
+      <div class="toggle-tema" title="Alternar tema">
+        <input type="checkbox" id="toggle-tema" class="toggle-tema__input" role="switch" aria-label="Alternar tema">
+        <label for="toggle-tema" class="toggle-tema__track" aria-hidden="true">
           <span class="toggle-tema__thumb"><span id="icone-tema">🌙</span></span>
         </label>
+        <label for="toggle-tema" class="toggle-tema__label" id="label-tema">Dark</label>
       </div>
-      <button class="nav__toggle" id="nav-toggle" aria-label="Abrir Menu">
-        <span></span><span></span><span></span>
-      </button>
+      <a href="#" class="btn-nav">Começar grátis →</a>
     </div>
+    <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
 <main class="pagina">
+
+  <!-- CARD PERFIL -->
   <aside>
     <div class="card">
-      <div class="card__header"></div>
+      <div class="card__img"><div class="card__img-grid"></div></div>
       <div class="card__avatar" id="avatar-display">🐱</div>
-      <div class="card__info">
-        <h2 class="card__nome" id="nome-display">Estudante</h2>
-        <p class="card__curso" id="curso-display">Meu Objetivo</p>
-        <div class="card__nivel" id="nivel-tag" style="background: var(--accent-glow); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block;">
-          ⚡ Nível 1
+      <div class="card__title" id="nome-display">João Silva</div>
+      <div class="card__subtitle" id="curso-display">Medicina</div>
+      <div class="card__nivel" id="nivel-display">⚡ Nível 5 — Explorador</div>
+      <div class="card__xp">
+        <div class="card__xp-label">
+          <span id="xp-label">XP: 3.600 / 5.000</span>
+          <span id="xp-pct">72%</span>
         </div>
+        <div class="card__xp-track"><div class="card__xp-fill" id="xp-fill" style="width:72%"></div></div>
       </div>
-      <div class="xp-container">
-        <div class="xp-label"><span>XP: <span id="xp-valor">0</span></span><span id="xp-pct">0%</span></div>
-        <div class="xp-barra"><div class="xp-fill" id="xp-fill"></div></div>
+      <div class="card__wrapper">
+        <button class="card__btn card__btn-solid" id="btn-editar" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Editar perfil
+        </button>
       </div>
-      <button class="btn-nav" id="btn-abrir-modal" style="margin-bottom: 20px; width: 85%; justify-content: center;">Editar Perfil</button>
     </div>
   </aside>
 
-  <section class="painel">
-    <h1 class="painel__titulo">Meu <span>Desempenho</span></h1>
-    <p class="painel__subtitulo" id="boas-vindas">Olá! Veja como estão seus estudos hoje.</p>
+  <!-- PAINEL -->
+  <div class="painel">
+    <div>
+      <h1 class="painel__titulo">Meu <span>Desempenho</span></h1>
+      <p class="painel__subtitulo" id="saudacao">Resumo da sua jornada de estudos</p>
+    </div>
 
+    <!-- STATS -->
     <div class="stats-grid">
       <div class="stat-card">
-        <span class="stat-card__valor" id="stat-horas">0h</span>
-        <span class="stat-card__label">Total Focado</span>
+        <div class="stat-card__icone">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="stat-card__valor" id="stat-horas">142h</div>
+        <div class="stat-card__label">Horas estudadas</div>
       </div>
       <div class="stat-card">
-        <span class="stat-card__valor" id="stat-sequencia">0</span>
-        <span class="stat-card__label">Dias de Fogo</span>
+        <div class="stat-card__icone">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        </div>
+        <div class="stat-card__valor" id="stat-sequencia">12</div>
+        <div class="stat-card__label">Dias seguidos</div>
       </div>
       <div class="stat-card">
-        <span class="stat-card__valor" id="stat-tarefas">0</span>
-        <span class="stat-card__label">Tarefas</span>
+        <div class="stat-card__icone">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="stat-card__valor" id="stat-tarefas">87</div>
+        <div class="stat-card__label">Tarefas feitas</div>
       </div>
     </div>
 
-    </section>
+    <!-- METAS DA SEMANA -->
+    <div class="secao">
+      <div class="secao__titulo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Metas da Semana
+      </div>
+      <div id="metas-lista">
+        <div class="meta-item">
+          <div class="meta-item__header">
+            <span class="meta-item__nome">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Horas de estudo
+            </span>
+            <span class="meta-item__valores">14h / 20h</span>
+          </div>
+          <div class="meta-item__track"><div class="meta-item__fill aviso" style="width:70%"></div></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-item__header">
+            <span class="meta-item__nome">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Tarefas concluídas
+            </span>
+            <span class="meta-item__valores">18 / 20</span>
+          </div>
+          <div class="meta-item__track"><div class="meta-item__fill ok" style="width:90%"></div></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-item__header">
+            <span class="meta-item__nome">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Sessões Pomodoro
+            </span>
+            <span class="meta-item__valores">22 / 30</span>
+          </div>
+          <div class="meta-item__track"><div class="meta-item__fill" style="width:73%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRÁFICO -->
+    <div class="secao">
+      <div class="secao__titulo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Horas por dia — esta semana
+      </div>
+      <div class="grafico-barras" id="grafico-barras"></div>
+    </div>
+
+    <!-- SEQUÊNCIA -->
+    <div class="secao">
+      <div class="secao__titulo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
+        Sequência — <span id="mes-sequencia">Março 2026</span>
+      </div>
+      <div class="sequencia__dias" id="sequencia-dias"></div>
+    </div>
+
+    <!-- DISCIPLINAS -->
+    <div class="secao">
+      <div class="secao__titulo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Disciplinas Favoritas
+      </div>
+      <div id="disciplinas-lista"></div>
+      <button class="btn-add-disciplina" id="btn-add-disciplina" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Adicionar disciplina
+      </button>
+    </div>
+  </div>
 </main>
 
-<div class="modal-overlay" id="modal-edit">
+<!-- MODAL EDITAR PERFIL -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal">
-    <div class="modal__titulo">Editar Perfil</div>
+    <div class="modal__titulo">
+      Editar Perfil
+      <button class="modal__fechar" id="modal-fechar" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
     <div class="form-grupo">
-      <label>Escolha seu Avatar</label>
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;">
-        <div class="avatar-op" data-emoji="🐱">🐱</div>
+      <label>Avatar</label>
+      <div class="avatar-grid" id="avatar-grid">
+        <div class="avatar-op selecionado" data-emoji="🐱">🐱</div>
         <div class="avatar-op" data-emoji="🦊">🦊</div>
+        <div class="avatar-op" data-emoji="🐼">🐼</div>
         <div class="avatar-op" data-emoji="🦁">🦁</div>
-        <div class="avatar-op" data-emoji="🚀">🚀</div>
+        <div class="avatar-op" data-emoji="🐸">🐸</div>
+        <div class="avatar-op" data-emoji="🐧">🐧</div>
+        <div class="avatar-op" data-emoji="🦄">🦄</div>
+        <div class="avatar-op" data-emoji="🐙">🐙</div>
       </div>
     </div>
     <div class="form-grupo">
-      <label>Nome</label>
+      <label for="input-nome">Nome</label>
       <input type="text" id="input-nome" placeholder="Seu nome">
     </div>
     <div class="form-grupo">
-      <label>Curso/Objetivo</label>
-      <input type="text" id="input-curso" placeholder="Ex: Engenharia">
+      <label for="input-curso">Curso / Área</label>
+      <input type="text" id="input-curso" placeholder="Ex: Medicina, Engenharia...">
     </div>
     <div class="modal__acoes">
-      <button class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
-      <button class="btn-nav" id="btn-salvar">Salvar Alterações</button>
+      <button class="btn-cancelar" id="btn-cancelar" type="button">Cancelar</button>
+      <button class="btn-salvar" id="btn-salvar" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Salvar
+      </button>
     </div>
   </div>
 </div>
 
+<!-- MODAL ADICIONAR DISCIPLINA -->
+<div class="modal-overlay" id="modal-disciplina" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal__titulo">
+      Nova Disciplina
+      <button class="modal__fechar" id="modal-disc-fechar" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="form-grupo">
+      <label>Ícone</label>
+      <div class="avatar-grid" id="disc-icone-grid">
+        <div class="avatar-op selecionado" data-emoji="📐">📐</div>
+        <div class="avatar-op" data-emoji="💻">💻</div>
+        <div class="avatar-op" data-emoji="⚡">⚡</div>
+        <div class="avatar-op" data-emoji="🧬">🧬</div>
+        <div class="avatar-op" data-emoji="📖">📖</div>
+        <div class="avatar-op" data-emoji="🔬">🔬</div>
+        <div class="avatar-op" data-emoji="🎨">🎨</div>
+        <div class="avatar-op" data-emoji="🌍">🌍</div>
+      </div>
+    </div>
+    <div class="form-grupo">
+      <label for="disc-nome">Nome da disciplina</label>
+      <input type="text" id="disc-nome" placeholder="Ex: Cálculo, Direito Penal...">
+    </div>
+    <div class="modal__acoes">
+      <button class="btn-cancelar" id="modal-disc-cancelar" type="button">Cancelar</button>
+      <button class="btn-salvar" id="modal-disc-salvar" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Adicionar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  <span id="toast-msg"></span>
+</div>
+
 <script>
-  // ── 1. CONTROLE DO MENU E TEMA ──────────────────────────────
-  const navToggle = document.getElementById('nav-toggle');
-  const navLinks  = document.getElementById('nav-links');
-  const inputTema = document.getElementById('toggle-tema');
-  const iconeTema = document.getElementById('icone-tema');
+// ── DADOS ──────────────────────────────────────────────────────
+const DEFAULTS = {
+  avatar: '🐱', nome: 'João Silva', curso: 'Medicina',
+  horas: 142, tarefas: 87, sequencia: 12,
+  disciplinas: [
+    { icone:'📐', nome:'Cálculo',    horas:48 },
+    { icone:'💻', nome:'Algoritmos', horas:36 },
+    { icone:'⚡', nome:'Física',     horas:30 },
+    { icone:'🧬', nome:'Biologia',   horas:28 }
+  ]
+};
 
-  // Abrir/Fechar Menu
-  navToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('aberto');
-    navToggle.classList.toggle('aberto');
+function salvarDados(d) { localStorage.setItem('sf-perfil', JSON.stringify(d)); }
+function carregarDados() {
+  try {
+    const s = localStorage.getItem('sf-perfil');
+    return s ? { ...DEFAULTS, ...JSON.parse(s) } : { ...DEFAULTS };
+  } catch { return { ...DEFAULTS }; }
+}
+
+// ── TEMA ───────────────────────────────────────────────────────
+const inputTema = document.getElementById('toggle-tema');
+const labelTema = document.getElementById('label-tema');
+const iconeTema = document.getElementById('icone-tema');
+const htmlEl    = document.documentElement;
+if (localStorage.getItem('sf-tema') === 'light') {
+  inputTema.checked = true; htmlEl.setAttribute('data-tema','light');
+  labelTema.textContent = 'Light'; iconeTema.textContent = '☀️';
+}
+inputTema.addEventListener('change', () => {
+  const light = inputTema.checked;
+  htmlEl.setAttribute('data-tema', light ? 'light' : 'dark');
+  labelTema.textContent = light ? 'Light' : 'Dark';
+  iconeTema.textContent = light ? '☀️' : '🌙';
+  localStorage.setItem('sf-tema', light ? 'light' : 'dark');
+});
+
+// ── NAV ────────────────────────────────────────────────────────
+const nav = document.getElementById('nav-principal');
+window.addEventListener('scroll', () => nav.classList.toggle('rolado', window.scrollY > 20), { passive: true });
+const navToggle = document.getElementById('nav-toggle');
+const navLinks  = document.getElementById('nav-links');
+navToggle.addEventListener('click', () => {
+  const ab = navToggle.classList.toggle('aberto');
+  navLinks.classList.toggle('aberto');
+  navToggle.setAttribute('aria-expanded', ab);
+  navToggle.setAttribute('aria-label', ab ? 'Fechar menu' : 'Abrir menu');
+});
+
+// ── TOAST ──────────────────────────────────────────────────────
+function mostrarToast(msg) {
+  document.getElementById('toast-msg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('visivel');
+  setTimeout(() => t.classList.remove('visivel'), 2500);
+}
+
+// ── XP / NÍVEL ─────────────────────────────────────────────────
+function calcularNivel(h) {
+  if (h < 10)  return { nivel:1, titulo:'Iniciante',   xp:h*10, max:100  };
+  if (h < 30)  return { nivel:2, titulo:'Aprendiz',    xp:h*8,  max:240  };
+  if (h < 60)  return { nivel:3, titulo:'Estudioso',   xp:h*7,  max:420  };
+  if (h < 100) return { nivel:4, titulo:'Dedicado',    xp:h*6,  max:600  };
+  if (h < 150) return { nivel:5, titulo:'Explorador',  xp:h*5,  max:750  };
+  if (h < 250) return { nivel:6, titulo:'Veterano',    xp:h*4,  max:1000 };
+  return             { nivel:7, titulo:'Mestre',       xp:h*3,  max:1200 };
+}
+
+// ── RENDER PERFIL ──────────────────────────────────────────────
+function renderPerfil(d) {
+  document.getElementById('avatar-display').textContent  = d.avatar;
+  document.getElementById('nome-display').textContent    = d.nome;
+  document.getElementById('curso-display').textContent   = d.curso;
+  document.getElementById('stat-horas').textContent      = d.horas + 'h';
+  document.getElementById('stat-tarefas').textContent    = d.tarefas;
+  document.getElementById('stat-sequencia').textContent  = d.sequencia;
+  const n   = calcularNivel(d.horas);
+  const pct = Math.min(100, Math.round((n.xp / n.max) * 100));
+  document.getElementById('nivel-display').textContent   = `⚡ Nível ${n.nivel} — ${n.titulo}`;
+  document.getElementById('xp-label').textContent        = `XP: ${n.xp.toLocaleString()} / ${n.max.toLocaleString()}`;
+  document.getElementById('xp-pct').textContent          = pct + '%';
+  document.getElementById('xp-fill').style.width         = pct + '%';
+  const hora = new Date().getHours();
+  const saud = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite';
+  document.getElementById('saudacao').textContent = `${saud}, ${d.nome.split(' ')[0]}!`;
+}
+
+// ── GRÁFICO ────────────────────────────────────────────────────
+function renderGrafico() {
+  // Tenta carregar dados reais do localStorage; usa mock caso não exista
+  let horasPorDia;
+  try {
+    const raw = localStorage.getItem('sf-horas-semana');
+    horasPorDia = raw ? JSON.parse(raw) : [2.5, 4, 3, 5.5, 2, 4.5, 3];
+  } catch { horasPorDia = [2.5, 4, 3, 5.5, 2, 4.5, 3]; }
+
+  const nomes   = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  const hojeIdx = (new Date().getDay() + 6) % 7; // 0=Seg
+  const maxH    = Math.max(...horasPorDia, 0.1);
+  const cont    = document.getElementById('grafico-barras');
+  cont.innerHTML = '';
+  horasPorDia.forEach((h, i) => {
+    const altura = Math.round((h / maxH) * 100);
+    cont.innerHTML += `
+      <div class="barra-col">
+        <div class="barra-col__fill${i === hojeIdx ? ' hoje' : ''}"
+          style="height:${altura}px" data-horas="${h}h"></div>
+        <span class="barra-col__label${i === hojeIdx ? ' hoje' : ''}">${nomes[i]}</span>
+      </div>`;
   });
+}
 
-  // Alternar Tema
-  inputTema.addEventListener('change', () => {
-    const tema = inputTema.checked ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-tema', tema);
-    iconeTema.textContent = inputTema.checked ? '☀️' : '🌙';
-    localStorage.setItem('sf-tema', tema);
-  });
+// ── SEQUÊNCIA DINÂMICA ─────────────────────────────────────────
+function renderSequencia() {
+  const agora    = new Date();
+  const ano      = agora.getFullYear();
+  const mes      = agora.getMonth();          // 0-indexado
+  const diaHoje  = agora.getDate();
+  const meses    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                    'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const diasSem  = ['D','S','T','Q','Q','S','S'];
+  const totalDias = new Date(ano, mes + 1, 0).getDate();
 
-  // Carregar Tema Salvo
-  if (localStorage.getItem('sf-tema') === 'light') {
-    inputTema.checked = true;
-    document.documentElement.setAttribute('data-tema', 'light');
-    iconeTema.textContent = '☀️';
+  document.getElementById('mes-sequencia').textContent = `${meses[mes]} ${ano}`;
+
+  // Carrega dias feitos do localStorage (array de datas "YYYY-MM-DD")
+  let diasFeitos = [];
+  try {
+    diasFeitos = JSON.parse(localStorage.getItem('sf-dias-feitos') || '[]');
+  } catch { diasFeitos = []; }
+
+  // Fallback demo: marca dias anteriores ao hoje como feitos (exceto d%3==0)
+  if (diasFeitos.length === 0) {
+    for (let d = 1; d < diaHoje; d++) {
+      if (d % 3 !== 0) diasFeitos.push(`${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`);
+    }
   }
 
-  // ── 2. DADOS DO PERFIL ──────────────────────────────────────
-  let perfil = JSON.parse(localStorage.getItem('sf-perfil')) || {
-    nome: 'Estudante',
-    curso: 'Estudos',
-    avatar: '🐱'
-  };
+  const cont = document.getElementById('sequencia-dias');
+  cont.innerHTML = '';
+  for (let d = 1; d <= totalDias; d++) {
+    const chave   = `${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const nomeDia = diasSem[new Date(ano, mes, d).getDay()];
+    const el      = document.createElement('div');
+    el.className  = 'dia';
+    el.innerHTML  = `<span class="dia__num">${d}</span><span>${nomeDia}</span>`;
+    if (d === diaHoje)           el.classList.add('hoje');
+    else if (diasFeitos.includes(chave)) el.classList.add('feito');
+    else if (d < diaHoje)        el.classList.add('falhou');
+    cont.appendChild(el);
+  }
+}
 
-  const modal = document.getElementById('modal-edit');
-  let emojiSelecionado = perfil.avatar;
+// ── RENDER DISCIPLINAS ─────────────────────────────────────────
+function renderDisciplinas(disciplinas) {
+  const lista = document.getElementById('disciplinas-lista');
+  lista.innerHTML = '';
 
-  function atualizarInterface() {
-    document.getElementById('nome-display').textContent = perfil.nome;
-    document.getElementById('curso-display').textContent = perfil.curso;
-    document.getElementById('avatar-display').textContent = perfil.avatar;
-    document.getElementById('boas-vindas').textContent = `Olá, ${perfil.nome}! Veja como estão seus estudos hoje.`;
-    
-    // Dados simulados de progresso baseados no Modo Foco
-    const minutos = parseInt(localStorage.getItem('sf-foco-total') || '0');
-    const horas = (minutos / 60).toFixed(1);
-    document.getElementById('stat-horas').textContent = horas + 'h';
-    
-    // Lógica simples de Nível
-    const nivel = Math.floor(minutos / 300) + 1; // sobe de nível a cada 5 horas
-    document.getElementById('nivel-tag').textContent = `⚡ Nível ${nivel}`;
-    const progressoXP = (minutos % 300) / 3; // Porcentagem para a barra
-    document.getElementById('xp-fill').style.width = progressoXP + '%';
-    document.getElementById('xp-pct').textContent = Math.round(progressoXP) + '%';
-    document.getElementById('xp-valor').textContent = minutos * 10;
+  // Estado vazio
+  if (disciplinas.length === 0) {
+    lista.innerHTML = `
+      <div class="estado-vazio">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+        <div class="estado-vazio__titulo">Nenhuma disciplina ainda</div>
+        <div class="estado-vazio__desc">Adicione suas matérias para acompanhar o progresso</div>
+      </div>`;
+    return;
   }
 
-  // ── 3. LÓGICA DO MODAL ──────────────────────────────────────
-  document.getElementById('btn-abrir-modal').onclick = () => {
-    document.getElementById('input-nome').value = perfil.nome;
-    document.getElementById('input-curso').value = perfil.curso;
-    modal.classList.add('visivel');
-  };
-
-  document.getElementById('btn-fechar-modal').onclick = () => modal.classList.remove('visivel');
-
-  document.querySelectorAll('.avatar-op').forEach(el => {
-    el.onclick = () => {
-      document.querySelectorAll('.avatar-op').forEach(item => item.classList.remove('selecionado'));
-      el.classList.add('selecionado');
-      emojiSelecionado = el.dataset.emoji;
-    };
+  const maxH = Math.max(...disciplinas.map(d => d.horas), 1);
+  disciplinas.forEach((d, i) => {
+    const pct = Math.round((d.horas / maxH) * 100);
+    const el  = document.createElement('div');
+    el.className = 'disciplina-item';
+    el.innerHTML = `
+      <div class="disciplina-item__icone">${d.icone}</div>
+      <div class="disciplina-item__info">
+        <div class="disciplina-item__nome">${d.nome}</div>
+        <div class="disciplina-item__sub">Contabilizado pelo sistema</div>
+      </div>
+      <div class="disciplina-item__barra-wrap">
+        <div class="disciplina-item__barra-track">
+          <div class="disciplina-item__barra-fill" style="width:${pct}%"></div>
+        </div>
+      </div>
+      <button class="btn-delete" data-index="${i}" title="Remover" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+          <path d="M10 11v6"/><path d="M14 11v6"/>
+          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+        </svg>
+      </button>`;
+    lista.appendChild(el);
   });
 
-  document.getElementById('btn-salvar').onclick = () => {
-    perfil.nome = document.getElementById('input-nome').value;
-    perfil.curso = document.getElementById('input-curso').value;
-    perfil.avatar = emojiSelecionado;
-    localStorage.setItem('sf-perfil', JSON.stringify(perfil));
-    atualizarInterface();
-    modal.classList.remove('visivel');
-  };
+  lista.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.addEventListener('click', () => {
+      dados.disciplinas.splice(parseInt(btn.dataset.index), 1);
+      salvarDados(dados);
+      renderDisciplinas(dados.disciplinas);
+      mostrarToast('Disciplina removida');
+    });
+  });
+}
 
-  // Inicializa
-  atualizarInterface();
+// ── INIT ───────────────────────────────────────────────────────
+let dados = carregarDados();
+renderPerfil(dados);
+renderGrafico();
+renderSequencia();
+renderDisciplinas(dados.disciplinas);
+
+// ── MODAL PERFIL ───────────────────────────────────────────────
+let avatarSel = dados.avatar;
+const modalOverlay = document.getElementById('modal-overlay');
+
+function abrirModal() {
+  document.getElementById('input-nome').value  = dados.nome;
+  document.getElementById('input-curso').value = dados.curso;
+  avatarSel = dados.avatar;
+  document.querySelectorAll('#avatar-grid .avatar-op').forEach(op =>
+    op.classList.toggle('selecionado', op.dataset.emoji === dados.avatar));
+  modalOverlay.classList.add('aberto');
+}
+const fecharModal = () => modalOverlay.classList.remove('aberto');
+
+document.getElementById('btn-editar').addEventListener('click', abrirModal);
+document.getElementById('modal-fechar').addEventListener('click', fecharModal);
+document.getElementById('btn-cancelar').addEventListener('click', fecharModal);
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) fecharModal(); });
+
+document.getElementById('avatar-grid').addEventListener('click', e => {
+  const op = e.target.closest('.avatar-op'); if (!op) return;
+  document.querySelectorAll('#avatar-grid .avatar-op').forEach(a => a.classList.remove('selecionado'));
+  op.classList.add('selecionado'); avatarSel = op.dataset.emoji;
+});
+
+document.getElementById('btn-salvar').addEventListener('click', () => {
+  dados.avatar = avatarSel;
+  dados.nome   = document.getElementById('input-nome').value.trim()  || dados.nome;
+  dados.curso  = document.getElementById('input-curso').value.trim() || dados.curso;
+  salvarDados(dados);
+  renderPerfil(dados);
+  fecharModal();
+  mostrarToast('Perfil salvo com sucesso!');
+});
+
+// ── MODAL DISCIPLINA ───────────────────────────────────────────
+let discIconeSel = '📐';
+const modalDisc  = document.getElementById('modal-disciplina');
+
+document.getElementById('btn-add-disciplina').addEventListener('click', () => {
+  document.getElementById('disc-nome').value = '';
+  discIconeSel = '📐';
+  document.querySelectorAll('#disc-icone-grid .avatar-op').forEach((op, i) =>
+    op.classList.toggle('selecionado', i === 0));
+  modalDisc.classList.add('aberto');
+});
+
+const fecharModalDisc = () => modalDisc.classList.remove('aberto');
+document.getElementById('modal-disc-fechar').addEventListener('click', fecharModalDisc);
+document.getElementById('modal-disc-cancelar').addEventListener('click', fecharModalDisc);
+modalDisc.addEventListener('click', e => { if (e.target === modalDisc) fecharModalDisc(); });
+
+document.getElementById('disc-icone-grid').addEventListener('click', e => {
+  const op = e.target.closest('.avatar-op'); if (!op) return;
+  document.querySelectorAll('#disc-icone-grid .avatar-op').forEach(a => a.classList.remove('selecionado'));
+  op.classList.add('selecionado'); discIconeSel = op.dataset.emoji;
+});
+
+document.getElementById('modal-disc-salvar').addEventListener('click', () => {
+  const nome = document.getElementById('disc-nome').value.trim();
+  if (!nome) { mostrarToast('⚠️ Digite o nome da disciplina!'); return; }
+  dados.disciplinas.push({ icone: discIconeSel, nome, horas: 0 });
+  salvarDados(dados);
+  renderDisciplinas(dados.disciplinas);
+  fecharModalDisc();
+  mostrarToast('Disciplina adicionada!');
+});
 </script>
-
 </body>
 </html>
