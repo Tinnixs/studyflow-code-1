@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyFlow | Cronograma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+/* ── LAYOUT ──────────────────────────────────────────────────── */
+.pagina {
+  max-width: 1100px; margin: 0 auto;
+  padding: calc(68px + var(--s4)) var(--s4) var(--s7);
+  display: flex; flex-direction: column; gap: var(--s4);
+}
+
+/* ── CABEÇALHO ───────────────────────────────────────────────── */
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: var(--s3); }
+.page-header__titulo {
+  font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 38px);
+  font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
+}
+.page-header__titulo span {
+  background: linear-gradient(135deg, var(--accent) 0%, #7dd3fc 60%, #bae6fd 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.page-header__sub { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+
+.btn-primario-sm {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 20px; background: var(--accent); color: #0d1b2a;
+  border: none; border-radius: var(--r-sm); font-family: var(--font-body);
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-primario-sm:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-primario-sm svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2.5; }
+
+/* ── ALGORITMO INFO ──────────────────────────────────────────── */
+.algo-banner {
+  background: var(--accent-glow); border: 1px solid var(--border-hover);
+  border-radius: var(--r-lg); padding: var(--s3);
+  display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap;
+}
+.algo-banner__icone {
+  width: 48px; height: 48px; background: var(--bg-surface); border-radius: var(--r-md);
+  border: 1px solid var(--border-hover); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.algo-banner__icone svg { width: 22px; height: 22px; stroke: var(--accent); stroke-width: 2; }
+.algo-banner__texto { flex: 1; }
+.algo-banner__titulo { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--accent); }
+.algo-banner__desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5; }
+.algo-banner__formula {
+  font-family: var(--font-display); font-size: 18px; font-weight: 800;
+  color: var(--accent); background: var(--bg-surface); border: 1px solid var(--border-hover);
+  padding: 8px 18px; border-radius: var(--r-md); white-space: nowrap;
+}
+
+/* ── GRID PRINCIPAL ──────────────────────────────────────────── */
+.cronograma-grid { display: grid; grid-template-columns: 1fr 340px; gap: var(--s4); align-items: start; }
+
+/* ── CALENDÁRIO SEMANAL ──────────────────────────────────────── */
+.semana-wrap {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); overflow: hidden;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+.semana-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--s2) var(--s3); border-bottom: 1px solid var(--border);
+}
+.semana-nav__titulo { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.btn-nav-seta {
+  background: none; border: 1px solid var(--border); border-radius: var(--r-sm);
+  color: var(--text-secondary); cursor: pointer; padding: 5px 8px;
+  display: flex; align-items: center; transition: border-color 0.2s, color 0.2s;
+}
+.btn-nav-seta:hover { border-color: var(--accent); color: var(--accent); }
+.btn-nav-seta svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.5; }
+
+.semana-header {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+.semana-header__dia {
+  padding: 10px 4px; text-align: center; font-size: 11px; font-weight: 700;
+  color: var(--text-secondary); text-transform: uppercase; letter-spacing: .06em;
+}
+.semana-header__dia.hoje { color: var(--accent); }
+
+.semana-corpo { display: grid; grid-template-columns: repeat(7, 1fr); min-height: 320px; }
+.dia-col {
+  border-right: 1px solid var(--border); padding: var(--s1);
+  display: flex; flex-direction: column; gap: 4px; min-height: 320px;
+}
+.dia-col:last-child { border-right: none; }
+.dia-col.hoje { background: rgba(56,189,248,.03); }
+
+.tarefa-bloco {
+  border-radius: 6px; padding: 5px 7px; font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: opacity 0.2s ease, transform 0.15s ease;
+  border-left: 3px solid transparent; line-height: 1.35;
+  position: relative;
+}
+.tarefa-bloco:hover { opacity: 0.85; transform: translateY(-1px); }
+.tarefa-bloco.feita { opacity: 0.45; text-decoration: line-through; }
+.tarefa-bloco--alta   { background: rgba(239,68,68,.15);   border-color: #ef4444; color: #fca5a5; }
+.tarefa-bloco--media  { background: rgba(251,191,36,.15);  border-color: #f59e0b; color: #fcd34d; }
+.tarefa-bloco--baixa  { background: rgba(34,197,94,.15);   border-color: #22c55e; color: #86efac; }
+.tarefa-bloco--estudo { background: rgba(56,189,248,.15);  border-color: var(--accent); color: #7dd3fc; }
+[data-tema="light"] .tarefa-bloco--alta   { color: #b91c1c; }
+[data-tema="light"] .tarefa-bloco--media  { color: #92400e; }
+[data-tema="light"] .tarefa-bloco--baixa  { color: #166534; }
+[data-tema="light"] .tarefa-bloco--estudo { color: #0369a1; }
+
+.tarefa-bloco__nome { display: block; }
+.tarefa-bloco__materia { display: block; font-weight: 400; opacity: 0.75; font-size: 10px; margin-top: 1px; }
+
+/* ── PAINEL LATERAL ──────────────────────────────────────────── */
+.painel-lateral { display: flex; flex-direction: column; gap: var(--s3); }
+
+/* Seção genérica */
+.secao {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: var(--s3);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+.secao__titulo {
+  font-family: var(--font-display); font-size: 14px; font-weight: 700;
+  color: var(--text-primary); margin-bottom: var(--s2);
+  display: flex; align-items: center; gap: 8px;
+}
+.secao__titulo svg { width: 15px; height: 15px; stroke: var(--accent); stroke-width: 2.5; flex-shrink: 0; }
+
+/* Resumo do dia */
+.resumo-hoje { display: flex; flex-direction: column; gap: 8px; }
+.resumo-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px; background: var(--bg-base); border-radius: var(--r-sm);
+  border: 1px solid var(--border); font-size: 13px;
+}
+.resumo-item__label { color: var(--text-secondary); display: flex; align-items: center; gap: 6px; }
+.resumo-item__label svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; }
+.resumo-item__valor { font-weight: 700; color: var(--accent); font-family: var(--font-display); }
+
+/* Progresso semanal */
+.prog-item { margin-bottom: 10px; }
+.prog-item:last-child { margin-bottom: 0; }
+.prog-item__header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+.prog-item__nome { font-weight: 600; color: var(--text-primary); }
+.prog-item__pct { color: var(--text-secondary); }
+.prog-track { height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), #7dd3fc); transition: width 0.6s ease; }
+
+/* Lista de tarefas pendentes */
+.tarefa-pendente {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.tarefa-pendente:last-child { border-bottom: none; padding-bottom: 0; }
+.tarefa-pendente__check {
+  width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border);
+  flex-shrink: 0; cursor: pointer; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center; font-size: 10px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.tarefa-pendente__check:hover { border-color: var(--accent); }
+.tarefa-pendente__check.feita { background: var(--accent); border-color: var(--accent); color: #0d1b2a; }
+.tarefa-pendente__info { flex: 1; min-width: 0; }
+.tarefa-pendente__nome { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.tarefa-pendente__nome.riscado { text-decoration: line-through; color: var(--text-secondary); }
+.tarefa-pendente__meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.tag-prioridade {
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px;
+  flex-shrink: 0; margin-top: 2px;
+}
+.tag-prioridade--alta  { background: rgba(239,68,68,.15);  color: #ef4444; }
+.tag-prioridade--media { background: rgba(251,191,36,.15); color: #f59e0b; }
+.tag-prioridade--baixa { background: rgba(34,197,94,.15);  color: #22c55e; }
+[data-tema="light"] .tag-prioridade--alta  { color: #b91c1c; }
+[data-tema="light"] .tag-prioridade--media { color: #92400e; }
+[data-tema="light"] .tag-prioridade--baixa { color: #166534; }
+
+/* Estado vazio */
+.estado-vazio {
+  display: flex; flex-direction: column; align-items: center;
+  padding: var(--s4) var(--s3); gap: var(--s2); text-align: center;
+}
+.estado-vazio svg { width: 36px; height: 36px; stroke: var(--border-hover); stroke-width: 1.5; }
+.estado-vazio p { font-size: 13px; color: var(--text-secondary); }
+
+/* ── RESPONSIVO ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cronograma-grid { grid-template-columns: 1fr; }
+  .semana-header__dia { font-size: 10px; }
+}
+@media (max-width: 600px) {
+  .algo-banner { flex-direction: column; }
+  .algo-banner__formula { align-self: flex-start; }
+  .tarefa-bloco__materia { display: none; }
+}
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav-principal" aria-label="Menu Principal">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <span class="nav__logo-dot" aria-hidden="true"></span>StudyFlow
+    </a>
+    <ul class="nav__links" id="nav-links" role="list">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="index.html#funcionalidades">Funcionalidades</a></li>
+      <li><a href="perfil.html">Perfil</a></li>
+      <li><a href="cronograma.html" aria-current="page">Cronograma</a></li>
+      <li><a href="foco.html">Modo Foco</a></li>
+    </ul>
+    <div class="nav__actions">
+      <div class="toggle-tema" title="Alternar tema">
+        <input type="checkbox" id="toggle-tema" class="toggle-tema__input" role="switch" aria-label="Alternar tema">
+        <label for="toggle-tema" class="toggle-tema__track" aria-hidden="true">
+          <span class="toggle-tema__thumb"><span id="icone-tema">🌙</span></span>
+        </label>
+        <label for="toggle-tema" class="toggle-tema__label" id="label-tema">Dark</label>
+      </div>
+      <a href="#" class="btn-nav">Começar grátis →</a>
+    </div>
+    <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main class="pagina">
+
+  <!-- CABEÇALHO -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-header__titulo">Meu <span>Cronograma</span></h1>
+      <p class="page-header__sub" id="data-hoje">Carregando...</p>
+    </div>
+    <button class="btn-primario-sm" id="btn-nova-tarefa" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Nova tarefa
+    </button>
+  </div>
+
+  <!-- BANNER ALGORITMO -->
+  <div class="algo-banner">
+    <div class="algo-banner__icone">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+    </div>
+    <div class="algo-banner__texto">
+      <div class="algo-banner__titulo">Algoritmo P = U × C ativo</div>
+      <div class="algo-banner__desc">As tarefas são distribuídas automaticamente por <strong>Urgência</strong> (prazo) × <strong>Complexidade</strong> (dificuldade). Maior pontuação = maior prioridade na semana.</div>
+    </div>
+    <div class="algo-banner__formula">P = U × C</div>
+  </div>
+
+  <!-- GRID PRINCIPAL -->
+  <div class="cronograma-grid">
+
+    <!-- CALENDÁRIO SEMANAL -->
+    <div class="semana-wrap">
+      <div class="semana-nav">
+        <button class="btn-nav-seta" id="btn-semana-ant" type="button" title="Semana anterior">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="semana-nav__titulo" id="semana-titulo">Semana atual</span>
+        <button class="btn-nav-seta" id="btn-semana-prox" type="button" title="Próxima semana">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="semana-header" id="semana-header"></div>
+      <div class="semana-corpo" id="semana-corpo"></div>
+    </div>
+
+    <!-- PAINEL LATERAL -->
+    <div class="painel-lateral">
+
+      <!-- RESUMO DE HOJE -->
+      <div class="secao">
+        <div class="secao__titulo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Resumo de Hoje
+        </div>
+        <div class="resumo-hoje">
+          <div class="resumo-item">
+            <span class="resumo-item__label">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Tarefas concluídas
+            </span>
+            <span class="resumo-item__valor" id="res-concluidas">0 / 0</span>
+          </div>
+          <div class="resumo-item">
+            <span class="resumo-item__label">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Horas planejadas
+            </span>
+            <span class="resumo-item__valor" id="res-horas">0h</span>
+          </div>
+          <div class="resumo-item">
+            <span class="resumo-item__label">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+              Sequência atual
+            </span>
+            <span class="resumo-item__valor" id="res-sequencia">0 dias 🔥</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROGRESSO SEMANAL -->
+      <div class="secao">
+        <div class="secao__titulo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Progresso da Semana
+        </div>
+        <div id="progresso-wrap"></div>
+      </div>
+
+      <!-- TAREFAS DO DIA -->
+      <div class="secao">
+        <div class="secao__titulo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Tarefas de Hoje
+        </div>
+        <div id="lista-hoje"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- MODAL NOVA TAREFA -->
+<div class="modal-overlay" id="modal-tarefa" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal__titulo">
+      Nova Tarefa
+      <button class="modal__fechar" id="modal-tarefa-fechar" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="form-grupo">
+      <label for="t-nome">Nome da tarefa</label>
+      <input type="text" id="t-nome" placeholder="Ex: Estudar Cálculo — Integrais">
+    </div>
+    <div class="form-grupo">
+      <label for="t-materia">Disciplina</label>
+      <input type="text" id="t-materia" placeholder="Ex: Cálculo, Física...">
+    </div>
+    <div class="form-grupo">
+      <label for="t-data">Data</label>
+      <input type="date" id="t-data">
+    </div>
+    <div class="form-grupo">
+      <label for="t-horas">Horas estimadas</label>
+      <input type="number" id="t-horas" min="0.5" max="12" step="0.5" placeholder="Ex: 2">
+    </div>
+    <div class="form-grupo">
+      <label for="t-urgencia">Urgência (U) — 1 a 5</label>
+      <input type="range" id="t-urgencia" min="1" max="5" value="3" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-secondary);margin-top:4px">
+        <span>Baixa</span><span id="t-urgencia-val" style="color:var(--accent);font-weight:700">3</span><span>Alta</span>
+      </div>
+    </div>
+    <div class="form-grupo">
+      <label for="t-complexidade">Complexidade (C) — 1 a 5</label>
+      <input type="range" id="t-complexidade" min="1" max="5" value="3" style="width:100%;accent-color:var(--accent)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-secondary);margin-top:4px">
+        <span>Fácil</span><span id="t-complexidade-val" style="color:var(--accent);font-weight:700">3</span><span>Difícil</span>
+      </div>
+    </div>
+    <div style="background:var(--accent-glow);border:1px solid var(--border-hover);border-radius:var(--r-sm);padding:10px var(--s2);font-size:13px;margin-bottom:var(--s3);display:flex;align-items:center;justify-content:space-between">
+      <span style="color:var(--text-secondary)">Prioridade calculada (P = U × C)</span>
+      <span id="t-prioridade-calc" style="font-family:var(--font-display);font-weight:800;font-size:18px;color:var(--accent)">9</span>
+    </div>
+    <div class="modal__acoes">
+      <button class="btn-cancelar" id="modal-tarefa-cancelar" type="button">Cancelar</button>
+      <button class="btn-salvar" id="modal-tarefa-salvar" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Adicionar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+// ── TEMA ──────────────────────────────────────────────────────
+const inputTema = document.getElementById('toggle-tema');
+const labelTema = document.getElementById('label-tema');
+const iconeTema = document.getElementById('icone-tema');
+const htmlEl    = document.documentElement;
+if (localStorage.getItem('sf-tema') === 'light') {
+  inputTema.checked = true; htmlEl.setAttribute('data-tema','light');
+  labelTema.textContent = 'Light'; iconeTema.textContent = '☀️';
+}
+inputTema.addEventListener('change', () => {
+  const l = inputTema.checked;
+  htmlEl.setAttribute('data-tema', l ? 'light' : 'dark');
+  labelTema.textContent = l ? 'Light' : 'Dark';
+  iconeTema.textContent = l ? '☀️' : '🌙';
+  localStorage.setItem('sf-tema', l ? 'light' : 'dark');
+});
+
+// ── NAV ───────────────────────────────────────────────────────
+const nav = document.getElementById('nav-principal');
+window.addEventListener('scroll', () => nav.classList.toggle('rolado', window.scrollY > 20), { passive: true });
+const navToggle = document.getElementById('nav-toggle');
+const navLinks  = document.getElementById('nav-links');
+navToggle.addEventListener('click', () => {
+  const ab = navToggle.classList.toggle('aberto');
+  navLinks.classList.toggle('aberto');
+  navToggle.setAttribute('aria-expanded', ab);
+});
+
+// ── TOAST ─────────────────────────────────────────────────────
+function toast(msg) {
+  document.getElementById('toast-msg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('visivel');
+  setTimeout(() => t.classList.remove('visivel'), 2500);
+}
+
+// ── DADOS ─────────────────────────────────────────────────────
+function salvar(tarefas) { localStorage.setItem('sf-tarefas', JSON.stringify(tarefas)); }
+function carregar() {
+  try {
+    const s = localStorage.getItem('sf-tarefas');
+    return s ? JSON.parse(s) : gerarTarefasDemo();
+  } catch { return gerarTarefasDemo(); }
+}
+
+function gerarTarefasDemo() {
+  const hoje = new Date();
+  const fmt  = d => d.toISOString().split('T')[0];
+  const add  = n => { const d = new Date(hoje); d.setDate(d.getDate() + n); return fmt(d); };
+  return [
+    { id:1, nome:'Estudar Integrais',      materia:'Cálculo',     data:fmt(hoje), horas:2,   U:4, C:4, feita:true  },
+    { id:2, nome:'Resolver Lista Grafos',  materia:'Algoritmos',  data:fmt(hoje), horas:1.5, U:5, C:5, feita:false },
+    { id:3, nome:'Ler cap. 3 — Eletromag',materia:'Física',       data:fmt(hoje), horas:1,   U:3, C:3, feita:false },
+    { id:4, nome:'Revisão Histologia',     materia:'Biologia',    data:add(1),    horas:2,   U:4, C:3, feita:false },
+    { id:5, nome:'Exercícios Termodinâmica',materia:'Física',     data:add(1),    horas:1.5, U:3, C:4, feita:false },
+    { id:6, nome:'Prova Cálculo',          materia:'Cálculo',     data:add(2),    horas:3,   U:5, C:5, feita:false },
+    { id:7, nome:'Seminário Algoritmos',   materia:'Algoritmos',  data:add(3),    horas:2,   U:4, C:3, feita:false },
+    { id:8, nome:'Resumo Biologia',        materia:'Biologia',    data:add(4),    horas:1,   U:2, C:2, feita:false },
+  ];
+}
+
+// ── UTILITÁRIOS DE DATA ────────────────────────────────────────
+const DIAS_NOME   = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const MESES_NOME  = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const MESES_LONGO = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+function fmt(d) { return d.toISOString().split('T')[0]; }
+function inicioSemana(ref) {
+  const d = new Date(ref);
+  const dia = d.getDay(); // 0=dom
+  d.setDate(d.getDate() - ((dia + 6) % 7)); // vai para segunda
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+// ── PRIORIDADE → CLASSE DE COR ─────────────────────────────────
+function classeP(P) {
+  if (P >= 16) return 'alta';
+  if (P >= 9)  return 'media';
+  return 'baixa';
+}
+
+// ── ESTADO ────────────────────────────────────────────────────
+let tarefas    = carregar();
+let semanaRef  = inicioSemana(new Date());
+
+// ── RENDER CALENDÁRIO ──────────────────────────────────────────
+function renderCalendario() {
+  const header = document.getElementById('semana-header');
+  const corpo  = document.getElementById('semana-corpo');
+  const hoje   = fmt(new Date());
+
+  // 7 dias a partir de segunda
+  const dias = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(semanaRef);
+    d.setDate(semanaRef.getDate() + i);
+    dias.push(d);
+  }
+
+  // Título da semana
+  const ini = dias[0], fim = dias[6];
+  document.getElementById('semana-titulo').textContent =
+    `${ini.getDate()} ${MESES_NOME[ini.getMonth()]} — ${fim.getDate()} ${MESES_NOME[fim.getMonth()]} ${fim.getFullYear()}`;
+
+  // Header
+  header.innerHTML = dias.map(d => {
+    const isHoje = fmt(d) === hoje;
+    return `<div class="semana-header__dia${isHoje ? ' hoje' : ''}">
+      ${DIAS_NOME[(d.getDay())].substring(0,3)}<br>
+      <span style="font-size:14px;font-weight:800;color:${isHoje ? 'var(--accent)' : 'var(--text-primary)'}">${d.getDate()}</span>
+    </div>`;
+  }).join('');
+
+  // Corpo
+  corpo.innerHTML = dias.map(d => {
+    const chave   = fmt(d);
+    const isHoje  = chave === hoje;
+    const do_dia  = tarefas
+      .filter(t => t.data === chave)
+      .sort((a, b) => (b.U * b.C) - (a.U * a.C));
+
+    const blocos = do_dia.length
+      ? do_dia.map(t => {
+          const P   = t.U * t.C;
+          const cls = classeP(P);
+          return `<div class="tarefa-bloco tarefa-bloco--${cls}${t.feita ? ' feita' : ''}"
+            data-id="${t.id}" title="${t.nome} (P=${P})">
+            <span class="tarefa-bloco__nome">${t.nome}</span>
+            <span class="tarefa-bloco__materia">${t.materia} · ${t.horas}h</span>
+          </div>`;
+        }).join('')
+      : '';
+
+    return `<div class="dia-col${isHoje ? ' hoje' : ''}" data-data="${chave}">${blocos}</div>`;
+  }).join('');
+
+  // Click nas tarefas do calendário para marcar feita
+  corpo.querySelectorAll('.tarefa-bloco').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = parseInt(el.dataset.id);
+      const t  = tarefas.find(x => x.id === id);
+      if (t) { t.feita = !t.feita; salvar(tarefas); renderTudo(); toast(t.feita ? '✅ Tarefa concluída!' : 'Tarefa reaberta'); }
+    });
+  });
+}
+
+// ── RENDER RESUMO HOJE ─────────────────────────────────────────
+function renderResumoHoje() {
+  const hoje   = fmt(new Date());
+  const do_dia = tarefas.filter(t => t.data === hoje);
+  const feitas = do_dia.filter(t => t.feita).length;
+  const horas  = do_dia.reduce((s, t) => s + t.horas, 0);
+
+  document.getElementById('res-concluidas').textContent = `${feitas} / ${do_dia.length}`;
+  document.getElementById('res-horas').textContent      = `${horas}h`;
+
+  try {
+    const dias = JSON.parse(localStorage.getItem('sf-perfil') || '{}');
+    document.getElementById('res-sequencia').textContent = `${dias.sequencia || 0} dias 🔥`;
+  } catch { document.getElementById('res-sequencia').textContent = '0 dias 🔥'; }
+}
+
+// ── RENDER PROGRESSO SEMANAL ───────────────────────────────────
+function renderProgresso() {
+  const hoje   = new Date();
+  const ini    = inicioSemana(hoje);
+  const fim    = new Date(ini); fim.setDate(ini.getDate() + 6);
+  const semana = tarefas.filter(t => { const d = new Date(t.data); return d >= ini && d <= fim; });
+
+  const materias = [...new Set(semana.map(t => t.materia))];
+  const wrap = document.getElementById('progresso-wrap');
+
+  if (materias.length === 0) {
+    wrap.innerHTML = `<div class="estado-vazio"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><p>Nenhuma tarefa esta semana</p></div>`;
+    return;
+  }
+
+  wrap.innerHTML = materias.map(mat => {
+    const do_mat = semana.filter(t => t.materia === mat);
+    const total  = do_mat.length;
+    const feitas = do_mat.filter(t => t.feita).length;
+    const pct    = Math.round((feitas / total) * 100);
+    return `<div class="prog-item">
+      <div class="prog-item__header">
+        <span class="prog-item__nome">${mat}</span>
+        <span class="prog-item__pct">${feitas}/${total} · ${pct}%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER LISTA HOJE ──────────────────────────────────────────
+function renderListaHoje() {
+  const hoje   = fmt(new Date());
+  const do_dia = tarefas
+    .filter(t => t.data === hoje)
+    .sort((a, b) => (b.U * b.C) - (a.U * a.C));
+  const lista = document.getElementById('lista-hoje');
+
+  if (do_dia.length === 0) {
+    lista.innerHTML = `<div class="estado-vazio">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <p>Nenhuma tarefa para hoje 🎉</p></div>`;
+    return;
+  }
+
+  lista.innerHTML = do_dia.map(t => {
+    const P   = t.U * t.C;
+    const cls = classeP(P);
+    return `<div class="tarefa-pendente">
+      <div class="tarefa-pendente__check${t.feita ? ' feita' : ''}" data-id="${t.id}">${t.feita ? '✓' : ''}</div>
+      <div class="tarefa-pendente__info">
+        <div class="tarefa-pendente__nome${t.feita ? ' riscado' : ''}">${t.nome}</div>
+        <div class="tarefa-pendente__meta">${t.materia} · ${t.horas}h · P = ${P}</div>
+      </div>
+      <span class="tag-prioridade tag-prioridade--${cls}">${cls}</span>
+    </div>`;
+  }).join('');
+
+  lista.querySelectorAll('.tarefa-pendente__check').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = parseInt(el.dataset.id);
+      const t  = tarefas.find(x => x.id === id);
+      if (t) { t.feita = !t.feita; salvar(tarefas); renderTudo(); toast(t.feita ? '✅ Concluída!' : 'Reaberta'); }
+    });
+  });
+}
+
+// ── DATA DE HOJE NO HEADER ─────────────────────────────────────
+function renderDataHoje() {
+  const d   = new Date();
+  const str = `${DIAS_NOME[d.getDay()]}, ${d.getDate()} de ${MESES_LONGO[d.getMonth()]} de ${d.getFullYear()}`;
+  document.getElementById('data-hoje').textContent = str;
+}
+
+// ── RENDER TUDO ────────────────────────────────────────────────
+function renderTudo() {
+  renderCalendario();
+  renderResumoHoje();
+  renderProgresso();
+  renderListaHoje();
+  renderDataHoje();
+}
+renderTudo();
+
+// ── NAVEGAÇÃO DE SEMANA ────────────────────────────────────────
+document.getElementById('btn-semana-ant').addEventListener('click', () => {
+  semanaRef.setDate(semanaRef.getDate() - 7); renderTudo();
+});
+document.getElementById('btn-semana-prox').addEventListener('click', () => {
+  semanaRef.setDate(semanaRef.getDate() + 7); renderTudo();
+});
+
+// ── MODAL NOVA TAREFA ──────────────────────────────────────────
+const modalTarefa = document.getElementById('modal-tarefa');
+
+function abrirModalTarefa() {
+  // Padrão: data de hoje
+  document.getElementById('t-nome').value       = '';
+  document.getElementById('t-materia').value    = '';
+  document.getElementById('t-data').value       = fmt(new Date());
+  document.getElementById('t-horas').value      = '2';
+  document.getElementById('t-urgencia').value   = '3';
+  document.getElementById('t-complexidade').value = '3';
+  document.getElementById('t-urgencia-val').textContent     = '3';
+  document.getElementById('t-complexidade-val').textContent = '3';
+  document.getElementById('t-prioridade-calc').textContent  = '9';
+  modalTarefa.classList.add('aberto');
+}
+const fecharModalTarefa = () => modalTarefa.classList.remove('aberto');
+
+document.getElementById('btn-nova-tarefa').addEventListener('click', abrirModalTarefa);
+document.getElementById('modal-tarefa-fechar').addEventListener('click', fecharModalTarefa);
+document.getElementById('modal-tarefa-cancelar').addEventListener('click', fecharModalTarefa);
+modalTarefa.addEventListener('click', e => { if (e.target === modalTarefa) fecharModalTarefa(); });
+
+// Sliders — atualizam P em tempo real
+function atualizarP() {
+  const U = parseInt(document.getElementById('t-urgencia').value);
+  const C = parseInt(document.getElementById('t-complexidade').value);
+  document.getElementById('t-urgencia-val').textContent    = U;
+  document.getElementById('t-complexidade-val').textContent = C;
+  document.getElementById('t-prioridade-calc').textContent  = U * C;
+}
+document.getElementById('t-urgencia').addEventListener('input', atualizarP);
+document.getElementById('t-complexidade').addEventListener('input', atualizarP);
+
+document.getElementById('modal-tarefa-salvar').addEventListener('click', () => {
+  const nome    = document.getElementById('t-nome').value.trim();
+  const materia = document.getElementById('t-materia').value.trim();
+  const data    = document.getElementById('t-data').value;
+  const horas   = parseFloat(document.getElementById('t-horas').value) || 1;
+  const U       = parseInt(document.getElementById('t-urgencia').value);
+  const C       = parseInt(document.getElementById('t-complexidade').value);
+
+  if (!nome)    { toast('⚠️ Digite o nome da tarefa!'); return; }
+  if (!materia) { toast('⚠️ Digite a disciplina!');     return; }
+  if (!data)    { toast('⚠️ Escolha uma data!');        return; }
+
+  const novoId = tarefas.length ? Math.max(...tarefas.map(t => t.id)) + 1 : 1;
+  tarefas.push({ id: novoId, nome, materia, data, horas, U, C, feita: false });
+  salvar(tarefas);
+  renderTudo();
+  fecharModalTarefa();
+  toast('Tarefa adicionada! 📅');
+});
+</script>
+</body>
+</html>
