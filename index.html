@@ -13,20 +13,19 @@
 </head>
 <body>
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo</a>
-  
   <header>
     <nav class="nav" id="nav-principal" aria-label="Menu Principal">
       <div class="nav__inner">
-        <a href="index.html" class="nav__logo" aria-label="StudyFlow — página inicial">
+        <a href="#" class="nav__logo" aria-label="StudyFlow — página inicial">
           <span class="nav__logo-dot" aria-hidden="true"></span>
           StudyFlow
         </a>
         <ul class="nav__links" id="nav-links" role="list">
-          <li><a href="index.html#hero" aria-current="page">Início</a></li>
-          <li><a href="index.html#funcionalidades">Funcionalidades</a></li>
+          <li><a href="#hero" aria-current="page">Início</a></li>
+          <li><a href="#funcionalidades">Funcionalidades</a></li>
           <li><a href="perfil.html">Perfil</a></li>
-          <li><a href="cronograma.html">Cronograma</a></li>
-          <li><a href="foco.html">Modo Foco</a></li>
+          <li><a href="#cronograma">Cronograma</a></li>
+          <li><a href="#foco">Modo Foco</a></li>
         </ul>
         <div class="nav__actions">
           <div class="toggle-tema" title="Alternar tema">
@@ -36,7 +35,7 @@
             </label>
             <label for="toggle-tema" class="toggle-tema__label" id="label-tema">Dark</label>
           </div>
-          <a href="cronograma.html" class="btn-nav">Começar grátis →</a>
+          <a href="#cadastro-tarefas" class="btn-nav">Começar grátis →</a>
         </div>
         <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
           <span></span><span></span><span></span>
@@ -63,7 +62,7 @@
             O StudyFlow analisa seus hábitos, distribui suas tarefas e cria um cronograma personalizado — para você estudar menos tempo e aprender muito mais.
           </p>
           <div class="hero__ctas">
-            <a href="cronograma.html" class="btn-primario">🚀 Criar meu plano grátis</a>
+            <a href="#cadastro-tarefas" class="btn-primario">🚀 Criar meu plano grátis</a>
             <a href="#funcionalidades" class="btn-secundario">▷ Ver como funciona</a>
           </div>
           <div class="hero__social-proof" aria-label="Estudantes usando o StudyFlow">
@@ -76,11 +75,144 @@
             <p class="hero__social-texto"><strong>+2.400 estudantes</strong> já organizam seus estudos</p>
           </div>
         </div>
-
         <div class="hero__visual" aria-hidden="true">
           <div class="hero__deco hero__deco--1"></div>
           <div class="hero__deco hero__deco--2"></div>
           <div class="hero__app-card" role="img" aria-label="Prévia do aplicativo StudyFlow">
             <div class="app-mock__header">
               <span class="app-mock__titulo">📅 Hoje · Terça-feira</span>
-              <span class="app-mock__
+              <span class="app-mock__badge">Nível 5 ⚡</span>
+            </div>
+            <div class="app-mock__timer">
+              <div class="app-mock__timer-num" id="timer-mock">24:37</div>
+              <div class="app-mock__timer-label">🍅 Pomodoro em andamento</div>
+            </div>
+            <div class="app-mock__progress-wrap">
+              <div class="app-mock__progress-label">
+                <span>Progresso da semana</span><span>65%</span>
+              </div>
+              <div class="app-mock__progress-track">
+                <div class="app-mock__progress-fill"></div>
+              </div>
+            </div>
+            <div class="app-mock__tarefas">
+              <div class="app-mock__tarefa">
+                <div class="app-mock__tarefa-check feito">✓</div>
+                <span class="app-mock__tarefa-nome riscado">Cálculo — Integrais</span>
+                <span class="app-mock__tarefa-tag tag--baixa">feita</span>
+              </div>
+              <div class="app-mock__tarefa">
+                <div class="app-mock__tarefa-check"></div>
+                <span class="app-mock__tarefa-nome">Algoritmos — Grafos</span>
+                <span class="app-mock__tarefa-tag tag--alta">urgente</span>
+              </div>
+              <div class="app-mock__tarefa">
+                <div class="app-mock__tarefa-check"></div>
+                <span class="app-mock__tarefa-nome">Física — Eletromagnetismo</span>
+                <span class="app-mock__tarefa-tag tag--media">média</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="funcionalidades" class="features" aria-labelledby="features-titulo">
+      <div class="features__header">
+        <p class="features__rotulo">O que o StudyFlow faz por você</p>
+        <h2 class="features__titulo" id="features-titulo">Tudo que você precisa para estudar de verdade</h2>
+        <p class="features__desc">Desenvolvido para estudantes que querem resultados reais, não apenas horas a mais na frente do livro.</p>
+      </div>
+      <div class="features__grid">
+        <article class="feature-card">
+          <div class="feature-card__icone" aria-hidden="true">📅</div>
+          <h3 class="feature-card__titulo">Cronograma Automático</h3>
+          <p class="feature-card__texto">Informe suas tarefas e disponibilidade. O algoritmo P = U × C distribui tudo de forma equilibrada, sem sobrecarga.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icone" aria-hidden="true">🍅</div>
+          <h3 class="feature-card__titulo">Temporizador Pomodoro</h3>
+          <p class="feature-card__texto">Sessões de 25 minutos com pausas estratégicas. Registre foco e rendimento ao final de cada sessão.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icone" aria-hidden="true">📊</div>
+          <h3 class="feature-card__titulo">Dashboard de Desempenho</h3>
+          <p class="feature-card__texto">Visualize horas estudadas, eficiência por disciplina e evolução ao longo das semanas com gráficos claros.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icone" aria-hidden="true">🏆</div>
+          <h3 class="feature-card__titulo">Gamificação e XP</h3>
+          <p class="feature-card__texto">Ganhe pontos, suba de nível e conquiste medalhas por sequências de foco. Estudar vira um jogo.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icone" aria-hidden="true">💡</div>
+          <h3 class="feature-card__titulo">Recomendações com IA</h3>
+          <p class="feature-card__texto">O app identifica quedas de rendimento e sugere técnicas personalizadas como mapas mentais ou revisão espaçada.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icone" aria-hidden="true">📶</div>
+          <h3 class="feature-card__titulo">Funciona Offline</h3>
+          <p class="feature-card__texto">Temporizador e cronograma disponíveis sem internet. Seus dados ficam seguros e sincronizam quando voltar online.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2026 StudyFlow — Dados protegidos conforme a <abbr title="Lei Geral de Proteção de Dados">LGPD</abbr> · <a href="#">Privacidade</a> · <a href="#">Contato</a></p>
+    <p style="margin-top:4px;"><small>Status: <strong style="color:var(--accent);">🟢 Online</strong></small></p>
+  </footer>
+
+  <script>
+    // ── TEMA ──────────────────────────────────────────────
+    const inputTema = document.getElementById('toggle-tema');
+    const labelTema = document.getElementById('label-tema');
+    const iconeTema = document.getElementById('icone-tema');
+    const htmlEl    = document.documentElement;
+
+    if (localStorage.getItem('sf-tema') === 'light') {
+      inputTema.checked = true;
+      htmlEl.setAttribute('data-tema', 'light');
+      labelTema.textContent = 'Light';
+      iconeTema.textContent = '☀️';
+    }
+    inputTema.addEventListener('change', () => {
+      const light = inputTema.checked;
+      htmlEl.setAttribute('data-tema', light ? 'light' : 'dark');
+      labelTema.textContent = light ? 'Light' : 'Dark';
+      iconeTema.textContent = light ? '☀️' : '🌙';
+      localStorage.setItem('sf-tema', light ? 'light' : 'dark');
+    });
+
+    // ── NAV ───────────────────────────────────────────────
+    const nav = document.getElementById('nav-principal');
+    window.addEventListener('scroll', () => nav.classList.toggle('rolado', window.scrollY > 20), { passive: true });
+
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks  = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      const aberto = navToggle.classList.toggle('aberto');
+      navLinks.classList.toggle('aberto');
+      navToggle.setAttribute('aria-expanded', aberto);
+      navToggle.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('aberto');
+        navLinks.classList.remove('aberto');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // ── TIMER MOCK ────────────────────────────────────────
+    const timerMock = document.getElementById('timer-mock');
+    let seg = 37, min = 24;
+    setInterval(() => {
+      seg--;
+      if (seg < 0) { seg = 59; min--; }
+      if (min < 0) { min = 24; seg = 59; }
+      timerMock.textContent = String(min).padStart(2,'0') + ':' + String(seg).padStart(2,'0');
+    }, 1000);
+  </script>
+</body>
+</html>

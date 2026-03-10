@@ -9,291 +9,246 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-/* ── LAYOUT ─────────────────────────────────────────────────── */
-.pagina {
-  max-width: 1100px; margin: 0 auto;
-  padding: calc(80px + var(--s5)) var(--s4) var(--s7);
-  display: grid; grid-template-columns: 320px 1fr;
-  gap: var(--s4); align-items: start;
-}
+    /* ── AJUSTES ESPECÍFICOS DO PERFIL ─────────────────────────── */
+    .pagina {
+      max-width: 1100px; margin: 0 auto;
+      padding: calc(80px + var(--s5)) var(--s4) var(--s7);
+      display: grid; grid-template-columns: 320px 1fr;
+      gap: var(--s4); align-items: start;
+    }
 
-/* ── CARD PERFIL ────────────────────────────────────────────── */
-.card {
-  position: relative; width: 100%; display: flex; flex-direction: column; align-items: center;
-  border-radius: var(--r-xl); background: var(--bg-surface);
-  border: 1px solid var(--border); box-shadow: var(--shadow-card);
-  overflow: hidden; transition: 0.4s ease;
-}
-.card__img {
-  height: 140px; width: 100%;
-  background: linear-gradient(135deg, #0d1b2a 0%, var(--accent) 100%);
-  position: relative;
-}
-.card__img-grid {
-  position: absolute; inset: 0; opacity: 0.2;
-  background-image: linear-gradient(var(--accent) 1px, transparent 1px), linear-gradient(90deg, var(--accent) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-.card__avatar {
-  position: relative; margin-top: -50px; width: 100px; height: 100px;
-  background: var(--bg-surface); border-radius: 50%;
-  border: 4px solid var(--bg-base);
-  display: flex; justify-content: center; align-items: center;
-  box-shadow: var(--shadow-lg); z-index: 2; font-size: 48px;
-}
-.card__title { margin-top: 16px; font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--text-primary); }
-.card__subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+    /* Card Perfil */
+    .card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--r-xl); overflow: hidden; position: relative;
+      display: flex; flex-direction: column; align-items: center; box-shadow: var(--shadow-card);
+    }
+    .card__header {
+      height: 120px; width: 100%;
+      background: linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%);
+      position: relative;
+    }
+    .card__avatar {
+      width: 100px; height: 100px; background: var(--bg-surface);
+      border: 4px solid var(--bg-base); border-radius: 50%;
+      margin-top: -50px; z-index: 2; display: flex;
+      align-items: center; justify-content: center; font-size: 48px;
+    }
+    .card__info { padding: 20px; text-align: center; width: 100%; }
+    .card__nome { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--text-primary); }
+    .card__curso { color: var(--text-secondary); font-size: 14px; margin-bottom: 15px; }
 
-.card__nivel {
-  background: var(--accent-glow); border: 1px solid var(--border-hover);
-  color: var(--accent); font-size: 12px; font-weight: 700;
-  padding: 6px 16px; border-radius: 99px; margin-bottom: 20px;
-}
+    /* Barra de XP */
+    .xp-container { width: 100%; padding: 0 20px 20px; }
+    .xp-label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px; color: var(--text-secondary); }
+    .xp-barra { height: 8px; background: var(--bg-base); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+    .xp-fill { height: 100%; background: var(--accent); width: 0%; transition: width 1s ease; }
 
-.card__xp { width: 80%; margin-bottom: 24px; }
-.card__xp-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; }
-.card__xp-track { height: 8px; background: var(--bg-base); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
-.card__xp-fill { height: 100%; background: var(--accent); transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 25px; }
+    .stat-card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      padding: 15px; border-radius: var(--r-lg); text-align: center;
+    }
+    .stat-card__valor { display: block; font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--accent); }
+    .stat-card__label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; }
 
-/* ── STATS ──────────────────────────────────────────────────── */
-.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
-.stat-card {
-  background: var(--bg-surface); border: 1px solid var(--border);
-  border-radius: var(--r-lg); padding: 20px; text-align: center; transition: 0.3s;
-}
-.stat-card:hover { transform: translateY(-4px); border-color: var(--accent); }
-.stat-card__valor { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--text-primary); }
-.stat-card__label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+    /* Modal Ajustes */
+    .avatar-op { 
+      cursor: pointer; font-size: 30px; padding: 10px; border-radius: 10px; 
+      border: 1px solid var(--border); transition: 0.2s; text-align: center;
+    }
+    .avatar-op:hover { background: var(--accent-glow); border-color: var(--accent); }
+    .avatar-op.selecionado { border-color: var(--accent); background: var(--accent-glow); }
 
-/* ── GRÁFICO ────────────────────────────────────────────────── */
-.grafico-barras {
-  display: flex; align-items: flex-end; justify-content: space-between;
-  height: 160px; padding: 20px 10px 10px; border-bottom: 1px solid var(--border);
-}
-.barra-col { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
-.barra-col__fill {
-  width: 70%; max-width: 40px; border-radius: 4px 4px 0 0;
-  background: var(--accent-glow); border: 1px solid var(--border-hover);
-  transition: 0.3s; position: relative;
-}
-.barra-col__fill.hoje { background: var(--accent); border-color: var(--accent); }
-.barra-col__label { font-size: 10px; font-weight: 700; color: var(--text-secondary); }
-
-/* ── DISCIPLINAS ────────────────────────────────────────────── */
-.disciplina-item {
-  display: flex; align-items: center; gap: 12px; padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.disciplina-item:last-child { border-bottom: none; }
-.disciplina-item__icone { font-size: 20px; width: 40px; height: 40px; background: var(--bg-base); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-.disciplina-item__info { flex: 1; }
-.disciplina-item__nome { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-.disciplina-item__sub { font-size: 12px; color: var(--text-secondary); }
-
-@media (max-width: 900px) {
-  .pagina { grid-template-columns: 1fr; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-}
+    @media (max-width: 900px) {
+      .pagina { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <a href="#conteudo-perfil" class="skip-link">Pular para o conteúdo</a>
 
-  <nav class="nav" id="nav-principal">
-    <div class="nav__inner">
-      <a href="index.html" class="nav__logo"><span class="nav__logo-dot"></span>StudyFlow</a>
-      <ul class="nav__links" id="nav-links">
-        <li><a href="index.html">Início</a></li>
-        <li><a href="cronograma.html">Cronograma</a></li>
-        <li><a href="foco.html">Modo Foco</a></li>
-        <li><a href="perfil.html" aria-current="page">Perfil</a></li>
-      </ul>
-      <div class="nav__actions">
-        <div class="toggle-tema">
-          <input type="checkbox" id="toggle-tema" class="toggle-tema__input">
-          <label for="toggle-tema" class="toggle-tema__track">
-            <span class="toggle-tema__thumb"><span id="icone-tema">🌙</span></span>
-          </label>
-        </div>
-      </div>
-    </div>
-  </nav>
+<nav class="nav" id="nav-principal">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><span class="nav__logo-dot"></span>StudyFlow</a>
+    
+    <ul class="nav__links" id="nav-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="cronograma.html">Cronograma</a></li>
+      <li><a href="foco.html">Modo Foco</a></li>
+      <li><a href="perfil.html" aria-current="page">Perfil</a></li>
+    </ul>
 
-  <main class="pagina" id="conteudo-perfil">
-    <aside>
-      <div class="card">
-        <div class="card__img"><div class="card__img-grid"></div></div>
-        <div class="card__avatar" id="avatar-display">🐱</div>
-        <div class="card__title" id="nome-display">Estudante</div>
-        <div class="card__subtitle" id="curso-display">Área de Estudo</div>
-        
-        <div class="card__nivel" id="nivel-display">⚡ Nível 1 — Iniciante</div>
-        
-        <div class="card__xp">
-          <div class="card__xp-label">
-            <span>XP <span id="xp-atual">0</span></span>
-            <span id="xp-pct">0%</span>
-          </div>
-          <div class="card__xp-track"><div class="card__xp-fill" id="xp-fill" style="width: 0%"></div></div>
-        </div>
-
-        <button class="btn-nav" id="btn-editar" style="margin-bottom: 24px; width: 80%; justify-content: center;">
-          Editar Perfil
-        </button>
+    <div class="nav__actions">
+      <div class="toggle-tema">
+        <input type="checkbox" id="toggle-tema" class="toggle-tema__input">
+        <label for="toggle-tema" class="toggle-tema__track">
+          <span class="toggle-tema__thumb"><span id="icone-tema">🌙</span></span>
+        </label>
       </div>
-    </aside>
-
-    <div class="painel">
-      <header style="margin-bottom: 32px;">
-        <h1 class="painel__titulo">Meu <span>Desempenho</span></h1>
-        <p class="painel__subtitulo">Acompanhe seu progresso e conquistas.</p>
-      </header>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card__valor" id="stat-horas">0h</div>
-          <div class="stat-card__label">Total Focado</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__valor" id="stat-sequencia">0</div>
-          <div class="stat-card__label">Dias Seguidos</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__valor" id="stat-tarefas">0</div>
-          <div class="stat-card__label">Feitas</div>
-        </div>
-      </div>
-
-      <div class="secao" style="margin-bottom: 24px;">
-        <div class="secao__titulo">📅 Atividade na Semana</div>
-        <div class="grafico-barras" id="grafico-barras">
-          </div>
-      </div>
-
-      <div class="secao">
-        <div class="secao__titulo">📚 Disciplinas Ativas</div>
-        <div id="disciplinas-lista">
-          </div>
-      </div>
-    </div>
-  </main>
-
-  <div class="modal-overlay" id="modal-perfil">
-    <div class="modal">
-      <div class="modal__titulo">Configurar Perfil</div>
-      <div class="form-grupo">
-        <label>Seu Avatar</label>
-        <div class="avatar-grid" id="avatar-selecao" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;">
-          <div class="stat-card" style="cursor: pointer; padding: 10px;" data-emoji="🐱">🐱</div>
-          <div class="stat-card" style="cursor: pointer; padding: 10px;" data-emoji="🦊">🦊</div>
-          <div class="stat-card" style="cursor: pointer; padding: 10px;" data-emoji="🐧">🐧</div>
-          <div class="stat-card" style="cursor: pointer; padding: 10px;" data-emoji="🚀">🚀</div>
-        </div>
-      </div>
-      <div class="form-grupo">
-        <label>Nome</label>
-        <input type="text" id="input-nome" placeholder="Digite seu nome">
-      </div>
-      <div class="form-grupo">
-        <label>Curso / Objetivo</label>
-        <input type="text" id="input-curso" placeholder="Ex: Medicina, Concurso...">
-      </div>
-      <div class="modal__acoes">
-        <button class="btn-cancelar" id="btn-cancelar">Cancelar</button>
-        <button class="btn-nav" id="btn-salvar">Salvar Dados</button>
-      </div>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Abrir Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
+</nav>
 
-  <script>
-    // ── CONFIGURAÇÕES E DADOS ──────────────────────────────────
-    const htmlEl = document.documentElement;
-    const modal = document.getElementById('modal-perfil');
+<main class="pagina">
+  <aside>
+    <div class="card">
+      <div class="card__header"></div>
+      <div class="card__avatar" id="avatar-display">🐱</div>
+      <div class="card__info">
+        <h2 class="card__nome" id="nome-display">Estudante</h2>
+        <p class="card__curso" id="curso-display">Meu Objetivo</p>
+        <div class="card__nivel" id="nivel-tag" style="background: var(--accent-glow); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block;">
+          ⚡ Nível 1
+        </div>
+      </div>
+      <div class="xp-container">
+        <div class="xp-label"><span>XP: <span id="xp-valor">0</span></span><span id="xp-pct">0%</span></div>
+        <div class="xp-barra"><div class="xp-fill" id="xp-fill"></div></div>
+      </div>
+      <button class="btn-nav" id="btn-abrir-modal" style="margin-bottom: 20px; width: 85%; justify-content: center;">Editar Perfil</button>
+    </div>
+  </aside>
+
+  <section class="painel">
+    <h1 class="painel__titulo">Meu <span>Desempenho</span></h1>
+    <p class="painel__subtitulo" id="boas-vindas">Olá! Veja como estão seus estudos hoje.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-card__valor" id="stat-horas">0h</span>
+        <span class="stat-card__label">Total Focado</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__valor" id="stat-sequencia">0</span>
+        <span class="stat-card__label">Dias de Fogo</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__valor" id="stat-tarefas">0</span>
+        <span class="stat-card__label">Tarefas</span>
+      </div>
+    </div>
+
+    </section>
+</main>
+
+<div class="modal-overlay" id="modal-edit">
+  <div class="modal">
+    <div class="modal__titulo">Editar Perfil</div>
+    <div class="form-grupo">
+      <label>Escolha seu Avatar</label>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;">
+        <div class="avatar-op" data-emoji="🐱">🐱</div>
+        <div class="avatar-op" data-emoji="🦊">🦊</div>
+        <div class="avatar-op" data-emoji="🦁">🦁</div>
+        <div class="avatar-op" data-emoji="🚀">🚀</div>
+      </div>
+    </div>
+    <div class="form-grupo">
+      <label>Nome</label>
+      <input type="text" id="input-nome" placeholder="Seu nome">
+    </div>
+    <div class="form-grupo">
+      <label>Curso/Objetivo</label>
+      <input type="text" id="input-curso" placeholder="Ex: Engenharia">
+    </div>
+    <div class="modal__acoes">
+      <button class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
+      <button class="btn-nav" id="btn-salvar">Salvar Alterações</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── 1. CONTROLE DO MENU E TEMA ──────────────────────────────
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks  = document.getElementById('nav-links');
+  const inputTema = document.getElementById('toggle-tema');
+  const iconeTema = document.getElementById('icone-tema');
+
+  // Abrir/Fechar Menu
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('aberto');
+    navToggle.classList.toggle('aberto');
+  });
+
+  // Alternar Tema
+  inputTema.addEventListener('change', () => {
+    const tema = inputTema.checked ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-tema', tema);
+    iconeTema.textContent = inputTema.checked ? '☀️' : '🌙';
+    localStorage.setItem('sf-tema', tema);
+  });
+
+  // Carregar Tema Salvo
+  if (localStorage.getItem('sf-tema') === 'light') {
+    inputTema.checked = true;
+    document.documentElement.setAttribute('data-tema', 'light');
+    iconeTema.textContent = '☀️';
+  }
+
+  // ── 2. DADOS DO PERFIL ──────────────────────────────────────
+  let perfil = JSON.parse(localStorage.getItem('sf-perfil')) || {
+    nome: 'Estudante',
+    curso: 'Estudos',
+    avatar: '🐱'
+  };
+
+  const modal = document.getElementById('modal-edit');
+  let emojiSelecionado = perfil.avatar;
+
+  function atualizarInterface() {
+    document.getElementById('nome-display').textContent = perfil.nome;
+    document.getElementById('curso-display').textContent = perfil.curso;
+    document.getElementById('avatar-display').textContent = perfil.avatar;
+    document.getElementById('boas-vindas').textContent = `Olá, ${perfil.nome}! Veja como estão seus estudos hoje.`;
     
-    // Carregar dados reais ou defaults
-    let dados = JSON.parse(localStorage.getItem('sf-perfil')) || {
-      nome: 'Estudante',
-      curso: 'Área de Estudo',
-      avatar: '🐱',
-      disciplinas: [
-        { nome: 'Geral', icon: '📖', horas: 0 }
-      ]
+    // Dados simulados de progresso baseados no Modo Foco
+    const minutos = parseInt(localStorage.getItem('sf-foco-total') || '0');
+    const horas = (minutos / 60).toFixed(1);
+    document.getElementById('stat-horas').textContent = horas + 'h';
+    
+    // Lógica simples de Nível
+    const nivel = Math.floor(minutos / 300) + 1; // sobe de nível a cada 5 horas
+    document.getElementById('nivel-tag').textContent = `⚡ Nível ${nivel}`;
+    const progressoXP = (minutos % 300) / 3; // Porcentagem para a barra
+    document.getElementById('xp-fill').style.width = progressoXP + '%';
+    document.getElementById('xp-pct').textContent = Math.round(progressoXP) + '%';
+    document.getElementById('xp-valor').textContent = minutos * 10;
+  }
+
+  // ── 3. LÓGICA DO MODAL ──────────────────────────────────────
+  document.getElementById('btn-abrir-modal').onclick = () => {
+    document.getElementById('input-nome').value = perfil.nome;
+    document.getElementById('input-curso').value = perfil.curso;
+    modal.classList.add('visivel');
+  };
+
+  document.getElementById('btn-fechar-modal').onclick = () => modal.classList.remove('visivel');
+
+  document.querySelectorAll('.avatar-op').forEach(el => {
+    el.onclick = () => {
+      document.querySelectorAll('.avatar-op').forEach(item => item.classList.remove('selecionado'));
+      el.classList.add('selecionado');
+      emojiSelecionado = el.dataset.emoji;
     };
+  });
 
-    // Dados do Modo Foco
-    const horasTotais = parseInt(localStorage.getItem('sf-minutos-hoje') || '0') / 60;
-    const tarefasFeitas = JSON.parse(localStorage.getItem('sf-historico') || '[]').length;
+  document.getElementById('btn-salvar').onclick = () => {
+    perfil.nome = document.getElementById('input-nome').value;
+    perfil.curso = document.getElementById('input-curso').value;
+    perfil.avatar = emojiSelecionado;
+    localStorage.setItem('sf-perfil', JSON.stringify(perfil));
+    atualizarInterface();
+    modal.classList.remove('visivel');
+  };
 
-    // ── ATUALIZAR INTERFACE ───────────────────────────────────
-    function atualizarUI() {
-      document.getElementById('nome-display').textContent = dados.nome;
-      document.getElementById('curso-display').textContent = dados.curso;
-      document.getElementById('avatar-display').textContent = dados.avatar;
-      
-      document.getElementById('stat-horas').textContent = horasTotais.toFixed(1) + 'h';
-      document.getElementById('stat-tarefas').textContent = tarefasFeitas;
-      
-      // Lógica de XP (Nível sobe a cada 5 horas)
-      const nivel = Math.floor(horasTotais / 5) + 1;
-      const xpProximo = nivel * 5;
-      const pctXP = (horasTotais % 5) / 5 * 100;
+  // Inicializa
+  atualizarInterface();
+</script>
 
-      document.getElementById('nivel-display').textContent = `⚡ Nível ${nivel} — Estudioso`;
-      document.getElementById('xp-atual').textContent = Math.floor(horasTotais * 10);
-      document.getElementById('xp-fill').style.width = pctXP + '%';
-      document.getElementById('xp-pct').textContent = Math.round(pctXP) + '%';
-
-      renderGrafico();
-    }
-
-    function renderGrafico() {
-      const dias = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
-      const hoje = (new Date().getDay() + 6) % 7;
-      const container = document.getElementById('grafico-barras');
-      container.innerHTML = '';
-
-      dias.forEach((dia, i) => {
-        const altura = i === hoje ? 80 : 20; // Mock de altura
-        container.innerHTML += `
-          <div class="barra-col">
-            <div class="barra-col__fill ${i === hoje ? 'hoje' : ''}" style="height: ${altura}px"></div>
-            <span class="barra-col__label">${dia}</span>
-          </div>
-        `;
-      });
-    }
-
-    // ── MODAL E TEMA ──────────────────────────────────────────
-    document.getElementById('btn-editar').onclick = () => modal.classList.add('visivel');
-    document.getElementById('btn-cancelar').onclick = () => modal.classList.remove('visivel');
-
-    document.getElementById('btn-salvar').onclick = () => {
-      dados.nome = document.getElementById('input-nome').value || dados.nome;
-      dados.curso = document.getElementById('input-curso').value || dados.curso;
-      localStorage.setItem('sf-perfil', JSON.stringify(dados));
-      atualizarUI();
-      modal.classList.remove('visivel');
-    };
-
-    // Emojis de avatar
-    document.querySelectorAll('#avatar-selecao .stat-card').forEach(card => {
-      card.onclick = () => {
-        dados.avatar = card.dataset.emoji;
-        document.querySelectorAll('#avatar-selecao .stat-card').forEach(c => c.style.borderColor = 'var(--border)');
-        card.style.borderColor = 'var(--accent)';
-      };
-    });
-
-    // Tema
-    const inputTema = document.getElementById('toggle-tema');
-    inputTema.checked = localStorage.getItem('sf-tema') === 'light';
-    inputTema.onchange = () => {
-      const t = inputTema.checked ? 'light' : 'dark';
-      htmlEl.setAttribute('data-tema', t);
-      localStorage.setItem('sf-tema', t);
-    };
-
-    atualizarUI();
-  </script>
 </body>
 </html>
