@@ -28,15 +28,13 @@
           <li><a href="#foco">Modo Foco</a></li>
         </ul>
         <div class="nav__actions">
-
-          <!-- NOVO TOGGLE DE TEMA -->
-          <label class="theme-switch" for="checkbox" id="themeswitch">
-            <input type="checkbox" id="checkbox">
-            <div class="slider round"></div>
-            <span class="name"></span>
-            <div class="back"></div>
-          </label>
-
+          <div class="toggle-tema">
+            <input type="checkbox" id="toggle-tema" class="toggle-tema__input" role="switch" aria-label="Alternar tema">
+            <label for="toggle-tema" class="toggle-tema__track" aria-hidden="true">
+              <span class="toggle-tema__thumb"><span id="icone-tema">🌙</span></span>
+            </label>
+            <label for="toggle-tema" class="toggle-tema__label" id="label-tema">Dark</label>
+          </div>
           <a href="#" class="btn-nav">Começar grátis →</a>
         </div>
         <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
@@ -166,34 +164,38 @@
   </footer>
 
   <script>
-    // TOGGLE DE TEMA — novo checkbox #checkbox
-    const inputTema = document.getElementById('checkbox');
+    const inputTema = document.getElementById('toggle-tema');
+    const labelTema = document.getElementById('label-tema');
+    const iconeTema = document.getElementById('icone-tema');
     const htmlEl    = document.documentElement;
 
-    // Carrega preferência salva
     const temaSalvo = localStorage.getItem('sf-tema');
     if (temaSalvo === 'light') {
       inputTema.checked = true;
       htmlEl.setAttribute('data-tema', 'light');
+      labelTema.textContent = 'Light';
+      iconeTema.textContent = '☀️';
     }
 
     inputTema.addEventListener('change', () => {
       if (inputTema.checked) {
         htmlEl.setAttribute('data-tema', 'light');
+        labelTema.textContent = 'Light';
+        iconeTema.textContent = '☀️';
         localStorage.setItem('sf-tema', 'light');
       } else {
         htmlEl.setAttribute('data-tema', 'dark');
+        labelTema.textContent = 'Dark';
+        iconeTema.textContent = '🌙';
         localStorage.setItem('sf-tema', 'dark');
       }
     });
 
-    // Sombra no nav ao rolar
     const nav = document.getElementById('nav-principal');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('rolado', window.scrollY > 20);
     }, { passive: true });
 
-    // Menu mobile
     const navToggle = document.getElementById('nav-toggle');
     const navLinks  = document.getElementById('nav-links');
     navToggle.addEventListener('click', () => {
@@ -209,7 +211,6 @@
       });
     });
 
-    // Timer mock no hero
     const timerMock = document.getElementById('timer-mock');
     let seg = 37, min = 24;
     setInterval(() => {
