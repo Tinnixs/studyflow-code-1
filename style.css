@@ -275,9 +275,9 @@ footer a:hover { text-decoration: underline; }
   mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%);
 }
 .hero__inner {
-  max-width: 1280px; margin: 0 auto; padding: var(--s6) var(--s4);
-  display: grid; grid-template-columns: 1fr 1.15fr;
-  gap: var(--s4); align-items: center; position: relative; z-index: 1;
+  width: 100%; padding: var(--s6) clamp(var(--s4), 5vw, 72px);
+  display: grid; grid-template-columns: 6fr 5fr;
+  gap: clamp(var(--s4), 4vw, var(--s6)); align-items: center; position: relative; z-index: 1;
 }
 
 /* L08 — Badge */
@@ -294,8 +294,8 @@ footer a:hover { text-decoration: underline; }
 /* L09 — Título gradiente */
 .hero__titulo {
   font-family: var(--font-display);
-  font-size: clamp(38px, 5.5vw, 68px);
-  font-weight: 800; line-height: 1.08; letter-spacing: -2px;
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 800; line-height: 1.06; letter-spacing: -2px;
   margin-bottom: var(--s3); animation: fadeUp 0.6s 0.1s ease both;
 }
 .hero__titulo-gradiente {
@@ -303,9 +303,9 @@ footer a:hover { text-decoration: underline; }
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .hero__subtitulo {
-  font-size: clamp(16px, 2vw, 19px); font-weight: 400;
-  color: var(--text-secondary); line-height: 1.65; max-width: 480px;
-  margin-bottom: var(--s5); animation: fadeUp 0.6s 0.2s ease both;
+  font-size: clamp(15px, 1.6vw, 18px); font-weight: 400;
+  color: var(--text-secondary); line-height: 1.7; max-width: 46ch;
+  margin-bottom: var(--s4); animation: fadeUp 0.6s 0.2s ease both;
 }
 
 /* L10 — CTAs */
@@ -348,15 +348,14 @@ footer a:hover { text-decoration: underline; }
 .hero__social-texto strong { color: var(--text-primary); font-weight: 600; }
 
 /* L11 — Card hero */
-.hero__visual { position: relative; animation: fadeUp 0.7s 0.15s ease both; width: 100%; }
+.hero__visual { position: relative; animation: fadeUp 0.7s 0.15s ease both; }
 .hero__deco { position: absolute; border-radius: 50%; filter: blur(40px); pointer-events: none; }
 .hero__deco--1 { width: 200px; height: 200px; background: rgba(56,189,248,.06); top: -60px; right: -60px; }
 .hero__deco--2 { width: 120px; height: 120px; background: rgba(125,211,252,.08); bottom: -40px; left: -40px; }
 .hero__app-card {
   background: var(--bg-surface); border: 1px solid var(--border);
-  border-radius: var(--r-xl); padding: var(--s4);
+  border-radius: var(--r-xl); padding: clamp(var(--s3), 2.5vw, var(--s4));
   box-shadow: var(--shadow-card), var(--shadow-glow); position: relative;
-  width: 100%;
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 .hero__app-card::before {
@@ -369,8 +368,8 @@ footer a:hover { text-decoration: underline; }
 }
 .app-mock__titulo { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text-primary); }
 .app-mock__badge { font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-glow); padding: 3px 10px; border-radius: 99px; }
-.app-mock__timer { text-align: center; padding: var(--s4) 0; }
-.app-mock__timer-num { font-family: var(--font-display); font-size: 72px; font-weight: 800; letter-spacing: -3px; color: var(--accent); line-height: 1; }
+.app-mock__timer { text-align: center; padding: var(--s3) 0; }
+.app-mock__timer-num { font-family: var(--font-display); font-size: clamp(36px, 4vw, 56px); font-weight: 800; letter-spacing: -2px; color: var(--accent); line-height: 1; }
 .app-mock__timer-label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; letter-spacing: .08em; }
 .app-mock__progress-wrap { margin: var(--s2) 0 var(--s3); }
 .app-mock__progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
