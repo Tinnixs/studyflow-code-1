@@ -4,165 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="StudyFlow — Modo Foco com Pomodoro. Sessões de 25 minutos para máxima concentração e produtividade.">
-  <meta name="theme-color" content="#0d1b2a">
+  <meta name="theme-color" content="#000E24">
   <title>StudyFlow | Modo Foco</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
-  <style>
-/* ── LAYOUT ──────────────────────────────────────────────────── */
-.pagina {
-  max-width: 900px; margin: 0 auto;
-  padding: calc(68px + var(--s4)) var(--s4) var(--s7);
-  display: flex; flex-direction: column; gap: var(--s4);
-}
-/* ── CABEÇALHO ───────────────────────────────────────────────── */
-.page-header__titulo {
-  font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 38px);
-  font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
-}
-.page-header__titulo span {
-  background: linear-gradient(135deg, var(--accent) 0%, #7dd3fc 60%, #bae6fd 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.page-header__sub { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
-/* ── GRID ────────────────────────────────────────────────────── */
-.foco-grid { display: grid; grid-template-columns: 1fr 320px; gap: var(--s4); align-items: start; }
-/* ── TIMER CARD ──────────────────────────────────────────────── */
-.timer-card {
-  background: var(--bg-surface); border: 1px solid var(--border);
-  border-radius: var(--r-xl); padding: var(--s5) var(--s4);
-  display: flex; flex-direction: column; align-items: center; gap: var(--s3);
-  transition: background 0.4s, border-color 0.4s; position: relative; overflow: hidden;
-}
-.timer-card::before {
-  content: ''; position: absolute; top: -1px; left: 60px; right: 60px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-}
-/* Círculo SVG do timer */
-.timer-anel { position: relative; width: 240px; height: 240px; flex-shrink: 0; }
-.timer-anel svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.timer-anel__trilha { fill: none; stroke: var(--border); stroke-width: 8; }
-.timer-anel__progresso {
-  fill: none; stroke: var(--accent); stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 691; /* 2π×110 */
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
-}
-.timer-anel__progresso.pausa { stroke: #f59e0b; }
-.timer-anel__centro {
-  position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 4px;
-}
-.timer-num {
-  font-family: var(--font-display); font-size: 56px; font-weight: 800;
-  color: var(--text-primary); letter-spacing: -3px; line-height: 1;
-}
-.timer-modo {
-  font-size: 12px; font-weight: 600; color: var(--accent);
-  text-transform: uppercase; letter-spacing: .1em;
-}
-/* Sessão atual */
-.sessao-atual {
-  text-align: center; padding: 10px var(--s3);
-  background: var(--accent-glow); border: 1px solid var(--border-hover);
-  border-radius: var(--r-md); width: 100%;
-}
-.sessao-atual__label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .06em; }
-.sessao-atual__nome { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-top: 2px; }
-/* Controles */
-.timer-controles { display: flex; align-items: center; gap: var(--s2); }
-.btn-controle {
-  width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--border);
-  background: none; color: var(--text-secondary); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
-}
-.btn-controle:hover { border-color: var(--border-hover); color: var(--text-primary); }
-.btn-controle svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; }
-.btn-play {
-  width: 68px; height: 68px; background: var(--accent); color: #0d1b2a;
-  border-color: var(--accent);
-}
-.btn-play:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #0d1b2a; }
-.btn-play svg { width: 26px; height: 26px; }
-/* Modos de tempo */
-.timer-modos { display: flex; gap: var(--s1); background: var(--bg-base); border-radius: var(--r-md); padding: 4px; }
-.modo-btn {
-  flex: 1; padding: 7px 12px; border: none; border-radius: var(--r-sm);
-  background: none; color: var(--text-secondary); font-family: var(--font-body);
-  font-size: 12px; font-weight: 600; cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-.modo-btn.ativo { background: var(--bg-surface); color: var(--accent); box-shadow: 0 1px 4px rgba(0,0,0,.15); }
-/* ── PAINEL LATERAL ──────────────────────────────────────────── */
-.painel-lateral { display: flex; flex-direction: column; gap: var(--s3); }
-.secao {
-  background: var(--bg-surface); border: 1px solid var(--border);
-  border-radius: var(--r-lg); padding: var(--s3);
-  transition: background 0.4s, border-color 0.4s;
-}
-.secao__titulo {
-  font-family: var(--font-display); font-size: 14px; font-weight: 700;
-  color: var(--text-primary); margin-bottom: var(--s2);
-  display: flex; align-items: center; gap: 8px;
-}
-.secao__titulo svg { width: 15px; height: 15px; stroke: var(--accent); stroke-width: 2.5; }
-/* Stats de sessão */
-.stats-sessao { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
-.stat-mini {
-  background: var(--bg-base); border: 1px solid var(--border); border-radius: var(--r-md);
-  padding: 12px; text-align: center;
-}
-.stat-mini__val { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--accent); line-height: 1; }
-.stat-mini__label { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
-/* Histórico de sessões */
-.sessao-hist {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12px;
-}
-.sessao-hist:last-child { border-bottom: none; padding-bottom: 0; }
-.sessao-hist__icone { font-size: 16px; flex-shrink: 0; }
-.sessao-hist__info { flex: 1; }
-.sessao-hist__nome { font-weight: 600; color: var(--text-primary); font-size: 13px; }
-.sessao-hist__meta { color: var(--text-secondary); }
-.sessao-hist__dur { font-weight: 700; color: var(--accent); font-family: var(--font-display); }
-/* Seletor de tarefa */
-.tarefa-seletor {
-  display: flex; flex-direction: column; gap: 6px;
-}
-.tarefa-opcao {
-  display: flex; align-items: center; gap: 10px; padding: 9px 10px;
-  background: var(--bg-base); border: 1px solid var(--border); border-radius: var(--r-sm);
-  cursor: pointer; transition: border-color 0.2s, background 0.2s; font-size: 13px;
-}
-.tarefa-opcao:hover { border-color: var(--border-hover); }
-.tarefa-opcao.selecionada { border-color: var(--accent); background: var(--accent-glow); }
-.tarefa-opcao__check { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.2s; }
-.tarefa-opcao.selecionada .tarefa-opcao__check { background: var(--accent); }
-.tarefa-opcao__nome { flex: 1; font-weight: 600; color: var(--text-primary); }
-.tarefa-opcao__mat { font-size: 11px; color: var(--text-secondary); }
-/* Estado vazio */
-.estado-vazio {
-  display: flex; flex-direction: column; align-items: center;
-  padding: var(--s3) var(--s2); gap: 8px; text-align: center;
-}
-.estado-vazio svg { width: 32px; height: 32px; stroke: var(--border-hover); stroke-width: 1.5; }
-.estado-vazio p { font-size: 12px; color: var(--text-secondary); }
-/* Notificação de fim */
-.notif {
-  position: fixed; top: 88px; left: 50%; transform: translateX(-50%) translateY(-20px);
-  background: var(--bg-surface); border: 1px solid var(--border-hover);
-  border-radius: var(--r-lg); padding: 14px var(--s3); font-size: 14px; font-weight: 600;
-  color: var(--text-primary); box-shadow: var(--shadow-card); z-index: 999;
-  opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none;
-  display: flex; align-items: center; gap: 10px; white-space: nowrap;
-}
-.notif.visivel { opacity: 1; transform: translateX(-50%) translateY(0); }
-/* ── RESPONSIVO ──────────────────────────────────────────────── */
-@media (max-width: 800px) { .foco-grid { grid-template-columns: 1fr; } }
-@media (max-width: 500px) { .timer-num { font-size: 44px; } .timer-anel { width: 200px; height: 200px; } }
-  </style>
-  <!-- Anti-FOUC: aplica tema salvo ANTES do body renderizar, evitando flash -->
+  <link rel="stylesheet" href="foco.css">
+  <!-- Anti-FOUC -->
   <script>try{var t=localStorage.getItem("sf-tema");if(t)document.documentElement.setAttribute("data-tema",t);}catch(e){}</script>
 </head>
 <body>
@@ -170,7 +17,21 @@
 <nav class="nav" id="nav-principal" aria-label="Menu Principal">
   <div class="nav__inner">
     <a href="index.html" class="nav__logo">
-      <span class="nav__logo-dot" aria-hidden="true"></span>StudyFlow
+      <svg class="nav__logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="logo-g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3385FF"/><stop offset="100%" stop-color="#0066FF"/></linearGradient></defs>
+        <circle cx="32" cy="36" r="22" fill="url(#logo-g)"/>
+        <polygon points="12,18 10,2 24,14" fill="url(#logo-g)"/>
+        <polygon points="52,18 54,2 40,14" fill="url(#logo-g)"/>
+        <polygon points="14,17 13,6 22,14" fill="#CCE0FF"/>
+        <polygon points="50,17 51,6 42,14" fill="#CCE0FF"/>
+        <ellipse cx="24" cy="34" rx="4" ry="4.5" fill="#000E24"/>
+        <ellipse cx="25.5" cy="33" rx="1.5" ry="1.5" fill="#fff"/>
+        <ellipse cx="40" cy="34" rx="4" ry="4.5" fill="#000E24"/>
+        <ellipse cx="41.5" cy="33" rx="1.5" ry="1.5" fill="#fff"/>
+        <ellipse cx="32" cy="40" rx="2.5" ry="2" fill="#E5F0FF"/>
+        <path d="M29,43 Q32,47 35,43" fill="none" stroke="#E5F0FF" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      StudyFlow
     </a>
     <ul class="nav__links" id="nav-links" role="list">
       <li><a href="index.html">Início</a></li>
@@ -187,15 +48,16 @@
         </label>
         <label for="toggle-tema" class="toggle-tema__label" id="label-tema">Dark</label>
       </div>
-      <a href="#" class="btn-nav">Começar grátis →</a>
+      <a href="index.html" class="btn-nav">Começar grátis →</a>
     </div>
     <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
       <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
     </button>
   </div>
 </nav>
+</header>
 <!-- NOTIFICAÇÃO -->
-<div class="notif" id="notif">🍅 <span id="notif-msg">Pomodoro concluído!</span></div>
+<div class="notif" id="notif" role="alert" aria-live="assertive">🍅 <span id="notif-msg">Pomodoro concluído!</span></div>
 <main class="pagina" role="main" aria-label="Modo Foco — Temporizador Pomodoro">
   <div>
     <h1 class="page-header__titulo">Modo <span>Foco</span></h1>
@@ -218,7 +80,7 @@
         </svg>
         <div class="timer-anel__centro">
           <div class="timer-num" id="timer-display">25:00</div>
-          <div class="timer-modo" id="timer-modo-label">Pomodoro</div>
+          <div class="timer-modo" id="timer-modo-label">🍅 Foco</div>
         </div>
       </div>
       <!-- Tarefa atual -->
@@ -228,21 +90,21 @@
       </div>
       <!-- Controles -->
       <div class="timer-controles">
-        <button class="btn-controle" id="btn-reiniciar" title="Reiniciar" type="button">
+        <button class="btn-controle" id="btn-reiniciar" title="Reiniciar" type="button" aria-label="Reiniciar timer">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
         </button>
-        <button class="btn-controle btn-play" id="btn-play" type="button">
+        <button class="btn-controle btn-play" id="btn-play" type="button" aria-label="Iniciar timer">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
-        <button class="btn-controle" id="btn-pular" title="Pular" type="button">
+        <button class="btn-controle" id="btn-pular" title="Pular" type="button" aria-label="Pular para próximo modo">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
         </button>
       </div>
       <!-- Contador de pomodoros -->
-      <div class="pomodoros-contador">
+      <div style="font-size:13px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;">
         <span>Sessões hoje:</span>
-        <span id="pomodoros-hoje" class="pomodoros-num">0</span>
-        <span id="pomodoros-icones" class="pomodoros-icones">○○○○</span>
+        <span id="pomodoros-hoje" style="font-weight:800;color:var(--accent);font-family:var(--font-display);">0</span>
+        <span id="pomodoros-icones" style="letter-spacing:2px;">○○○○</span>
       </div>
     </div>
     <!-- PAINEL LATERAL -->
@@ -283,54 +145,14 @@
     </div>
   </div>
 </main>
-<div class="toast" id="toast">
+</header>
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
   <span id="toast-msg"></span>
 </div>
+<script src="shared.js"></script>
 <script>
-// ── TEMA ──────────────────────────────────────────────────────
-const inputTema = document.getElementById('toggle-tema');
-const labelTema = document.getElementById('label-tema');
-const iconeTema = document.getElementById('icone-tema');
-const htmlEl    = document.documentElement;
-if (localStorage.getItem('sf-tema') === 'light') {
-  inputTema.checked = true; htmlEl.setAttribute('data-tema','light');
-  labelTema.textContent = 'Light'; iconeTema.textContent = '☀️';
-}
-inputTema.addEventListener('change', () => {
-  const l = inputTema.checked;
-  htmlEl.setAttribute('data-tema', l ? 'light' : 'dark');
-  labelTema.textContent = l ? 'Light' : 'Dark';
-  iconeTema.textContent = l ? '☀️' : '🌙';
-  localStorage.setItem('sf-tema', l ? 'light' : 'dark');
-});
-// ── NAV ───────────────────────────────────────────────────────
-const nav = document.getElementById('nav-principal');
-window.addEventListener('scroll', () => nav.classList.toggle('rolado', window.scrollY > 20), { passive: true });
-const navToggle = document.getElementById('nav-toggle');
-const navLinks  = document.getElementById('nav-links');
-navToggle.addEventListener('click', () => {
-  const ab = navToggle.classList.toggle('aberto');
-  navLinks.classList.toggle('aberto');
-  navToggle.setAttribute('aria-expanded', ab);
-});
-// ── TOAST ─────────────────────────────────────────────────────
-function toast(msg) {
-  document.getElementById('toast-msg').textContent = msg;
-  const t = document.getElementById('toast');
-  t.classList.add('visivel');
-  setTimeout(() => t.classList.remove('visivel'), 2500);
-}
-function notificar(msg) {
-  document.getElementById('notif-msg').textContent = msg;
-  const n = document.getElementById('notif');
-  n.classList.add('visivel');
-  setTimeout(() => n.classList.remove('visivel'), 4000);
-  // API de notificação do browser
-  if (Notification.permission === 'granted') {
-    new Notification('StudyFlow 🍅', { body: msg });
-  }
-}
 // ── MODOS DO TIMER ─────────────────────────────────────────────
 const MODOS = {
   'pomodoro':    { label: '🍅 Foco',       min: 25 },
@@ -413,7 +235,7 @@ function renderTarefasSeletor() {
   if (do_dia.length === 0) {
     seletor.innerHTML = `<div class="estado-vazio">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      <p>Nenhuma tarefa pendente hoje.<br><a href="cronograma.html" class="link-acento">Adicionar no Cronograma →</a></p></div>`;
+      <p>Nenhuma tarefa pendente hoje.<br><a href="cronograma.html" style="color:var(--accent);">Adicionar no Cronograma →</a></p></div>`;
     return;
   }
   seletor.innerHTML = do_dia.map(t => `
@@ -433,24 +255,32 @@ function renderTarefasSeletor() {
     });
   });
 }
+// ── NOTIFICAÇÃO ──────────────────────────────────────────────
+function notificar(msg) {
+  document.getElementById('notif-msg').textContent = msg;
+  const n = document.getElementById('notif');
+  n.classList.add('visivel');
+  setTimeout(() => n.classList.remove('visivel'), 4000);
+  if (Notification.permission === 'granted') {
+    new Notification('StudyFlow 🍅', { body: msg });
+  }
+}
 // ── CONTROLE DO TIMER ──────────────────────────────────────────
 function iniciar() {
   rodando = true;
-  document.getElementById('icone-play').outerHTML = `<rect id="icone-play" x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`;
+  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
   intervalo = setInterval(() => {
     segundosRestantes--;
     renderDisplay();
     renderAnel();
     if (segundosRestantes <= 0) concluirSessao();
   }, 1000);
-  // Pede permissão de notificação
   if (Notification.permission === 'default') Notification.requestPermission();
 }
 function pausar() {
   rodando = false;
   clearInterval(intervalo);
-  document.getElementById('btn-play').querySelector('rect,polygon,svg')?.remove();
-  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
 }
 function concluirSessao() {
   clearInterval(intervalo);
@@ -460,7 +290,6 @@ function concluirSessao() {
     minutosHoje += MODOS[modoAtual].min;
     localStorage.setItem('sf-pomodoros-hoje', pomodorosHoje);
     localStorage.setItem('sf-minutos-hoje', minutosHoje);
-    // Registra no histórico
     const hora = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
     const tarefa = (() => {
       try {
@@ -475,15 +304,13 @@ function concluirSessao() {
     toast('🎉 +' + MODOS[modoAtual].min + ' minutos de foco!');
     renderStats();
     renderHistorico();
-    // Sugere pausa automaticamente
     const modo = pomodorosHoje % 4 === 0 ? 'pausa-longa' : 'pausa-curta';
     setTimeout(() => trocarModo(modo), 800);
   } else {
     notificar('☕ Pausa concluída! Vamos focar.');
     setTimeout(() => trocarModo('pomodoro'), 800);
   }
-  // Reset botão play
-  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
 }
 function trocarModo(modo) {
   modoAtual = modo;
@@ -492,7 +319,7 @@ function trocarModo(modo) {
   rodando = false;
   clearInterval(intervalo);
   document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('ativo', b.dataset.modo === modo));
-  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
   renderDisplay();
   renderAnel();
 }
@@ -504,7 +331,7 @@ document.getElementById('btn-reiniciar').addEventListener('click', () => {
   clearInterval(intervalo); rodando = false;
   segundosRestantes = totalSegundos;
   renderDisplay(); renderAnel();
-  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icone-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+  document.getElementById('btn-play').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
 });
 document.getElementById('btn-pular').addEventListener('click', () => {
   clearInterval(intervalo); concluirSessao();
