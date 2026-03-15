@@ -543,3 +543,20 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
   .modal { max-width: 95vw; padding: var(--s3); }
   .toast { right: var(--s2); left: var(--s2); bottom: var(--s2); }
 }
+
+/* ── Logo PNG — mascote pixel art ──────────────────────────── */
+.cat-mascot {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), filter 0.3s ease;
+  image-rendering: pixelated; /* preserva o pixel art nítido */
+}
+.nav__logo:hover .cat-mascot {
+  transform: rotate(-8deg) scale(1.1);
+}
+/* Em light mode o fundo escuro do logo fica como badge azul — ok por design */
+[data-tema="light"] .cat-mascot {
+  box-shadow: 0 0 0 2px rgba(0,82,204,0.25);
+}
