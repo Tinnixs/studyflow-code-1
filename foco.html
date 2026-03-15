@@ -365,15 +365,15 @@ function notificar(msg) {
   setTimeout(() => n.classList.remove('visivel'), 4000);
   // API de notificação do browser
   if (Notification.permission === 'granted') {
-    new Notification('StudyFlow 🍅', { body: msg });
+    new Notification('StudyFlow', { body: msg });
   }
 }
 
 // ── MODOS DO TIMER ─────────────────────────────────────────────
 const MODOS = {
-  'pomodoro':    { label: '🍅 Foco',       min: 25 },
-  'pausa-curta': { label: '☕ Pausa',       min: 5  },
-  'pausa-longa': { label: '🛋️ Pausa longa', min: 15 },
+  'pomodoro':    { label: 'Foco',       min: 25 },
+  'pausa-curta': { label: 'Pausa',       min: 5  },
+  'pausa-longa': { label: 'Pausa longa', min: 15 },
 };
 let modoAtual = 'pomodoro';
 
@@ -524,7 +524,7 @@ function concluirSessao() {
     historico.push({ modo: modoAtual, minutos: MODOS[modoAtual].min, hora, tarefa });
     localStorage.setItem('sf-historico', JSON.stringify(historico));
 
-    notificar('🍅 Pomodoro concluído! Hora da pausa.');
+    notificar('Pomodoro concluído! Hora da pausa.');
     toast('🎉 +' + MODOS[modoAtual].min + ' minutos de foco!');
     renderStats();
     renderHistorico();
