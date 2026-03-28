@@ -209,74 +209,83 @@
 </head>
 <body>
 
-  <!-- LOADING SCREEN -->
+  <!-- LOADING SCREEN - Gato Dormindo na Parede -->
 <div class="loading-screen" id="loading-screen">
   <div class="loading-container">
     
-    <!-- Gato Dormindo -->
-    <div class="cat-loader">
-      <svg class="cat-svg" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Corpo do gato -->
-        <ellipse cx="100" cy="70" rx="60" ry="25" fill="var(--accent)"/>
-        
-        <!-- Cabeca -->
-        <circle cx="45" cy="55" r="25" fill="var(--accent)"/>
-        
-        <!-- Orelhas -->
-        <path d="M25 35 L30 55 L40 45 Z" fill="var(--accent)"/>
-        <path d="M55 35 L60 55 L50 45 Z" fill="var(--accent)"/>
-        <path d="M28 38 L32 52 L38 45 Z" fill="var(--accent-light)"/>
-        <path d="M52 38 L58 52 L48 45 Z" fill="var(--accent-light)"/>
-        
-        <!-- Olhos fechados (dormindo) -->
-        <path d="M35 52 Q40 55 45 52" stroke="var(--bg-base)" stroke-width="2" stroke-linecap="round" fill="none"/>
-        <path d="M48 52 Q53 55 58 52" stroke="var(--bg-base)" stroke-width="2" stroke-linecap="round" fill="none"/>
-        
-        <!-- Nariz -->
-        <ellipse cx="45" cy="60" rx="3" ry="2" fill="var(--accent-light)"/>
-        
-        <!-- Bigodes -->
-        <line x1="20" y1="58" x2="35" y2="60" stroke="var(--bg-base)" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="20" y1="63" x2="35" y2="63" stroke="var(--bg-base)" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="55" y1="60" x2="70" y2="58" stroke="var(--bg-base)" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="55" y1="63" x2="70" y2="63" stroke="var(--bg-base)" stroke-width="1.5" stroke-linecap="round"/>
-        
-        <!-- Patas dianteiras -->
-        <ellipse cx="70" cy="85" rx="10" ry="6" fill="var(--accent)"/>
-        <ellipse cx="90" cy="87" rx="8" ry="5" fill="var(--accent)"/>
-        
-        <!-- Rabo com animacao -->
-        <path class="cat-tail" d="M160 65 Q180 50 175 75 Q170 90 155 80" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" fill="none"/>
-      </svg>
-      
-      <!-- Zzz flutuantes -->
-      <span class="zzz zzz-1">z</span>
-      <span class="zzz zzz-2">z</span>
-      <span class="zzz zzz-3">Z</span>
+    <div class="loader">
+      <div class="wrapper">
+        <div class="catContainer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 733 673"
+            class="catbody"
+          >
+            <path
+              class="cat-fill"
+              d="M111.002 139.5C270.502 -24.5001 471.503 2.4997 621.002 139.5C770.501 276.5 768.504 627.5 621.002 649.5C473.5 671.5 246 687.5 111.002 649.5C-23.9964 611.5 -48.4982 303.5 111.002 139.5Z"
+            ></path>
+            <path class="cat-fill" d="M184 9L270.603 159H97.3975L184 9Z"></path>
+            <path class="cat-fill" d="M541 0L627.603 150H454.397L541 0Z"></path>
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 158 564"
+            class="tail"
+          >
+            <path
+              class="tail-fill"
+              d="M5.97602 76.066C-11.1099 41.6747 12.9018 0 51.3036 0V0C71.5336 0 89.8636 12.2558 97.2565 31.0866C173.697 225.792 180.478 345.852 97.0691 536.666C89.7636 553.378 73.0672 564 54.8273 564V564C16.9427 564 -5.4224 521.149 13.0712 488.085C90.2225 350.15 87.9612 241.089 5.97602 76.066Z"
+            ></path>
+          </svg>
+          <div class="text">
+            <span class="bigzzz">Z</span>
+            <span class="zzz">Z</span>
+          </div>
+        </div>
+        <div class="wallContainer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 500 126"
+            class="wall"
+          >
+            <line stroke-width="6" class="wall-stroke" y2="3" x2="450" y1="3" x1="50"></line>
+            <line stroke-width="6" class="wall-stroke" y2="85" x2="400" y1="85" x1="100"></line>
+            <line stroke-width="6" class="wall-stroke" y2="122" x2="375" y1="122" x1="125"></line>
+            <line stroke-width="6" class="wall-stroke" y2="43" x2="500" y1="43"></line>
+            <line stroke-width="6" class="wall-stroke" y2="1.99391" x2="115.5" y1="43.0061" x1="115.5"></line>
+            <line stroke-width="6" class="wall-stroke" y2="2.00002" x2="189" y1="43.0122" x1="189"></line>
+            <line stroke-width="6" class="wall-stroke" y2="2.00612" x2="262.5" y1="43.0183" x1="262.5"></line>
+            <line stroke-width="6" class="wall-stroke" y2="2.01222" x2="336" y1="43.0244" x1="336"></line>
+            <line stroke-width="6" class="wall-stroke" y2="2.01833" x2="409.5" y1="43.0305" x1="409.5"></line>
+            <line stroke-width="6" class="wall-stroke" y2="43" x2="153" y1="84.0122" x1="153"></line>
+            <line stroke-width="6" class="wall-stroke" y2="43" x2="228" y1="84.0122" x1="228"></line>
+            <line stroke-width="6" class="wall-stroke" y2="43" x2="303" y1="84.0122" x1="303"></line>
+            <line stroke-width="6" class="wall-stroke" y2="43" x2="378" y1="84.0122" x1="378"></line>
+            <line stroke-width="6" class="wall-stroke" y2="84" x2="192" y1="125.012" x1="192"></line>
+            <line stroke-width="6" class="wall-stroke" y2="84" x2="267" y1="125.012" x1="267"></line>
+            <line stroke-width="6" class="wall-stroke" y2="84" x2="342" y1="125.012" x1="342"></line>
+          </svg>
+        </div>
+      </div>
     </div>
     
-    <!-- Texto -->
     <div class="loading-text">
       <h2 class="loading-title">Preparando seus estudos...</h2>
       <p class="loading-subtitle">O gatinho esta descansando enquanto carrega</p>
     </div>
     
-    <!-- Barra de progresso -->
     <div class="loading-progress">
       <div class="loading-progress-bar"></div>
-    </div>
-    
-    <!-- Dots -->
-    <div class="loading-dots">
-      <span class="loading-dot"></span>
-      <span class="loading-dot"></span>
-      <span class="loading-dot"></span>
     </div>
     
   </div>
 </div>
 <!-- FIM LOADING SCREEN -->
- 
+
 <header role="banner">
 <nav class="nav" id="nav-principal" aria-label="Menu Principal">
   <div class="nav__inner">
