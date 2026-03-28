@@ -784,6 +784,28 @@ document.getElementById('modal-tarefa-salvar').addEventListener('click', () => {
   fecharModalTarefa();
   toast('Tarefa adicionada! 📅');
 });
+
+// Loading screen — aparece só na primeira visita da sessão
+(function() {
+  const loading = document.getElementById('loading-screen');
+  if (!loading) return;
+
+  if (sessionStorage.getItem('sf-loaded')) {
+    // Já visitou antes → esconde na hora
+    loading.style.display = 'none';
+    return;
+  }
+
+  // Primeira visita → mostra normalmente
+  sessionStorage.setItem('sf-loaded', 'true');
+  window.addEventListener('load', () => {
+    setTimeout(() => loading.classList.add('hidden'), 1500);
+  });
+  setTimeout(() => {
+    if (!loading.classList.contains('hidden')) loading.classList.add('hidden');
+  }, 5000);
+})();
+
 </script>
 </body>
 </html>
