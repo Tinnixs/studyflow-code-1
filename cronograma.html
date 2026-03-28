@@ -217,12 +217,12 @@
   transition: color 0.3s ease;
 }
 
-/* Linha de tachado animada */
+/* Linha de tachado animada — começa invisível */
 .tarefa-pendente__label::before {
   content: "";
   position: absolute;
   height: 2px;
-  width: 8px;
+  width: 0;
   left: -2px;
   background: var(--accent);
   border-radius: 2px;
