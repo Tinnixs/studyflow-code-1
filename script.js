@@ -237,36 +237,57 @@ cards.forEach((card) => {
 
 
 // ============================================================
-// 9. LOADING SCREEN — Esconde quando a pagina carregar
+// 9. LOADING SCREEN — Aparece só na primeira visita da sessão
 // ============================================================
-// CONCEITO: window.addEventListener('load', callback)
+// PROBLEMA: a loading screen estava aparecendo em TODA navegação
+// entre páginas, deixando o usuário "preso" nela.
 //
-// O evento 'load' dispara quando TUDO carregou (HTML, CSS, imagens).
-// setTimeout() adiciona um delay minimo para que o usuario veja
-// a animacao do gatinho dormindo (UX).
+// SOLUÇÃO: sessionStorage
+// sessionStorage funciona igual ao localStorage, MAS os dados
+// somem quando o usuário fecha a aba/browser.
+// Usamos isso para saber se é a primeira visita da sessão.
 //
-// classList.add('hidden') — adiciona a classe que esconde o loading
-// O CSS cuida da animacao de fade-out (opacity + visibility)
+// Diferença entre localStorage e sessionStorage:
+//   localStorage   → persiste para sempre (até limpar)
+//   sessionStorage → dura só enquanto a aba estiver aberta
+//
+// FLUXO CORRETO:
+//   1ª visita  → sessionStorage vazio → mostra loading
+//   2ª visita+ → sessionStorage tem 'sf-loaded' → esconde na hora
 // ============================================================
 
-function hideLoadingScreen() {
+function iniciarLoadingScreen() {
   const loadingScreen = document.getElementById('loading-screen');
-  if (loadingScreen) {
-    // Tempo minimo de exibicao: 1.5 segundos (UX)
-    setTimeout(function() {
-      loadingScreen.classList.add('hidden');
-    }, 1500);
+  if (!loadingScreen) return; // página não tem loading screen
+
+  // Verifica se o usuário já visitou nessa sessão
+  const jaCarregou = sessionStorage.getItem('sf-loaded');
+
+  if (jaCarregou) {
+    // Não é a primeira visita da sessão → esconde imediatamente
+    // sem animação, sem delay
+    loadingScreen.style.display = 'none';
+    return;
   }
+
+  // É a primeira visita → mostra normalmente
+  // Registra no sessionStorage que já carregou
+  sessionStorage.setItem('sf-loaded', 'true');
+
+  // Esconde após a página carregar completamente
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      loadingScreen.classList.add('hidden');
+    }, 1500); // tempo mínimo para ver a animação do gatinho
+  });
+
+  // Segurança: esconde após 5s mesmo se algo falhar no load
+  setTimeout(() => {
+    if (!loadingScreen.classList.contains('hidden')) {
+      loadingScreen.classList.add('hidden');
+    }
+  }, 5000);
 }
 
-// Executa quando a pagina terminar de carregar completamente
-window.addEventListener('load', hideLoadingScreen);
-
-// Fallback de seguranca: esconde apos 5 segundos mesmo se algo falhar
-// Evita que o usuario fique preso na tela de loading
-setTimeout(function() {
-  const loadingScreen = document.getElementById('loading-screen');
-  if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
-    loadingScreen.classList.add('hidden');
-  }
-}, 5000);
+// Executa imediatamente quando o script carrega
+iniciarLoadingScreen();
