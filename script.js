@@ -235,24 +235,35 @@ cards.forEach((card) => {
   });
 });
 
-// ================================================================
-// LOADING SCREEN - Esconde quando a pagina carregar
-// ================================================================
+
+// ============================================================
+// 9. LOADING SCREEN — Esconde quando a pagina carregar
+// ============================================================
+// CONCEITO: window.addEventListener('load', callback)
+//
+// O evento 'load' dispara quando TUDO carregou (HTML, CSS, imagens).
+// setTimeout() adiciona um delay minimo para que o usuario veja
+// a animacao do gatinho dormindo (UX).
+//
+// classList.add('hidden') — adiciona a classe que esconde o loading
+// O CSS cuida da animacao de fade-out (opacity + visibility)
+// ============================================================
 
 function hideLoadingScreen() {
   const loadingScreen = document.getElementById('loading-screen');
   if (loadingScreen) {
-    // Tempo minimo de exibicao: 1.5 segundos
+    // Tempo minimo de exibicao: 1.5 segundos (UX)
     setTimeout(function() {
       loadingScreen.classList.add('hidden');
     }, 1500);
   }
 }
 
-// Executa quando a pagina terminar de carregar
+// Executa quando a pagina terminar de carregar completamente
 window.addEventListener('load', hideLoadingScreen);
 
-// Fallback: esconde apos 5 segundos mesmo se algo falhar
+// Fallback de seguranca: esconde apos 5 segundos mesmo se algo falhar
+// Evita que o usuario fique preso na tela de loading
 setTimeout(function() {
   const loadingScreen = document.getElementById('loading-screen');
   if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
