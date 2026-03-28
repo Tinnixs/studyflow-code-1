@@ -293,7 +293,7 @@ footer a:hover { text-decoration: underline; }
   color: var(--accent-light); font-size: 12px; font-weight: 600;
   letter-spacing: .06em; text-transform: uppercase;
   padding: 5px 14px; border-radius: 99px; margin-bottom: var(--s3);
-  animation: fadeUp 0.6s ease both;
+  
 }
 .hero__badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulso 2s infinite; }
 @keyframes pulso { 0%,100% { transform:scale(1); opacity:1; } 50% { transform:scale(1.5); opacity:.6; } }
@@ -303,7 +303,7 @@ footer a:hover { text-decoration: underline; }
   font-family: var(--font-display);
   font-size: clamp(38px, 4.8vw, 68px);
   font-weight: 800; line-height: 1.07; letter-spacing: -2px;
-  margin-bottom: var(--s3); animation: fadeUp 0.6s 0.1s ease both;
+  margin-bottom: var(--s3); 
 }
 .hero__titulo-gradiente {
   background: linear-gradient(135deg, #3385FF 0%, #0066FF 50%, #99C2FF 100%);
@@ -312,11 +312,11 @@ footer a:hover { text-decoration: underline; }
 .hero__subtitulo {
   font-size: clamp(15px, 1.5vw, 18px); font-weight: 400;
   color: var(--text-secondary); line-height: 1.75; max-width: 46ch;
-  margin-bottom: var(--s4); animation: fadeUp 0.6s 0.2s ease both;
+  margin-bottom: var(--s4); 
 }
 
 /* L10 — CTAs */
-.hero__ctas { display: flex; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s4); animation: fadeUp 0.6s 0.3s ease both; }
+.hero__ctas { display: flex; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s4);  }
 .btn-primario {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 14px 28px; background: var(--accent); color: #fff;
@@ -344,7 +344,7 @@ footer a:hover { text-decoration: underline; }
 }
 
 /* Social proof com avatares SVG */
-.hero__social-proof { display: flex; align-items: center; gap: var(--s2); animation: fadeUp 0.6s 0.4s ease both; }
+.hero__social-proof { display: flex; align-items: center; gap: var(--s2);  }
 .hero__avatares { display: flex; }
 .hero__avatar {
   width: 34px; height: 34px; border-radius: 50%;
@@ -358,7 +358,7 @@ footer a:hover { text-decoration: underline; }
 .hero__social-texto strong { color: var(--text-primary); font-weight: 600; }
 
 /* L11 — Card app */
-.hero__visual { position: relative; animation: fadeUp 0.7s 0.15s ease both; }
+.hero__visual { position: relative;  }
 .hero__deco { position: absolute; border-radius: 50%; filter: blur(50px); pointer-events: none; }
 .hero__deco--1 { width: 220px; height: 220px; background: rgba(0,102,255,.10); top: -60px; right: -40px; }
 .hero__deco--2 { width: 140px; height: 140px; background: rgba(51,133,255,.08); bottom: -40px; left: -30px; }
@@ -425,9 +425,9 @@ footer a:hover { text-decoration: underline; }
   display: flex; flex-direction: column;
   transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, background 0.4s ease, opacity 0.5s ease;
   cursor: default;
-  opacity: 0; transform: translateY(24px);
+  opacity: 1; transform: translateY(0);
 }
-.feature-card.visivel { opacity: 1; transform: translateY(0); }
+.feature-card.visivel { opacity: 1; transform: translateY(0); } /* fallback */
 .feature-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: var(--shadow-card); }
 .feature-card__icone {
   width: 48px; height: 48px; background: var(--accent-glow); border-radius: var(--r-md);
