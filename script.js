@@ -234,3 +234,28 @@ cards.forEach((card) => {
     }
   });
 });
+
+// ================================================================
+// LOADING SCREEN - Esconde quando a pagina carregar
+// ================================================================
+
+function hideLoadingScreen() {
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    // Tempo minimo de exibicao: 1.5 segundos
+    setTimeout(function() {
+      loadingScreen.classList.add('hidden');
+    }, 1500);
+  }
+}
+
+// Executa quando a pagina terminar de carregar
+window.addEventListener('load', hideLoadingScreen);
+
+// Fallback: esconde apos 5 segundos mesmo se algo falhar
+setTimeout(function() {
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+    loadingScreen.classList.add('hidden');
+  }
+}, 5000);
