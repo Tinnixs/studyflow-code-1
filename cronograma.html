@@ -209,6 +209,74 @@
 </head>
 <body>
 
+  <!-- LOADING SCREEN -->
+<div class="loading-screen" id="loading-screen">
+  <div class="loading-container">
+    
+    <!-- Gato Dormindo -->
+    <div class="cat-loader">
+      <svg class="cat-svg" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Corpo do gato -->
+        <ellipse cx="100" cy="70" rx="60" ry="25" fill="var(--accent)"/>
+        
+        <!-- Cabeca -->
+        <circle cx="45" cy="55" r="25" fill="var(--accent)"/>
+        
+        <!-- Orelhas -->
+        <path d="M25 35 L30 55 L40 45 Z" fill="var(--accent)"/>
+        <path d="M55 35 L60 55 L50 45 Z" fill="var(--accent)"/>
+        <path d="M28 38 L32 52 L38 45 Z" fill="var(--accent-light)"/>
+        <path d="M52 38 L58 52 L48 45 Z" fill="var(--accent-light)"/>
+        
+        <!-- Olhos fechados (dormindo) -->
+        <path d="M35 52 Q40 55 45 52" stroke="var(--bg-base)" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M48 52 Q53 55 58 52" stroke="var(--bg-base)" stroke-width="2" stroke-linecap="round" fill="none"/>
+        
+        <!-- Nariz -->
+        <ellipse cx="45" cy="60" rx="3" ry="2" fill="var(--accent-light)"/>
+        
+        <!-- Bigodes -->
+        <line x1="20" y1="58" x2="35" y2="60" stroke="var(--bg-base)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="20" y1="63" x2="35" y2="63" stroke="var(--bg-base)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="55" y1="60" x2="70" y2="58" stroke="var(--bg-base)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="55" y1="63" x2="70" y2="63" stroke="var(--bg-base)" stroke-width="1.5" stroke-linecap="round"/>
+        
+        <!-- Patas dianteiras -->
+        <ellipse cx="70" cy="85" rx="10" ry="6" fill="var(--accent)"/>
+        <ellipse cx="90" cy="87" rx="8" ry="5" fill="var(--accent)"/>
+        
+        <!-- Rabo com animacao -->
+        <path class="cat-tail" d="M160 65 Q180 50 175 75 Q170 90 155 80" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" fill="none"/>
+      </svg>
+      
+      <!-- Zzz flutuantes -->
+      <span class="zzz zzz-1">z</span>
+      <span class="zzz zzz-2">z</span>
+      <span class="zzz zzz-3">Z</span>
+    </div>
+    
+    <!-- Texto -->
+    <div class="loading-text">
+      <h2 class="loading-title">Preparando seus estudos...</h2>
+      <p class="loading-subtitle">O gatinho esta descansando enquanto carrega</p>
+    </div>
+    
+    <!-- Barra de progresso -->
+    <div class="loading-progress">
+      <div class="loading-progress-bar"></div>
+    </div>
+    
+    <!-- Dots -->
+    <div class="loading-dots">
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+    </div>
+    
+  </div>
+</div>
+<!-- FIM LOADING SCREEN -->
+ 
 <header role="banner">
 <nav class="nav" id="nav-principal" aria-label="Menu Principal">
   <div class="nav__inner">
