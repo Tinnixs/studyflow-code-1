@@ -660,7 +660,7 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 }
 
 /* ================================================================
-   LOADING SCREEN - Gato Dormindo
+   LOADING SCREEN - Gato Dormindo na Parede
    ================================================================ */
 
 .loading-screen {
@@ -688,63 +688,118 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
   gap: 32px;
 }
 
-.cat-loader {
-  position: relative;
-  width: 200px;
-  height: 120px;
+/* Loader Container */
+.loader {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cat-svg {
+.wrapper {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.catContainer {
   width: 100%;
-  height: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-/* Animacao do rabo */
-.cat-tail {
-  transform-origin: 85% 75%;
+.catbody {
+  width: 80px;
+}
+
+/* Cores do gato - Dark Mode (padrao) */
+.cat-fill {
+  fill: var(--accent);
+}
+
+.tail-fill {
+  fill: var(--accent-dark, #0052CC);
+}
+
+/* Cores da parede */
+.wall-stroke {
+  stroke: var(--border);
+}
+
+.wall {
+  width: 300px;
+}
+
+/* Rabo animado */
+.tail {
+  position: absolute;
+  width: 17px;
+  top: 50%;
   animation: tail 0.5s ease-in infinite alternate-reverse;
+  transform-origin: top;
 }
 
 @keyframes tail {
-  0% { transform: rotateZ(10deg); }
-  50% { transform: rotateZ(0deg); }
-  100% { transform: rotateZ(-10deg); }
+  0% {
+    transform: rotateZ(60deg);
+  }
+  50% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(-20deg);
+  }
 }
 
-/* Animacao dos Zzz */
-.zzz {
+/* Texto Zzz */
+.text {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
   position: absolute;
+  margin: 0px 0px 100px 120px;
+}
+
+.zzz {
+  color: var(--text-primary);
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--accent);
+  font-size: 15px;
   animation: zzz 2s linear infinite;
 }
 
-.zzz-1 {
-  top: 5px;
-  right: 30px;
-  font-size: 14px;
-  animation-delay: 0s;
-}
-
-.zzz-2 {
-  top: -10px;
-  right: 15px;
-  font-size: 18px;
-  animation-delay: 0.3s;
-}
-
-.zzz-3 {
-  top: -25px;
-  right: 0px;
-  font-size: 22px;
-  animation-delay: 0.6s;
+.bigzzz {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 25px;
+  margin-left: 10px;
+  animation: zzz 2.3s linear infinite;
 }
 
 @keyframes zzz {
-  0% { opacity: 0; transform: translateY(10px) scale(0.8); }
-  50% { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 0; transform: translateY(-10px) scale(1.1); }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Wall Container */
+.wallContainer {
+  display: flex;
+  justify-content: center;
 }
 
 /* Texto de loading */
@@ -788,26 +843,23 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
   100% { width: 0%; margin-left: 100%; }
 }
 
-/* Dots animados */
-.loading-dots {
-  display: flex;
-  gap: 6px;
-  margin-top: 16px;
+/* ================================================================
+   LIGHT MODE - Ajustes de cores
+   ================================================================ */
+
+[data-tema="light"] .cat-fill {
+  fill: var(--accent);
 }
 
-.loading-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  animation: dot-bounce 1.4s ease-in-out infinite;
+[data-tema="light"] .tail-fill {
+  fill: var(--accent-dark, #0052CC);
 }
 
-.loading-dot:nth-child(1) { animation-delay: 0s; }
-.loading-dot:nth-child(2) { animation-delay: 0.2s; }
-.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+[data-tema="light"] .wall-stroke {
+  stroke: var(--border);
+}
 
-@keyframes dot-bounce {
-  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
-  40% { transform: scale(1); opacity: 1; }
+[data-tema="light"] .zzz,
+[data-tema="light"] .bigzzz {
+  color: var(--text-primary);
 }
