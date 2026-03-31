@@ -274,19 +274,27 @@ function iniciarLoadingScreen() {
   // Registra no sessionStorage que já carregou
   sessionStorage.setItem('sf-loaded', 'true');
 
-  // Esconde após a página carregar completamente
-  window.addEventListener('load', () => {
+  // Esconde após a página carregar — funciona mesmo se load já disparou
+  function esconderLoading() {
     setTimeout(() => {
       loadingScreen.classList.add('hidden');
-    }, 1500); // tempo mínimo para ver a animação do gatinho
-  });
+    }, 1800);
+  }
 
-  // Segurança: esconde após 5s mesmo se algo falhar no load
+  if (document.readyState === 'complete') {
+    // Página já carregou — roda direto
+    esconderLoading();
+  } else {
+    // Ainda carregando — espera o load
+    window.addEventListener('load', esconderLoading);
+  }
+
+  // Segurança: esconde após 6s mesmo se algo falhar
   setTimeout(() => {
     if (!loadingScreen.classList.contains('hidden')) {
       loadingScreen.classList.add('hidden');
     }
-  }, 5000);
+  }, 6000);
 }
 
 // Executa imediatamente quando o script carrega
