@@ -498,26 +498,29 @@
     </div>
 
 
-    <!-- RADAR CHART — Desempenho por Habilidade -->
-<div class="secao">
-  <div class="secao__titulo">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-    </svg>
-    Desempenho por Habilidade
-  </div>
+    <!-- RADAR CHART — Desempenho por Disciplina -->
+    <div class="secao">
+      <div class="secao__titulo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+        Desempenho por Disciplina
+      </div>
 
-  <div class="radar-container">
-    <div class="radar-chart" id="radar-chart">
-      <svg id="radar-svg" viewBox="0 0 400 400" width="100%" height="100%"></svg>
-    </div>
+      <!-- Tabs de período -->
+      <div class="radar-tabs" id="radar-tabs">
+        <button class="radar-tab ativo" data-periodo="semana">Semana</button>
+        <button class="radar-tab" data-periodo="mes">Mês</button>
+        <button class="radar-tab" data-periodo="total">Total</button>
+      </div>
 
-    <!-- Stats Resumo -->
-    <div class="radar-stats" id="radar-stats">
-      <!-- Preenchido via JavaScript -->
+      <div class="radar-wrap" id="radar-wrap">
+        <!-- SVG gerado por JS -->
+        <div class="radar-svg-wrap">
+          <svg class="radar-svg" id="radar-svg" viewBox="0 0 300 300"></svg>
+        </div>
+        <!-- Legenda interativa -->
+        <div class="radar-legenda" id="radar-legenda"></div>
+      </div>
     </div>
-  </div>
-</div>
 
     <!-- SEQUÊNCIA -->
     <div class="secao">
@@ -1107,6 +1110,148 @@ function carregarDadosRadar() {
 }
 
 carregarDadosRadar();
+
+// ================================================================
+// RADAR CHART — Desempenho por Habilidade
+// ================================================================
+
+const radarHabilidades = [
+  { nome: "Foco",         valor: 82 },
+  { nome: "Consistência", valor: 75 },
+  { nome: "Tempo",        valor: 58 },
+  { nome: "Revisão",      valor: 68 },
+  { nome: "Qualidade",    valor: 79 }
+];
+
+function criarRadarSVG() {
+  const svg = document.getElementById('radar-svg');
+  if (!svg) return;
+
+  const cx = 200, cy = 200, raioMax = 145;
+  const n = radarHabilidades.length;
+  const anguloBase = -Math.PI / 2; // começa no topo
+
+  let gridHTML = '';
+  let axesHTML = '';
+  let areaPontos = '';
+  let pontosHTML = '';
+  let labelsHTML = '';
+
+  // Grid concêntrico (5 níveis)
+  for (let i = 5; i >= 1; i--) {
+    const r = (raioMax / 5) * i;
+    let pontos = '';
+    for (let j = 0; j < n; j++) {
+      const ang = anguloBase + (j * 2 * Math.PI) / n;
+      const x = cx + r * Math.cos(ang);
+      const y = cy + r * Math.sin(ang);
+      pontos += `${x.toFixed(1)},${y.toFixed(1)} `;
+    }
+    gridHTML += `<polygon class="radar-grid-line" points="${pontos.trim()}" />`;
+  }
+
+  // Eixos
+  for (let i = 0; i < n; i++) {
+    const ang = anguloBase + (i * 2 * Math.PI) / n;
+    const x = cx + raioMax * Math.cos(ang);
+    const y = cy + raioMax * Math.sin(ang);
+    axesHTML += `<line class="radar-axis" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" />`;
+  }
+
+  // Área de desempenho
+  let pontosArea = [];
+  radarHabilidades.forEach((hab, i) => {
+    const ang = anguloBase + (i * 2 * Math.PI) / n;
+    const raio = (hab.valor / 100) * raioMax;
+    const x = cx + raio * Math.cos(ang);
+    const y = cy + raio * Math.sin(ang);
+    pontosArea.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+
+    // Pontos interativos
+    pontosHTML += `
+      <circle class="radar-point" 
+              cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" 
+              data-nome="${hab.nome}" data-valor="${hab.valor}"/>
+    `;
+
+    // Labels
+    const labelR = raioMax + 32;
+    const lx = cx + labelR * Math.cos(ang);
+    const ly = cy + labelR * Math.sin(ang);
+    labelsHTML += `
+      <text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" 
+            class="radar-label" text-anchor="middle">${hab.nome}</text>
+    `;
+  });
+
+  const areaStr = pontosArea.join(' ');
+
+  const gradient = `
+    <defs>
+      <linearGradient id="radar-gradient" x1="0%" y1="30%" x2="100%" y2="80%">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.75"/>
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.25"/>
+      </linearGradient>
+    </defs>`;
+
+  svg.innerHTML = `
+    ${gradient}
+    ${gridHTML}
+    ${axesHTML}
+    <polygon class="radar-area" points="${areaStr}"/>
+    <polygon class="radar-line" points="${areaStr}"/>
+    ${pontosHTML}
+    ${labelsHTML}
+  `;
+
+  // Atualiza stats
+  atualizarRadarStats();
+}
+
+function atualizarRadarStats() {
+  const container = document.getElementById('radar-stats');
+  if (!container) return;
+
+  const valores = radarHabilidades.map(h => h.valor);
+  const media = Math.round(valores.reduce((a, b) => a + b, 0) / valores.length);
+  
+  const melhor = radarHabilidades.reduce((prev, curr) => 
+    prev.valor > curr.valor ? prev : curr
+  );
+
+  const pior = radarHabilidades.reduce((prev, curr) => 
+    prev.valor < curr.valor ? prev : curr
+  );
+
+  container.innerHTML = `
+    <div class="radar-stat">
+      <div class="radar-stat-value">${media}%</div>
+      <div class="radar-stat-label">Média Geral</div>
+    </div>
+    <div class="radar-stat radar-stat--melhor">
+      <div class="radar-stat-value">${melhor.valor}%</div>
+      <div class="radar-stat-label">${melhor.nome}</div>
+    </div>
+    <div class="radar-stat radar-stat--atencao">
+      <div class="radar-stat-value">${pior.valor}%</div>
+      <div class="radar-stat-label">${pior.nome}</div>
+    </div>
+  `;
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  criarRadarSVG();
+
+  // Clique nos pontos (opcional - pode expandir depois)
+  document.getElementById('radar-svg')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('radar-point')) {
+      const nome = e.target.dataset.nome;
+      const valor = e.target.dataset.valor;
+      mostrarToast(`${nome}: ${valor}%`);
+    }
+  });
+});
 
 </script>
 </body>
