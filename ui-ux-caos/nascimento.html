@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyFlow | UI/UX do Caos</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAD+0lEQVR42u2WXWxURRiG32/OtrQ121IK7bZQ2AoVaGk1ULS6qwGtiT8hamKQhq2Y+NMbbjQxerepBJLG+JM0RBp/QkMp9M+YSBRSCA0ELSABsSu0iFEjpa27LLs523b3dM7rTTGkkeJuMF7Y52YyJzNzvnm/d74ZYJb/GCPFeQqAAOC0ftJIEuPU1A/taYHgFt84rU05AJm2iJGWllUJwBZRd4vNIirVIwmViCMSBGDecQVycnJyAdw3Pp7IhdaGBmpAlhF2joikkRgSMX4QwUWl1HBmdu6v1ph1dezlTWE0NcVnWttxm8DylMp4LBoZqyCs5SJSrpSap7XOFxEhCREByRXA5KOG4RhKWIloIjh0Bq7iuFBNEtgKUkPEvpWZ/g4CQFlZWdS21TGP13ulsfHd59PT5qzUWhe4XC5Z4nbbJSUl9hK323aXuLXL5YLWk0XpjjkrGnfs2HzvA9UjLF3xiwAWOjtTMihIylSbH/ojPLFn3z7tzHbqpaXL6PF6WFVVxTVrq+jxeri0dCmdTqdubdmvnetmpHs0vBrb3q9TANDRYSSbgumpyN7b2mV8f6ZfNTd/zNfq62GaMWQ7nQCJ300TsVgMH+1qlqOHTsp4MGp9+3j1OhTkvbTK5/v8/MaNMYACCJMN4EY6JguyspC1aaF20wsoX1SMqyPD+GR/O0ji1dpNKCx0obL6IXz3VR9cc52SEbcSCEYumKsedgCtqZ0CP6kaROyuQKDUovpxvnuxw2EInRmZkg6gYmrcWQAWgHGdoG1Thgd+2k5zYuWGB1dfIqnkFga8rQINAEmKtLfvrK2+33F8+4c6FIkak6MhWOWleKfeB1KjoXk/skeCiJimzJ03Tz/x5ivGvv5AE8kn5TaFSM2oQG+vISLc4io+NDAURP71CBbm5WF51wFk9AVwKhzC6SujcP02gpJlJXB/0Yu79h7EQNTElsKiHhGhv7c3tXLv9/sVSdXT800FI2bbM5cGbDzt0wsWeVk0t4ry9nYeOB/gl+cCxFvbmO32cvH8NURNrX5q8KLNaKztyJGT5SSV3+9XSXvgxhHs7Px6vmdt5c6gM/O5F/e0wx4OywRtVVf3rIx+0AIAWPDGFrTt7qbDkUblyrVbNm/EwvFE90lzA1s3bFgXAgARYaoqGH19Z9dHRoKHaWmSpD0R56nDx6zPmlusT3e1WCcOHrH0RJwkSUvTDIYO9/WdXU/SmGn3SfFeR0dmYPCyL3QtfGoiHh/jNOLxROxaOHz64uBl3+sdHZl3+jq+mbSjR08sX7XyHg8MEFCAtuVC/+Xjj9RU/wQg8W89XoSk8Q/Kt5HMxpJWgKCAfz1QbsYGwJTMNssss8zyv+ZPtmf36FSgGX0AAAAASUVORK5CYII=" alt="" class="cat-mascot" aria-hidden="true" loading="eager">
+          StudyFlow
+        </a>
+        <ul class="nav__links" id="nav-links" role="list">
+          <li><a href="#">Início</a></li>
+          <li><a href="#">Perfil</a></li>
+          <li><a href="#">Cronograma</a></li>
+          <li><a href="#">Modo Foco</a></li>
+        </ul>
+        <div class="nav__actions">
+          <div class="toggle-tema" title="Alternar tema">
+            <input type="checkbox" id="toggle-tema" class="toggle-tema__input" role="switch" aria-label="Alternar tema">
+            <label for="toggle-tema" class="toggle-tema__track" aria-hidden="true">
+              <span class="toggle-tema__thumb"><span id="icone-tema">🌙</span></span>
+            </label>
+            <label for="toggle-tema" class="toggle-tema__label" id="label-tema">Dark</label>
+          </div>
+        </div>
+        <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+          <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="nascimento-page" role="main">
+
+    <!-- Card principal da interface caótica -->
+    <div class="nascimento-card">
+
+      <!-- Barra de progresso dos steps -->
+      <div class="steps-wrap">
+        <div class="step-dot ativo" id="dot-1"></div>
+        <div class="step-dot" id="dot-2"></div>
+        <div class="step-dot" id="dot-3"></div>
+        <div class="step-dot" id="dot-4"></div>
+      </div>
+
+      <h1 class="nascimento-titulo">📅 Sua data de nascimento</h1>
+      <p class="nascimento-subtitulo">Um processo simples e rápido. Confie em mim.</p>
+
+      <!-- ══ STEP 1: Dia por Cliques (O inferno dos cliques) ══ -->
+      <div class="step-panel ativo" id="step-1">
+        <div class="step-label">Passo <span>1 de 3</span> — Escolha o Dia</div>
+        <div class="click-area">
+          <div class="click-counter" id="click-counter">01</div>
+          <div class="click-hint">
+            Cada clique avança <strong>1 dia</strong>. Tente chegar ao seu dia de nascimento antes de desistir.
+          </div>
+          <div class="click-target" id="click-target" role="button" tabindex="0" aria-label="Clicar para avançar dia">
+            😈
+          </div>
+          <div class="click-hint" id="click-progress-hint">
+            Clique <strong>1</strong> vez para ir ao dia 1
+          </div>
+        </div>
+        <button class="btn-salvar-data" id="btn-confirmar-dia" style="background:var(--accent)">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          Confirmar dia <span id="dia-escolhido">01</span>
+        </button>
+      </div>
+
+      <!-- ══ STEP 2: Slider Misterioso + Botão Fugitivo (A dança da frustração) ══ -->
+      <div class="step-panel" id="step-2">
+        <div class="step-label">Passo <span>2 de 3</span> — Escolha o Mês</div>
+        <div class="slider-area">
+          <div class="slider-mystery">
+            <label for="slider-mes">Arraste o slider para selecionar o mês</label>
+            <input type="range" class="mystery" id="slider-mes" min="1" max="12" value="1">
+            <div class="slider-val-display borrado" id="slider-val">???</div>
+            <div class="slider-hint">⚠️ O valor só aparece quando você SOLTAR o mouse. Boa sorte!</div>
+          </div>
+          <div class="btn-confirmar-wrap">
+            <button class="btn-confirmar-slider" id="btn-confirmar-mes">
+              Confirmar mês 🏃💨
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ STEP 3: Teclado Sabotador (A roleta russa dos dígitos) ══ -->
+      <div class="step-panel" id="step-3">
+        <div class="step-label">Passo <span>3 de 3</span> — Digite o Ano</div>
+        <div class="keyboard-area">
+          <div class="keyboard-display" id="keyboard-display">
+            <span id="ano-digitado">____</span><span class="cursor"></span>
+          </div>
+          <div class="teclado-hint">
+            ⚠️ As teclas digitam <strong>um dígito aleatório próximo</strong> ao número clicado. A precisão é opcional.
+          </div>
+          <div class="teclado-grid" id="teclado-grid">
+            <!-- Botões gerados por JS -->
+          </div>
+          <button class="btn-cancelar" id="btn-limpar-ano" type="button" style="align-self:flex-end;margin-top:var(--s2)">
+            🗑️ Apagar tudo
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ STEP 4: Resultado e Salvar (A recompensa da persistência) ══ -->
+      <div class="step-panel" id="step-4">
+        <div class="resultado-area">
+          <span class="resultado-confete">🥳</span>
+          <div class="resultado-label">Você sobreviveu! Sua data de nascimento é:</div>
+          <div class="resultado-data" id="resultado-data-display">--/--/----</div>
+          <div class="resultado-label" id="resultado-nome-display"></div>
+        </div>
+        <button class="btn-salvar-data" id="btn-salvar-indexeddb">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Salvar no IndexedDB
+        </button>
+        <div class="salvo-banner" id="salvo-banner">
+          ✅ Data salva com sucesso no banco de dados local! (Por enquanto...)
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Painel educativo de contexto -->
+    <div class="contexto-card">
+      <div class="contexto-titulo">
+        🎓 O que você está praticando nessa página (e sofrendo)
+      </div>
+      <ul class="contexto-lista">
+        <li><strong>Anti-padrões de UX</strong> — cada step viola uma regra básica de usabilidade</li>
+        <li><strong>Event Listeners</strong> — click, mouseover, input, mouseup, keydown para criar o caos</li>
+        <li><strong>Manipulação do DOM</strong> — querySelector, classList, textContent, style, innerHTML</li>
+        <li><strong>IndexedDB</strong> — persistência assíncrona com `db.js` e `controller.js`</li>
+        <li><strong>Lógica JS Avançada</strong> — contadores, aleatoriedade, posicionamento dinâmico, timers</li>
+        <li><strong>Resiliência e Paciência</strong> — habilidades essenciais para qualquer desenvolvedor!</li>
+      </ul>
+    </div>
+
+  </main>
+
+  <!-- Scripts - ordem importa: db.js → controller.js → lógica da página -->
+  <script type="module" src="db.js"></script>
+  <script type="module" src="controller.js"></script>
+  <script type="module">
+    import { irParaStep, setupDiaPorCliques, setupSliderMisterioso, setupTecladoSabotador, mostrarResultado, setupSalvarDados, estado, MESES } from './controller.js';
+
+    // ════════════════════════════════════════════════════════
+    // TEMA + NAV (padrão do StudyFlow)
+    // ════════════════════════════════════════════════════════
+    const htmlEl    = document.documentElement;
+    const inputTema = document.getElementById("toggle-tema");
+    const labelTema = document.getElementById("label-tema");
+    const iconeTema = document.getElementById("icone-tema");
+    const navEl     = document.getElementById("nav-principal");
+    const navToggle = document.getElementById("nav-toggle");
+    const navLinks  = document.getElementById("nav-links");
+
+    // Carrega o tema salvo no localStorage
+    if (localStorage.getItem("sf-tema") === "light") {
+      inputTema.checked = true;
+      htmlEl.setAttribute("data-tema", "light");
+      labelTema.textContent = "Light";
+      iconeTema.textContent = "☀️";
+    }
+
+    // Listener para alternar o tema
+    inputTema?.addEventListener("change", () => {
+      const isLight = inputTema.checked;
+      htmlEl.setAttribute("data-tema", isLight ? "light" : "dark");
+      labelTema.textContent = isLight ? "Light" : "Dark";
+      iconeTema.textContent = isLight ? "☀️" : "🌙";
+      localStorage.setItem("sf-tema", isLight ? "light" : "dark");
+    });
+
+    // Efeito de scroll na navegação
+    window.addEventListener("scroll", () =>
+      navEl?.classList.toggle("rolado", window.scrollY > 20), { passive: true });
+
+    // Toggle do menu mobile
+    navToggle?.addEventListener("click", () => {
+      const isOpen = navToggle.classList.toggle("aberto");
+      navLinks?.classList.toggle("aberto");
+      navToggle.setAttribute("aria-expanded", isOpen);
+    });
+
+    // ════════════════════════════════════════════════════════
+    // INICIALIZAÇÃO DOS STEPS (Chamadas das funções do controller.js)
+    // ════════════════════════════════════════════════════════
+    document.addEventListener("DOMContentLoaded", () => {
+      irParaStep(1); // Começa no primeiro step
+      setupDiaPorCliques();
+      setupSliderMisterioso();
+      setupTecladoSabotador();
+      setupSalvarDados();
+    });
+
+    // Expor funções e estado para debug no console (opcional)
+    window.StudyFlowCaos = { estado, MESES, irParaStep, iniciarBanco, adicionarItem };
+
+  </script>
+
+</body>
+</html>
