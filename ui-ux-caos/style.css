@@ -84,7 +84,7 @@ body {
 }
 
 .nascimento-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -1px;
     left: 40px;
@@ -243,7 +243,6 @@ input[type="range"].mystery {
     width: 100%;
     accent-color: var(--accent);
     margin: var(--s2) 0;
-    /* Anti-padrão: slider com estilo que dificulta a interação */
     -webkit-appearance: none;
     appearance: none;
     height: 10px;
@@ -288,7 +287,7 @@ input[type="range"].mystery::-moz-range-thumb {
 }
 
 .slider-val-display.borrado {
-    filter: blur(10px); /* Aumenta o blur para mais frustração */
+    filter: blur(10px);
 }
 
 .slider-hint {
@@ -300,9 +299,9 @@ input[type="range"].mystery::-moz-range-thumb {
 
 .btn-confirmar-wrap {
     position: relative;
-    height: 80px; /* Aumenta a área para o botão fugir */
+    height: 80px;
     margin-top: var(--s3);
-    border: 1px dashed var(--border-hover); /* Indica a área de fuga */
+    border: 1px dashed var(--border-hover);
     border-radius: var(--r-md);
 }
 
@@ -317,14 +316,14 @@ input[type="range"].mystery::-moz-range-thumb {
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s, left 0.3s, top 0.3s; /* Transição para a fuga */
+    transition: background 0.2s, transform 0.1s, left 0.3s, top 0.3s;
     white-space: nowrap;
     box-shadow: var(--shadow-card);
 }
 
 .btn-confirmar-slider:hover {
     background: var(--accent-hover);
-    transform: scale(1.05); /* Pequeno feedback visual ao tentar pegar */
+    transform: scale(1.05);
 }
 
 /* --- STEP 3: TECLADO MALUCO --- */
@@ -350,7 +349,7 @@ input[type="range"].mystery::-moz-range-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Para o cursor */
+    overflow: hidden;
 }
 
 .keyboard-display .cursor {
@@ -358,7 +357,7 @@ input[type="range"].mystery::-moz-range-thumb {
     width: 4px;
     height: 45px;
     background: var(--accent);
-    animation: blink 0.7s step-end infinite; /* Cursor mais rápido */
+    animation: blink 0.7s step-end infinite;
     margin-left: 6px;
 }
 
@@ -404,7 +403,7 @@ input[type="range"].mystery::-moz-range-thumb {
     background: var(--red-glow);
     border-color: var(--red);
     color: var(--red);
-    grid-column: span 3; /* Ocupa a largura total */
+    grid-column: span 3;
 }
 
 .tecla.apagar:hover {
@@ -480,7 +479,7 @@ input[type="range"].mystery::-moz-range-thumb {
 }
 
 .btn-salvar-data:hover {
-    background: #33cc33; /* Um verde um pouco mais claro */
+    background: #33cc33;
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
@@ -549,11 +548,11 @@ input[type="range"].mystery::-moz-range-thumb {
 }
 
 .contexto-lista li::before {
-    content: '→';
+    content: "→";
     color: var(--accent);
     font-weight: 700;
     flex-shrink: 0;
-    margin-top: -2px; /* Ajuste fino */
+    margin-top: -2px;
 }
 
 /* Step oculto */
@@ -565,7 +564,7 @@ input[type="range"].mystery::-moz-range-thumb {
     display: block;
 }
 
-/* Estilos para o tema (copiados do projeto original para consistência) */
+/* Estilos para o tema */
 .nav {
     position: fixed;
     top: 0;
@@ -673,7 +672,7 @@ input[type="range"].mystery::-moz-range-thumb {
 }
 
 .nav__toggle {
-    display: none; /* Esconde em desktop */
+    display: none;
     background: none;
     border: none;
     cursor: pointer;
@@ -712,7 +711,7 @@ input[type="range"].mystery::-moz-range-thumb {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 68px; /* Altura do nav */
+        top: 68px;
         left: 0;
         width: 100%;
         background: var(--bg-surface);
@@ -730,7 +729,6 @@ input[type="range"].mystery::-moz-range-thumb {
     }
 }
 
-/* Estilos para botões genéricos */
 button {
     font-family: var(--font-body);
     font-weight: 600;
