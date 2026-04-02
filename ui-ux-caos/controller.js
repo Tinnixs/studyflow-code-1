@@ -19,14 +19,17 @@ export const MESES = [
  */
 export function irParaStep(n) {
     document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('ativo'));
-    document.getElementById(`step-${n}`).classList.add('ativo');
+    const panel = document.getElementById(`step-${n}`);
+    if (panel) panel.classList.add('ativo');
 
     // Atualiza os indicadores de progresso (dots)
     for (let i = 1; i <= 4; i++) {
         const dot = document.getElementById(`dot-${i}`);
-        dot.classList.remove('ativo', 'feito');
-        if (i < n) dot.classList.add('feito');
-        if (i === n) dot.classList.add('ativo');
+        if (dot) {
+            dot.classList.remove('ativo', 'feito');
+            if (i < n) dot.classList.add('feito');
+            if (i === n) dot.classList.add('ativo');
+        }
     }
 }
 
@@ -34,7 +37,6 @@ export function irParaStep(n) {
 
 /**
  * STEP 1: Dia por Cliques (Anti-padrão: esforço excessivo)
- * O usuário deve clicar repetidamente para selecionar o dia.
  */
 export function setupDiaPorCliques() {
     const clickCounter = document.getElementById('click-counter');
@@ -42,115 +44,113 @@ export function setupDiaPorCliques() {
     const clickHint = document.getElementById('click-progress-hint');
     const diaEscolhidoDisplay = document.getElementById('dia-escolhido');
     const btnConfirmarDia = document.getElementById('btn-confirmar-dia');
-    let cliques = 0;
+    
+    if (!clickTarget || !btnConfirmarDia) return;
 
-    const EMOJIS = ['😡', '😤', '🤯', '😵‍💫', '🫠', '😩', '😫', '😠', '🤬', '💢']; // Emojis de frustração
+    let cliques = 0;
+    const EMOJIS = ['😡', '😤', '🤯', '😵‍💫', '🫠', '😩', '😫', '😠', '🤬', '💢'];
 
     clickTarget.addEventListener('click', () => {
-        cliques = (cliques % 31) + 1; // Limita a 31 dias
+        cliques = (cliques % 31) + 1;
         estado.dia = cliques;
 
-        // Animação e atualização do contador
-        clickCounter.textContent = String(cliques).padStart(2, '0');
-        clickCounter.classList.add('bounce');
-        setTimeout(() => clickCounter.classList.remove('bounce'), 150);
+        if (clickCounter) {
+            clickCounter.textContent = String(cliques).padStart(2, '0');
+            clickCounter.classList.add('bounce');
+            setTimeout(() => clickCounter.classList.remove('bounce'), 150);
+        }
 
-        // Muda emoji aleatoriamente para aumentar a imprevisibilidade
         clickTarget.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
 
-        // Atualiza a dica de progresso
-        const restante = cliques === 31 ? 0 : 31 - cliques;
-        clickHint.innerHTML = cliques < 31
-            ? `Você clicou <strong>${cliques}</strong> vezes. Faltam <strong>${restante}</strong> cliques para o dia 31.`
-            : `Finalmente! Dia <strong>31</strong>. Se quiser outro dia, continue clicando.`;
+        if (clickHint) {
+            const restante = cliques === 31 ? 0 : 31 - cliques;
+            clickHint.innerHTML = cliques < 31
+                ? `Você clicou <strong>${cliques}</strong> vezes. Faltam <strong>${restante}</strong> cliques para o dia 31.`
+                : `Finalmente! Dia <strong>31</strong>. Se quiser outro dia, continue clicando.`;
+        }
 
-        diaEscolhidoDisplay.textContent = String(cliques).padStart(2, '0');
+        if (diaEscolhidoDisplay) diaEscolhidoDisplay.textContent = String(cliques).padStart(2, '0');
     });
 
-    // Permite usar teclado (Enter/Space) para simular cliques
     clickTarget.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault(); // Evita scroll da página com espaço
+            e.preventDefault();
             clickTarget.click();
         }
     });
 
-    btnConfirmarDia.addEventListener('click', () => {
-        irParaStep(2);
-    });
+    btnConfirmarDia.addEventListener('click', () => irParaStep(2));
 }
 
 /**
- * STEP 2: Slider Misterioso + Botão Fugitivo (Anti-padrão: falta de feedback, imprevisibilidade)
- * O slider esconde o valor e o botão de confirmação foge do mouse.
+ * STEP 2: Slider Misterioso + Botão Fugitivo
  */
 export function setupSliderMisterioso() {
     const sliderMes = document.getElementById('slider-mes');
     const sliderValDisplay = document.getElementById('slider-val');
     const btnConfirmarMes = document.getElementById('btn-confirmar-mes');
+    
+    if (!sliderMes || !btnConfirmarMes) return;
+
     let mesSelecionado = 1;
-    let fugas = 0; // Contador de vezes que o botão fugiu
-    const MAX_FUGAS = 7; // Número máximo de vezes que o botão foge
+    let fugas = 0;
+    const MAX_FUGAS = 7;
 
-    // Borra o valor enquanto o slider é arrastado
     sliderMes.addEventListener('input', () => {
-        sliderValDisplay.classList.add('borrado');
-        sliderValDisplay.textContent = '???';
+        if (sliderValDisplay) {
+            sliderValDisplay.classList.add('borrado');
+            sliderValDisplay.textContent = '???';
+        }
     });
 
-    // Revela o valor ao soltar o slider
-    sliderMes.addEventListener('change', () => {
+    const revelarValor = () => {
         mesSelecionado = parseInt(sliderMes.value);
         estado.mes = mesSelecionado;
-        sliderValDisplay.classList.remove('borrado');
-        sliderValDisplay.textContent = MESES[mesSelecionado - 1];
-    });
-    // Garante que o valor seja revelado também no mouseup (para compatibilidade)
-    sliderMes.addEventListener('mouseup', () => {
-        mesSelecionado = parseInt(sliderMes.value);
-        estado.mes = mesSelecionado;
-        sliderValDisplay.classList.remove('borrado');
-        sliderValDisplay.textContent = MESES[mesSelecionado - 1];
-    });
+        if (sliderValDisplay) {
+            sliderValDisplay.classList.remove('borrado');
+            sliderValDisplay.textContent = MESES[mesSelecionado - 1];
+        }
+    };
 
-    // Lógica do botão que foge
+    sliderMes.addEventListener('change', revelarValor);
+    sliderMes.addEventListener('mouseup', revelarValor);
+
     btnConfirmarMes.addEventListener('mouseover', () => {
-        if (fugas >= MAX_FUGAS) return; // Para de fugir depois de X vezes
+        if (fugas >= MAX_FUGAS) return;
 
         const wrap = btnConfirmarMes.parentElement;
         const wrapRect = wrap.getBoundingClientRect();
         const btnRect = btnConfirmarMes.getBoundingClientRect();
 
-        // Calcula novas posições aleatórias dentro do contêiner
         const newX = Math.random() * (wrapRect.width - btnRect.width);
         const newY = Math.random() * (wrapRect.height - btnRect.height);
 
         btnConfirmarMes.style.position = 'absolute';
         btnConfirmarMes.style.left = `${newX}px`;
         btnConfirmarMes.style.top = `${newY}px`;
-        btnConfirmarMes.style.transform = 'none'; // Remove transform para evitar conflitos
+        btnConfirmarMes.style.transform = 'none';
 
         fugas++;
-        console.log(`[UX Caos] Botão fugiu ${fugas} vezes.`);
     });
 
     btnConfirmarMes.addEventListener('click', () => {
-        estado.mes = mesSelecionado || parseInt(sliderMes.value); // Garante que o mês seja capturado
+        estado.mes = mesSelecionado || parseInt(sliderMes.value);
         irParaStep(3);
     });
 }
 
 /**
- * STEP 3: Teclado Sabotador (Anti-padrão: controle imprevisível, feedback enganoso)
- * As teclas digitam números aleatórios próximos ao clicado.
+ * STEP 3: Teclado Sabotador
  */
 export function setupTecladoSabotador() {
     const tecladoGrid = document.getElementById('teclado-grid');
     const anoDigitadoDisplay = document.getElementById('ano-digitado');
     const btnLimparAno = document.getElementById('btn-limpar-ano');
+    
+    if (!tecladoGrid || !anoDigitadoDisplay) return;
+
     let anoStr = '';
 
-    // Gera os botões do teclado (0-9 e um botão de apagar)
     const digitos = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0];
     digitos.forEach(num => {
         const btn = document.createElement('button');
@@ -159,20 +159,18 @@ export function setupTecladoSabotador() {
         btn.dataset.num = num;
         tecladoGrid.appendChild(btn);
     });
+
     const btnApagarTecla = document.createElement('button');
     btnApagarTecla.className = 'tecla apagar';
     btnApagarTecla.textContent = '⌫';
     btnApagarTecla.id = 'tecla-apagar';
     tecladoGrid.appendChild(btnApagarTecla);
 
-    // Função para atualizar o display do ano
     function atualizarDisplayAno() {
-        // Preenche com underscores e adiciona um cursor piscante
         const display = anoStr.padEnd(4, '_').split('').join('');
         anoDigitadoDisplay.innerHTML = `${display}<span class="cursor"></span>`;
     }
 
-    // Lógica principal do teclado sabotador
     tecladoGrid.addEventListener('click', e => {
         const btn = e.target.closest('.tecla');
         if (!btn) return;
@@ -183,17 +181,14 @@ export function setupTecladoSabotador() {
             return;
         }
 
-        if (anoStr.length >= 4) return; // Limita a 4 dígitos para o ano
+        if (anoStr.length >= 4) return;
 
         const numClicado = parseInt(btn.dataset.num);
         let numDigitado = numClicado;
 
-        // 60% de chance de digitar um número diferente (anti-padrão)
         if (Math.random() < 0.60) {
-            // Desvia o número em -1, 0 ou +1, garantindo que fique entre 0-9
-            const desvio = Math.floor(Math.random() * 3) - 1; // -1, 0, ou +1
+            const desvio = Math.floor(Math.random() * 3) - 1;
             numDigitado = Math.min(9, Math.max(0, numClicado + desvio));
-            // Se o desvio resultou no mesmo número, força uma diferença (ex: +1 ou -1)
             if (numDigitado === numClicado) {
                 numDigitado = (numClicado + (Math.random() < 0.5 ? 1 : -1) + 10) % 10;
             }
@@ -202,4 +197,79 @@ export function setupTecladoSabotador() {
         anoStr += String(numDigitado);
         atualizarDisplayAno();
 
-        // Feedback visual (verde para 
+        btn.style.background = numDigitado !== numClicado ? 'var(--red-glow)' : 'var(--green-glow)';
+        btn.style.borderColor = numDigitado !== numClicado ? 'var(--red)' : 'var(--green)';
+        setTimeout(() => {
+            btn.style.background = '';
+            btn.style.borderColor = '';
+        }, 300);
+
+        if (anoStr.length === 4) {
+            estado.ano = anoStr;
+            setTimeout(() => {
+                irParaStep(4);
+                mostrarResultado();
+            }, 500);
+        }
+    });
+
+    if (btnLimparAno) {
+        btnLimparAno.addEventListener('click', () => {
+            anoStr = '';
+            atualizarDisplayAno();
+        });
+    }
+}
+
+/**
+ * STEP 4: Resultado e Salvar
+ */
+export function mostrarResultado() {
+    const dia = String(estado.dia).padStart(2, '0');
+    const mes = String(estado.mes).padStart(2, '0');
+    const ano = estado.ano || '????';
+    const dataFormatada = `${dia}/${mes}/${ano}`;
+    const nomeMes = MESES[(estado.mes || 1) - 1];
+
+    const displayData = document.getElementById('resultado-data-display');
+    const displayNome = document.getElementById('resultado-nome-display');
+    
+    if (displayData) displayData.textContent = dataFormatada;
+    if (displayNome) displayNome.textContent = `${dia} de ${nomeMes} de ${ano}`;
+}
+
+export function setupSalvarDados() {
+    const btnSalvar = document.getElementById('btn-salvar-indexeddb');
+    if (!btnSalvar) return;
+
+    btnSalvar.addEventListener('click', async () => {
+        const dia = String(estado.dia).padStart(2, '0');
+        const mes = String(estado.mes).padStart(2, '0');
+        const ano = estado.ano || new Date().getFullYear();
+
+        const objeto = {
+            tipo: 'data-nascimento-caos',
+            dia: parseInt(dia),
+            mes: parseInt(mes),
+            ano: parseInt(ano),
+            dataFormatada: `${dia}/${mes}/${ano}`,
+            salvoEm: new Date().toISOString()
+        };
+
+        try {
+            await iniciarBanco();
+            await adicionarItem(objeto);
+
+            const banner = document.getElementById('salvo-banner');
+            if (banner) banner.classList.add('visivel');
+            
+            btnSalvar.textContent = '✅ Salvo com Sucesso!';
+            btnSalvar.disabled = true;
+            btnSalvar.style.background = 'var(--green)';
+        } catch (erro) {
+            console.error('[UX Caos] Erro ao salvar:', erro);
+            alert('Erro ao salvar os dados.');
+        }
+    });
+}
+
