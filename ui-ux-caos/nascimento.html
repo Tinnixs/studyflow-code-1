@@ -9,78 +9,40 @@
 </head>
 <body>
     <div class="top-bar">
-        <marquee behavior="scroll" direction="left" class="marquee">BEM-VINDO AO PIOR FORMULÁRIO DE DATA DE NASCIMENTO DA INTERNET!!! NÃO CLIQUE EM TUDO AO MESMO TEMPO!!!</marquee>
+        <marquee behavior="scroll" direction="left">BEM-VINDO AO PIOR FORMULÁRIO DA INTERNET!!! NÃO CLIQUE EM TUDO AO MESMO TEMPO!!!</marquee>
     </div>
 
-    <table width="800" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#000033">
+    <table width="820" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#000033">
         <tr>
-            <td colspan="2" align="center" style="padding:20px;">
+            <td colspan="2" align="center" style="padding:15px; background:#330066;">
                 <h1 class="title blink">A PIOR DATA DE NASCIMENTO DO MUNDO</h1>
-                <p class="subtitle">Feito em 2003 (atualizado em 2026 kkk)</p>
+                <p class="subtitle">Feito em 2003 • Atualizado em 2026 (talvez)</p>
             </td>
         </tr>
         <tr>
-            <td width="180" valign="top" bgcolor="#330066" style="padding:15px;">
-                <!-- Sidebar clássica -->
-                <img src="https://via.placeholder.com/150x80/FF00FF/FFFFFF?text=UNDER+CONSTRUCTION" alt="construção" width="160"><br><br>
-                <strong>Visitantes:</strong> <span id="hit-counter">00001337</span><br>
-                <strong>Última atualização:</strong> Ontem<br><br>
-                <a href="#" class="link">Mais sites ruins</a><br>
-                <a href="#" class="link">Meu ICQ: 123456789</a>
+            <td width="190" valign="top" bgcolor="#220044" style="padding:15px;">
+                <img src="https://via.placeholder.com/160x60/FF00FF/000000?text=UNDER+CONSTRUCTION" width="160" alt="construção"><br><br>
+                <strong>Visitantes hoje:</strong> <span id="hit-counter">00001337</span><br>
+                <strong>Online agora:</strong> 69<br><br>
+                <marquee direction="up" height="80" scrollamount="2">★ Este site é 100% feito à mão com muito ódio ★</marquee>
             </td>
-            <td valign="top" bgcolor="#FFFFFF" style="padding:20px;">
-                <!-- Conteúdo principal -->
-                <div class="card">
-                    <marquee behavior="alternate" direction="right" class="warning">AVISO: ESTE FORMULÁRIO É INTENCIONALMENTE RUIM!!!</marquee>
+            <td valign="top" bgcolor="#FFFFFF" style="padding:25px;">
+                <marquee behavior="alternate" class="warning">AVISO: ESTE FORMULÁRIO É INTENCIONALMENTE RUIM E FRUSTRANTE!!!</marquee>
 
-                    <div class="steps">
-                        Passo <span id="step-number">1</span>/4
-                    </div>
+                <div class="card">
+                    <div class="steps">Passo <span id="step-number" class="blink">1</span> de 4</div>
 
                     <!-- STEP 1 -->
                     <div class="step ativo" id="step-1">
-                        <p class="label">Escolha o DIA (clicando até cansar)</p>
+                        <p class="label">Escolha o DIA clicando até cansar (ou desistir)</p>
                         <div id="click-counter" class="counter">01</div>
                         <button id="click-target" class="big-button">CLIQUE AQUI PARA AVANÇAR O DIA</button>
-                        <button id="btn-confirmar-dia" class="btn">CONFIRMAR DIA</button>
+                        <button id="btn-confirmar-dia" class="btn">✅ CONFIRMAR DIA</button>
                     </div>
 
                     <!-- STEP 2 -->
                     <div class="step" id="step-2">
-                        <p class="label">Escolha o MÊS (o slider é traiçoeiro)</p>
+                        <p class="label">Arraste o slider para o mês (ele muda sozinho às vezes)</p>
                         <input type="range" id="slider-mes" min="1" max="12" value="6" style="width:100%;">
                         <div id="slider-val" class="val">???</div>
-                        <button id="btn-confirmar-mes" class="btn fugitivo">CONFIRMAR MÊS</button>
-                    </div>
-
-                    <!-- STEP 3 -->
-                    <div class="step" id="step-3">
-                        <p class="label">Digite o ANO (o teclado mente pra você)</p>
-                        <div id="keyboard-display" class="display">____</div>
-                        <div id="teclado-grid" class="teclado"></div>
-                        <button id="btn-limpar-ano" class="btn cancel">APAGAR TUDO</button>
-                    </div>
-
-                    <!-- STEP 4 -->
-                    <div class="step" id="step-4">
-                        <p class="label">PARABÉNS!!! Você conseguiu (quase)!</p>
-                        <div id="resultado-data-display" class="final-data">--/--/----</div>
-                        <button id="btn-salvar-indexeddb" class="btn salvar">SALVAR NO MEU COMPUTADOR (IndexedDB)</button>
-                        <div id="salvo-banner" class="banner" style="display:none;">
-                            ✅ SALVO COM SUCESSO!!! (talvez não funcione amanhã)
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center" style="padding:10px; background:#330066; color:#ffccff; font-size:11px;">
-                © 2003-2026 Minha Página Ruim™ • Feito com muito ódio e amor
-            </td>
-        </tr>
-    </table>
-
-    <script type="module" src="db.js"></script>
-    <script type="module" src="controller.js"></script>
-</body>
-</html>
+                        <button id="btn-confirmar-mes" class="btn fugitivo">CONFIRMAR MÊS</
