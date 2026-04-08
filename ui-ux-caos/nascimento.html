@@ -3,405 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UI/UX DO CAOS - Data de Nascimento</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --accent: #ff00ff;
-            --bg: #0a0a0a;
-            --surface: #1f0033;
-            --text: #ffccff;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Press Start 2P', system-ui;
-            overflow-x: hidden;
-            line-height: 1.3;
-        }
-        .header {
-            background: #330033;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 4px solid var(--accent);
-            font-size: 18px;
-            text-shadow: 0 0 10px var(--accent);
-        }
-        .hero {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(45deg, #ff00ff22, #00ffff22);
-            font-size: 22px;
-            text-shadow: 0 0 15px #ff00ff;
-        }
-        .card {
-            max-width: 680px;
-            margin: 30px auto;
-            background: var(--surface);
-            border: 6px solid #ff00ff;
-            border-radius: 0;
-            padding: 25px;
-            box-shadow: 0 0 30px #ff00ff88;
-            position: relative;
-        }
-        .title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
-            color: #00ffcc;
-            text-align: center;
-            margin-bottom: 10px;
-            text-shadow: 3px 3px 0 #ff00ff;
-        }
-        .subtitle {
-            text-align: center;
-            color: #ff66ff;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        /* Steps */
-        .steps {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 25px;
-        }
-        .dot {
-            flex: 1;
-            height: 14px;
-            background: #440044;
-            border: 2px solid #ff00ff;
-        }
-        .dot.ativo { background: #00ffcc; animation: flash 0.8s infinite; }
-
-        .step { display: none; }
-        .step.ativo { display: block; }
-
-        /* Passo 1 */
-        #step-1 {
-            text-align: center;
-        }
-        #click-target {
-            width: 180px;
-            height: 180px;
-            margin: 20px auto;
-            background: #ff00ff;
-            border: 8px solid #00ffff;
-            border-radius: 50%;
-            font-size: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 40px #ff00ff;
-            animation: spin 4s linear infinite;
-            transition: transform 0.1s;
-        }
-        #click-counter {
-            font-size: 110px;
-            font-weight: 900;
-            color: #ffff00;
-            text-shadow: 4px 4px 0 #ff00ff;
-            margin-bottom: 10px;
-        }
-
-        /* Passo 2 */
-        #step-2 {
-            position: relative;
-            height: 280px;
-        }
-        #slider-mes {
-            width: 100%;
-            height: 30px;
-            accent-color: #00ff00;
-        }
-        #slider-val {
-            font-size: 50px;
-            text-align: center;
-            margin: 30px 0;
-            color: #00ffff;
-            text-shadow: 0 0 20px #00ffff;
-        }
-        #btn-confirmar-mes {
-            position: absolute;
-            padding: 16px 40px;
-            background: #ffff00;
-            color: #000;
-            font-weight: 900;
-            border: 4px solid #ff00ff;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 0 20px #ffff00;
-        }
-
-        /* Passo 3 */
-        #keyboard-display {
-            background: #000;
-            border: 6px solid #ff0000;
-            padding: 20px;
-            font-size: 52px;
-            letter-spacing: 18px;
-            text-align: center;
-            margin-bottom: 20px;
-            min-height: 90px;
-            color: #00ff00;
-        }
-        .teclado-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        .tecla {
-            background: #220022;
-            border: 4px solid #ff00ff;
-            color: #ffffff;
-            font-size: 28px;
-            font-weight: 900;
-            padding: 22px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.05s;
-        }
-        .tecla:hover { background: #ff00ff; color: #000; transform: scale(1.1); }
-        .tecla.apagar { grid-column: span 3; background: #ff0000; }
-
-        /* Passo 4 */
-        #resultado-data-display {
-            font-size: 68px;
-            color: #00ff88;
-            text-align: center;
-            margin: 30px 0;
-            text-shadow: 0 0 30px #00ff88;
-        }
-
-        .btn-salvar {
-            width: 100%;
-            padding: 22px;
-            background: #00ff00;
-            color: #000;
-            font-size: 20px;
-            font-weight: 900;
-            border: none;
-            margin-top: 20px;
-            box-shadow: 0 0 25px #00ff00;
-        }
-
-        @keyframes flash { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    </style>
+    <title>UI/UX DO CAOS - DATA DE NASCIMENTO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="header glitch">UI/UX DO CAOS v0.8β</div>
 
-<div class="header">
-    UI/UX DO CAOS — ANTI-PADRÕES EXTREMOS
-</div>
-
-<div class="hero">
-    A PIOR DATA DE NASCIMENTO DO MUNDO<br>
-    <span style="font-size:14px;color:#ffccff;">(você vai odiar)</span>
-</div>
-
-<div class="card">
-    <div class="title">📅 SUA DATA DE NASCIMENTO</div>
-    <div class="subtitle">confie em mim, é simples...</div>
-
-    <div class="steps">
-        <div class="dot ativo" id="dot-1"></div>
-        <div class="dot" id="dot-2"></div>
-        <div class="dot" id="dot-3"></div>
-        <div class="dot" id="dot-4"></div>
+    <div class="hero">
+        <h1>A PIOR DATA<br>DE NASCIMENTO</h1>
+        <p class="sub">Prepare-se para sofrer. É intencional.</p>
     </div>
 
-    <!-- PASSO 1 -->
-    <div class="step ativo" id="step-1">
-        <div id="click-counter">01</div>
-        <div id="click-target">😈</div>
-        <button id="btn-confirmar-dia" class="btn-salvar" style="background:#ff00ff;color:white;">CONFIRMAR DIA</button>
-    </div>
+    <div class="card">
+        <div class="steps">
+            <div class="dot ativo" id="dot-1"></div>
+            <div class="dot" id="dot-2"></div>
+            <div class="dot" id="dot-3"></div>
+            <div class="dot" id="dot-4"></div>
+        </div>
 
-    <!-- PASSO 2 -->
-    <div class="step" id="step-2">
-        <label style="display:block;margin-bottom:10px;color:#ffff00;">ARRASTE O SLIDER (se conseguir)</label>
-        <input type="range" id="slider-mes" min="1" max="12" value="1">
-        <div id="slider-val">???</div>
-        <button id="btn-confirmar-mes" class="btn-salvar">CONFIRMAR MÊS</button>
-    </div>
+        <!-- STEP 1 -->
+        <div class="step ativo" id="step-1">
+            <div class="counter" id="click-counter">01</div>
+            <div class="target" id="click-target">😈</div>
+            <button class="btn" id="btn-confirmar-dia">CONFIRMAR DIA</button>
+        </div>
 
-    <!-- PASSO 3 -->
-    <div class="step" id="step-3">
-        <div id="keyboard-display"><span id="ano-digitado">____</span></div>
-        <div class="teclado-grid" id="teclado-grid"></div>
-        <button id="btn-limpar-ano" class="btn-salvar" style="background:#ff4444;">APAGAR TUDO</button>
-    </div>
+        <!-- STEP 2 -->
+        <div class="step" id="step-2">
+            <label>ARRASTE O SLIDER (boa sorte)</label>
+            <input type="range" id="slider-mes" min="1" max="12" value="6">
+            <div class="val" id="slider-val">???</div>
+            <button class="btn fugitivo" id="btn-confirmar-mes">CONFIRMAR MÊS</button>
+        </div>
 
-    <!-- PASSO 4 -->
-    <div class="step" id="step-4">
-        <div style="text-align:center;font-size:18px;margin-bottom:10px;">VOCÊ SOBREVIVEU!</div>
-        <div id="resultado-data-display">--/--/----</div>
-        <button id="btn-salvar-indexeddb" class="btn-salvar">💾 SALVAR NO INDEXEDDB</button>
-        <div id="salvo-banner" style="display:none;margin-top:15px;padding:15px;background:#003300;border:3px solid #00ff00;color:#00ff00;text-align:center;">
-            ✅ SALVO COM SUCESSO! (talvez)
+        <!-- STEP 3 -->
+        <div class="step" id="step-3">
+            <div class="display" id="keyboard-display">
+                <span id="ano-digitado">____</span>
+            </div>
+            <div class="teclado" id="teclado-grid"></div>
+            <button class="btn cancel" id="btn-limpar-ano">APAGAR TUDO</button>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step" id="step-4">
+            <div class="final">
+                <div class="confete">🎉💥</div>
+                <div class="label">VOCÊ SOBREVIVEU!</div>
+                <div class="data" id="resultado-data-display">--/--/----</div>
+            </div>
+            <button class="btn salvar" id="btn-salvar-indexeddb">💾 SALVAR NO INDEXEDDB</button>
+            <div class="banner" id="salvo-banner" style="display:none;">
+                ✅ SALVO! (ou não...)
+            </div>
         </div>
     </div>
-</div>
 
-<script type="module" src="db.js"></script>
-<script type="module" src="controller.js"></script>
-<script type="module">
-    import { irParaStep, setupSalvarDados, estado, MESES } from './controller.js';
-
-    let dia = 1;
-    let mes = 1;
-    let ano = '';
-
-    // ====================== PASSO 1 - CAOS TOTAL ======================
-    function setupDiaPorCliques() {
-        const target = document.getElementById('click-target');
-        const counter = document.getElementById('click-counter');
-        const btn = document.getElementById('btn-confirmar-dia');
-
-        target.addEventListener('click', () => {
-            if (Math.random() < 0.22) dia = Math.max(1, dia - 2);
-            else dia = Math.min(31, dia + 1);
-
-            counter.textContent = String(dia).padStart(2, '0');
-
-            // faz o emoji voar um pouco
-            const rot = Math.random() * 40 - 20;
-            target.style.transform = `rotate(${rot}deg) scale(1.15)`;
-            setTimeout(() => target.style.transform = '', 180);
-        });
-
-        // contador às vezes muda sozinho
-        setInterval(() => {
-            if (document.getElementById('step-1').classList.contains('ativo') && Math.random() < 0.3) {
-                dia = Math.max(1, Math.min(31, dia + (Math.random() < 0.5 ? 1 : -1)));
-                counter.textContent = String(dia).padStart(2, '0');
-            }
-        }, 1400);
-
-        btn.addEventListener('click', () => irParaStep(2));
-    }
-
-    // ====================== PASSO 2 - SLIDER + BOTÃO FUGITIVO EXTREMO ======================
-    function setupSliderMisterioso() {
-        const slider = document.getElementById('slider-mes');
-        const valDisplay = document.getElementById('slider-val');
-        const btn = document.getElementById('btn-confirmar-mes');
-
-        let btnPos = { x: 180, y: 180 };
-
-        btn.style.position = 'absolute';
-        btn.style.left = btnPos.x + 'px';
-        btn.style.top = btnPos.y + 'px';
-
-        slider.addEventListener('input', () => {
-            valDisplay.style.filter = 'blur(10px)';
-            valDisplay.textContent = '???';
-        });
-
-        slider.addEventListener('change', () => {
-            mes = parseInt(slider.value);
-            valDisplay.style.filter = 'none';
-            valDisplay.textContent = MESES[mes-1] || mes;
-        });
-
-        // Movimento insano do botão
-        document.addEventListener('mousemove', (e) => {
-            if (!document.getElementById('step-2').classList.contains('ativo')) return;
-
-            const dx = e.clientX - (btnPos.x + 80);
-            const dy = e.clientY - (btnPos.y + 30);
-
-            if (Math.hypot(dx, dy) < 220) {
-                btnPos.x += dx * -0.65;
-                btnPos.y += dy * -0.65;
-                btn.style.left = btnPos.x + 'px';
-                btn.style.top = btnPos.y + 'px';
-            }
-        });
-
-        btn.addEventListener('click', () => {
-            if (Math.random() < 0.25) return; // chance de não funcionar
-            irParaStep(3);
-        });
-
-        // Slider muda sozinho às vezes
-        setInterval(() => {
-            if (document.getElementById('step-2').classList.contains('ativo') && Math.random() < 0.18) {
-                slider.value = Math.floor(Math.random() * 12) + 1;
-                slider.dispatchEvent(new Event('change'));
-            }
-        }, 1700);
-    }
-
-    // ====================== PASSO 3 - TECLADO TRAIDOR ======================
-    function setupTecladoSabotador() {
-        const grid = document.getElementById('teclado-grid');
-        const display = document.getElementById('ano-digitado');
-        const limparBtn = document.getElementById('btn-limpar-ano');
-
-        const nums = [0,1,2,3,4,5,6,7,8,9];
-        grid.innerHTML = '';
-
-        nums.forEach(n => {
-            const t = document.createElement('div');
-            t.className = 'tecla';
-            t.textContent = n;
-            t.onclick = () => {
-                if (Math.random() < 0.45) {
-                    ano += (n + (Math.random() < 0.5 ? 1 : -1) + '').replace('-1','0');
-                } else {
-                    ano += n;
-                }
-                display.textContent = ano.padEnd(4, '_').slice(0,4);
-            };
-            grid.appendChild(t);
-        });
-
-        // tecla apagar
-        const apagar = document.createElement('div');
-        apagar.className = 'tecla apagar';
-        apagar.textContent = 'APAGAR';
-        apagar.onclick = () => { ano = ''; display.textContent = '____'; };
-        grid.appendChild(apagar);
-
-        // embaralha teclas constantemente
-        setInterval(() => {
-            if (document.getElementById('step-3').classList.contains('ativo')) {
-                const children = Array.from(grid.children);
-                children.sort(() => Math.random() - 0.5);
-                children.forEach(c => grid.appendChild(c));
-            }
-        }, 2200);
-
-        limparBtn.addEventListener('click', () => { ano = ''; display.textContent = '____'; });
-    }
-
-    // ====================== CAOS GLOBAL ======================
-    function caosGlobal() {
-        setInterval(() => {
-            const r = Math.random();
-            if (r < 0.25) {
-                document.body.style.background = '#330011';
-                setTimeout(() => document.body.style.background = 'var(--bg)', 180);
-            }
-            if (r < 0.15) {
-                document.querySelector('.card').style.transform = 'rotate(2deg)';
-                setTimeout(() => document.querySelector('.card').style.transform = '', 300);
-            }
-        }, 8000);
-    }
-
-    // Inicialização
-    document.addEventListener('DOMContentLoaded', () => {
-        irParaStep(1);
-        setupDiaPorCliques();
-        setupSliderMisterioso();
-        setupTecladoSabotador();
-        setupSalvarDados();
-        caosGlobal();
-    });
-</script>
+    <script type="module" src="db.js"></script>
+    <script type="module" src="controller.js"></script>
 </body>
 </html>
