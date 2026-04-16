@@ -501,6 +501,129 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
+
+/* ================================================================
+   BOTÕES DE MODAL — Compartilhados entre cronograma e perfil
+   ================================================================ */
+
+/* Ações do modal (linha com botões) */
+.modal__acoes {
+  display: flex;
+  gap: var(--s2);
+  justify-content: flex-end;
+  margin-top: var(--s4);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--border);
+}
+
+/* Botão secundário — Cancelar */
+.btn-cancelar {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.btn-cancelar:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  background: var(--bg-surface-2);
+}
+
+/* Botão primário — Salvar / Confirmar */
+.btn-salvar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.btn-salvar:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+.btn-salvar:active { transform: translateY(0); }
+.btn-salvar svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  flex-shrink: 0;
+}
+
+/* Avatar/ícone grid nos modais */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  margin-top: 4px;
+}
+.avatar-op {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border-radius: var(--r-sm);
+  background: var(--bg-base);
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  user-select: none;
+}
+.avatar-op:hover {
+  border-color: var(--border-hover);
+  background: var(--accent-glow);
+  transform: scale(1.1);
+}
+.avatar-op.selecionado {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Botão pequeno primário — usado no cronograma */
+.btn-primario-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.btn-primario-sm:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+.btn-primario-sm svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+}
+
 /* ── MEDIA QUERIES ──────────────────────────────────────────── */
 /* TABLET */
 @media (max-width: 1024px) {
