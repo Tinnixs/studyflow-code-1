@@ -562,7 +562,7 @@
 
 <script>
 // ── TOAST ─────────────────────────────────────────────────────
-function showToast(msg, 'info') {
+function showToast(msg,tipo = 'info') {
   document.getElementById('toast-msg').textContent = msg;
   const t = document.getElementById('toast');
   t.classList.add('visivel');
