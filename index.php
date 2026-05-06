@@ -4,11 +4,11 @@ require_once 'service.php';
 require_once 'controller.php';
 require_once 'router.php';
 
-// Montagem manual das dependências
+// Aqui criamos as dependências "de baixo para cima" (Passo 5)
 $repository = new EstudanteRepository();
-$service    = new StudyFlowService($repository);
-$controller = new EstudanteController($service);
+$service    = new StudyFlowService($repository); // Injetamos o repositório no service
+$controller = new EstudanteController($service);  // Injetamos o service no controller
 
-// Injetamos o controller no router
+// Passamos o controlador pronto para o Router
 $router = new Router($controller);
 $router->handle();
