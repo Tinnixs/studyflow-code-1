@@ -1,0 +1,9 @@
+# Configurações sensíveis (Segurança)
+config.ini
+
+# Banco de dados local (Organização)
+database.sqlite
+
+# Arquivos do sistema e do VS Code
+.DS_Store
+.vscode/
