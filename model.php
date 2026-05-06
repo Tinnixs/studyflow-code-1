@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/model.php << 'PHPEOF'
 <?php
 // ============================================================
 // StudyFlow | model.php — Camada de Dados
@@ -36,15 +35,12 @@ class EstudanteModel
     private function getConexao(): PDO
     {
         $pdo = new PDO('sqlite:' . $this->dbPath);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,          PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE,            PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         return $pdo;
     }
 
     // ── save() — INSERT com Prepared Statement ─────────────
-    // Prepared Statements previnem SQL Injection:
-    //   VULNERÁVEL: "INSERT ... VALUES ('" . $nome . "')"
-    //   SEGURO:     "INSERT ... VALUES (:nome)" + execute([':nome' => $valor])
     public function salvar(): int
     {
         $pdo  = $this->getConexao();
@@ -65,7 +61,7 @@ class EstudanteModel
     {
         try {
             $pdo  = new PDO('sqlite:' . __DIR__ . '/database.sqlite');
-            $pdo->setAttribute(PDO::ATTR_ERRMODE,          PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE,            PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             return $pdo->query(
                 "SELECT * FROM estudantes ORDER BY criado_em DESC"
@@ -75,5 +71,3 @@ class EstudanteModel
         }
     }
 }
-PHPEOF
-echo "✅ model.php"
