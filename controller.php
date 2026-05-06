@@ -1,20 +1,19 @@
 <?php
-require_once 'service.php';
-require_once 'model.php';
-
 class EstudanteController {
-    public function registrar(array $dados): string {
+    private StudyFlowService $service;
+
+    public function __construct(StudyFlowService $service) {
+        $this->service = $service;
+    }
+
+    public function store(array $dados): string {
         try {
-            $service = new StudyFlowService();
-            $validado = $service->validar($dados['nome'], (int)$dados['idade'], $dados['objetivo']);
-
-            $model = new EstudanteModel();
-            $model->setDados($validado['nome'], $validado['idade'], $validado['objetivo']);
-            $model->salvar();
-
-            return "✅ " . $validado['mensagem'];
+            $this->service->registrarEstudante($dados);
+            return "✅ Perfil criado com sucesso!";
+        } catch (BusinessRuleException $e) {
+            return "⚠️ " . $e->getMessage();
         } catch (Exception $e) {
-            return "❌ " . $e->getMessage();
+            return "❌ Erro inesperado no servidor.";
         }
     }
 }

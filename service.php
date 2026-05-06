@@ -1,19 +1,22 @@
 <?php
+require_once 'BusinessRuleException.php';
+
 class StudyFlowService {
+    private IEstudanteRepository $repository;
+
+    public function __construct(IEstudanteRepository $repository) {
+        $this->repository = $repository;
+    }
+
     public function listaObjetivos(): array {
         return ["Vestibular", "Concursos", "Faculdade", "Autoaprendizado"];
     }
 
-    public function validar(string $nome, int $idade, string $objetivo): array {
-        if ($idade < 12) {
-            throw new Exception("O StudyFlow é recomendado para maiores de 12 anos.");
+    public function registrarEstudante(array $dados): void {
+        if ($dados['idade'] < 12) {
+            throw new BusinessRuleException("O StudyFlow exige idade mínima de 12 anos.");
         }
-
-        return [
-            'nome' => $nome,
-            'idade' => $idade,
-            'objetivo' => $objetivo,
-            'mensagem' => "Bem-vindo ao StudyFlow, $nome! Seu plano de estudos foi criado."
-        ];
+        $estudante = new EstudanteModel($dados['nome'], (int)$dados['idade'], $dados['objetivo']);
+        $this->repository->save($estudante);
     }
 }
