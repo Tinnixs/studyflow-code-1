@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/migration.php << 'PHPEOF'
 <?php
 // ============================================================
 // StudyFlow | migration.php
@@ -51,5 +50,3 @@ class Migration
 
 $migration = new Migration();
 $migration->executar();
-PHPEOF
-echo "✅ migration.php"
