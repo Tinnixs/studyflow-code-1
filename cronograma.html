@@ -28,16 +28,6 @@
 }
 .page-header__sub { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
 
-.btn-primario-sm {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 20px; background: var(--accent); color: #fff;
-  border: none; border-radius: var(--r-sm); font-family: var(--font-body);
-  font-size: 14px; font-weight: 700; cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
-  white-space: nowrap;
-}
-.btn-primario-sm:hover { background: var(--accent-hover); transform: translateY(-1px); }
-.btn-primario-sm svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2.5; }
 
 /* ── ALGORITMO INFO ──────────────────────────────────────────── */
 .algo-banner {
@@ -571,36 +561,8 @@
 </div>
 
 <script>
-// ── TEMA ──────────────────────────────────────────────────────
-const inputTema = document.getElementById('toggle-tema');
-const labelTema = document.getElementById('label-tema');
-const iconeTema = document.getElementById('icone-tema');
-const htmlEl    = document.documentElement;
-if (localStorage.getItem('sf-tema') === 'light') {
-  inputTema.checked = true; htmlEl.setAttribute('data-tema','light');
-  labelTema.textContent = 'Light'; iconeTema.textContent = '☀️';
-}
-inputTema.addEventListener('change', () => {
-  const l = inputTema.checked;
-  htmlEl.setAttribute('data-tema', l ? 'light' : 'dark');
-  labelTema.textContent = l ? 'Light' : 'Dark';
-  iconeTema.textContent = l ? '☀️' : '🌙';
-  localStorage.setItem('sf-tema', l ? 'light' : 'dark');
-});
-
-// ── NAV ───────────────────────────────────────────────────────
-const nav = document.getElementById('nav-principal');
-window.addEventListener('scroll', () => nav.classList.toggle('rolado', window.scrollY > 20), { passive: true });
-const navToggle = document.getElementById('nav-toggle');
-const navLinks  = document.getElementById('nav-links');
-navToggle.addEventListener('click', () => {
-  const ab = navToggle.classList.toggle('aberto');
-  navLinks.classList.toggle('aberto');
-  navToggle.setAttribute('aria-expanded', ab);
-});
-
 // ── TOAST ─────────────────────────────────────────────────────
-function toast(msg) {
+function showToast(msg,tipo = 'info') {
   document.getElementById('toast-msg').textContent = msg;
   const t = document.getElementById('toast');
   t.classList.add('visivel');
@@ -695,7 +657,7 @@ function renderCalendario() {
     el.addEventListener('click', () => {
       const id = parseInt(el.dataset.id);
       const t  = tarefas.find(x => x.id === id);
-      if (t) { t.feita = !t.feita; salvar(tarefas); renderTudo(); toast(t.feita ? '✅ Tarefa concluída!' : 'Tarefa reaberta'); }
+      if (t) { t.feita = !t.feita; salvar(tarefas); renderTudo(); showToast(t.feita ? 'Tarefa concluída!' : 'Tarefa reaberta', t.feita ? 'sucesso' : 'info'); }
     });
   });
 }
@@ -778,7 +740,7 @@ function renderListaHoje() {
     el.addEventListener('change', () => {
       const id = parseInt(el.dataset.id);
       const t  = tarefas.find(x => x.id === id);
-      if (t) { t.feita = el.checked; salvar(tarefas); renderTudo(); toast(t.feita ? '✅ Concluída!' : 'Reaberta'); }
+      if (t) { t.feita = el.checked; salvar(tarefas); renderTudo(); showToast(t.feita ? 'Concluída!' : 'Reaberta', t.feita ? 'sucesso' : 'info'); }
     });
   });
 }
@@ -846,38 +808,20 @@ document.getElementById('modal-tarefa-salvar').addEventListener('click', () => {
   const horas   = parseFloat(document.getElementById('t-horas').value) || 1;
   const U       = parseInt(document.getElementById('t-urgencia').value);
   const C       = parseInt(document.getElementById('t-complexidade').value);
-  if (!nome)    { toast('⚠️ Digite o nome da tarefa!'); return; }
-  if (!materia) { toast('⚠️ Digite a disciplina!');     return; }
-  if (!data)    { toast('⚠️ Escolha uma data!');        return; }
+  if (!nome)    { showToast('Digite o nome da tarefa!', 'aviso'); return; }
+  if (!materia) { showToast('Digite a disciplina!', 'aviso');     return; }
+  if (!data)    { showToast('Escolha uma data!', 'aviso');        return; }
   const novoId = tarefas.length ? Math.max(...tarefas.map(t => t.id)) + 1 : 1;
   tarefas.push({ id: novoId, nome, materia, data, horas, U, C, feita: false });
   salvar(tarefas);
   renderTudo();
   fecharModalTarefa();
-  toast('Tarefa adicionada! 📅');
+  showToast('Tarefa adicionada!', 'sucesso');
 });
 
-// ── LOADING SCREEN ────────────────────────────────────────────
-(function() {
-  const loading = document.getElementById('loading-screen');
-  if (!loading) return;
-  if (sessionStorage.getItem('sf-loaded')) {
-    loading.style.display = 'none';
-    return;
-  }
-  sessionStorage.setItem('sf-loaded', 'true');
-  function esconderLoading() {
-    setTimeout(() => loading.classList.add('hidden'), 1800);
-  }
-  if (document.readyState === 'complete') {
-    esconderLoading();
-  } else {
-    window.addEventListener('load', esconderLoading);
-  }
-  setTimeout(() => {
-    if (!loading.classList.contains('hidden')) loading.classList.add('hidden');
-  }, 6000);
-})();
 </script>
+<script src="core.js"></script>
+<script src="db.js"></script>
+<script src="controller.js"></script>
 </body>
 </html>

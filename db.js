@@ -1,227 +1,156 @@
-// ============================================
-// db.js - Mini Framework IndexedDB para o StudyFlow
-// ============================================
+// ============================================================
+// StudyFlow | db.js — Camada de Persistência (IndexedDB)
+// ============================================================
+// Versão revisada — Code Review Técnico
+//
+// MUDANÇAS vs versão anterior:
+//   - Banco singleton com verificação de estado
+//   - Stores separados por domínio (tarefas, perfil, sessoes)
+//   - Erros tipados com mensagens claras
+//   - API consistente: todas as funções retornam Promise
+//   - Sem console.log em produção (apenas console.error)
+// ============================================================
 
-// Configuração do banco
-const DB_NAME = 'StudyFlowDB';
-const DB_VERSION = 1;
-const STORE_NAME = 'tarefas';
+const SF_DB_NAME    = 'StudyFlowDB';
+const SF_DB_VERSION = 2; // bump de versão para nova estrutura
 
-let db = null;
+let _db = null; // instância singleton
 
-/**
- * Inicia a conexão com o banco IndexedDB
- * Cria a estrutura (object store) se não existir
- * @returns {Promise} - Retorna o banco conectado
- */
+// ── Obtém o banco (inicializa se necessário) ────────────────
+// Padrão: lazy initialization — só abre quando precisa
+function getDB() {
+  if (_db) return Promise.resolve(_db);
+  return iniciarBanco();
+}
+
+// ── Inicializa o banco e cria os object stores ──────────────
 function iniciarBanco() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(SF_DB_NAME, SF_DB_VERSION);
 
-        // Executa quando o banco é criado ou atualizado
-        request.onupgradeneeded = function(event) {
-            const database = event.target.result;
-            
-            // Cria a tabela "tarefas" se não existir
-            if (!database.objectStoreNames.contains(STORE_NAME)) {
-                const store = database.createObjectStore(STORE_NAME, {
-                    keyPath: 'id',
-                    autoIncrement: true
-                });
-                
-                // Índices para busca rápida
-                store.createIndex('nome', 'nome', { unique: false });
-                store.createIndex('categoria', 'categoria', { unique: false });
-                store.createIndex('data', 'data', { unique: false });
-                store.createIndex('prioridade', 'prioridade', { unique: false });
-                
-                console.log('[StudyFlow] Banco de dados criado com sucesso!');
-            }
-        };
+    request.onupgradeneeded = function(event) {
+      const db = event.target.result;
 
-        request.onsuccess = function(event) {
-            db = event.target.result;
-            console.log('[StudyFlow] Conexão com o banco estabelecida!');
-            resolve(db);
-        };
+      // Store: tarefas (cronograma)
+      if (!db.objectStoreNames.contains('tarefas')) {
+        const tarefas = db.createObjectStore('tarefas', {
+          keyPath: 'id', autoIncrement: true
+        });
+        tarefas.createIndex('data',      'data',      { unique: false });
+        tarefas.createIndex('materia',   'materia',   { unique: false });
+        tarefas.createIndex('prioridade','prioridade',{ unique: false });
+        tarefas.createIndex('feita',     'feita',     { unique: false });
+      }
 
-        request.onerror = function(event) {
-            console.error('[StudyFlow] Erro ao abrir o banco:', event.target.error);
-            reject(event.target.error);
-        };
-    });
+      // Store: sessoes (histórico de Pomodoro)
+      if (!db.objectStoreNames.contains('sessoes')) {
+        const sessoes = db.createObjectStore('sessoes', {
+          keyPath: 'id', autoIncrement: true
+        });
+        sessoes.createIndex('data', 'data', { unique: false });
+        sessoes.createIndex('modo', 'modo', { unique: false });
+      }
+
+      // Store: perfil (dados do usuário)
+      if (!db.objectStoreNames.contains('perfil')) {
+        db.createObjectStore('perfil', { keyPath: 'chave' });
+      }
+    };
+
+    request.onsuccess = function(event) {
+      _db = event.target.result;
+
+      // Reconecta automaticamente se a conexão for fechada
+      _db.onversionchange = () => { _db.close(); _db = null; };
+
+      resolve(_db);
+    };
+
+    request.onerror = function(event) {
+      console.error('[StudyFlow DB] Erro ao abrir banco:', event.target.error);
+      reject(new Error(`IndexedDB não disponível: ${event.target.error?.message}`));
+    };
+
+    request.onblocked = function() {
+      console.error('[StudyFlow DB] Banco bloqueado — feche outras abas do StudyFlow');
+      reject(new Error('Banco bloqueado por outra aba'));
+    };
+  });
 }
 
-/**
- * Adiciona uma nova tarefa ao banco
- * @param {Object} tarefa - Objeto com os dados da tarefa
- * @returns {Promise} - Retorna o ID da tarefa adicionada
- */
-function adicionarItem(tarefa) {
-    return new Promise((resolve, reject) => {
-        if (!db) {
-            reject('Banco não inicializado. Chame iniciarBanco() primeiro.');
-            return;
-        }
+// ── CRUD genérico ───────────────────────────────────────────
+// store: nome do object store ('tarefas', 'sessoes', 'perfil')
 
-        const transaction = db.transaction([STORE_NAME], 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
-        
-        // Adiciona timestamp de criação
-        tarefa.criadoEm = new Date().toISOString();
-        
-        const request = store.add(tarefa);
-
-        request.onsuccess = function(event) {
-            console.log('[StudyFlow] Tarefa adicionada com ID:', event.target.result);
-            resolve(event.target.result);
-        };
-
-        request.onerror = function(event) {
-            console.error('[StudyFlow] Erro ao adicionar tarefa:', event.target.error);
-            reject(event.target.error);
-        };
+function adicionarItem(item, store = 'tarefas') {
+  return getDB().then(db => new Promise((resolve, reject) => {
+    const tx  = db.transaction([store], 'readwrite');
+    const req = tx.objectStore(store).add({
+      ...item,
+      criadoEm: item.criadoEm || new Date().toISOString()
     });
+    req.onsuccess = e => resolve(e.target.result);
+    req.onerror   = e => reject(new Error(`Erro ao adicionar: ${e.target.error?.message}`));
+  }));
 }
 
-/**
- * Busca todas as tarefas do banco
- * @returns {Promise} - Retorna um array com todas as tarefas
- */
-function buscarItens() {
-    return new Promise((resolve, reject) => {
-        if (!db) {
-            reject('Banco não inicializado. Chame iniciarBanco() primeiro.');
-            return;
-        }
-
-        const transaction = db.transaction([STORE_NAME], 'readonly');
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.getAll();
-
-        request.onsuccess = function(event) {
-            console.log('[StudyFlow] Tarefas encontradas:', event.target.result.length);
-            resolve(event.target.result);
-        };
-
-        request.onerror = function(event) {
-            console.error('[StudyFlow] Erro ao buscar tarefas:', event.target.error);
-            reject(event.target.error);
-        };
-    });
+function buscarItens(store = 'tarefas') {
+  return getDB().then(db => new Promise((resolve, reject) => {
+    const tx  = db.transaction([store], 'readonly');
+    const req = tx.objectStore(store).getAll();
+    req.onsuccess = e => resolve(e.target.result);
+    req.onerror   = e => reject(new Error(`Erro ao buscar: ${e.target.error?.message}`));
+  }));
 }
 
-/**
- * Busca uma tarefa específica pelo ID
- * @param {Number} id - ID da tarefa
- * @returns {Promise} - Retorna a tarefa encontrada
- */
-function buscarItemPorId(id) {
-    return new Promise((resolve, reject) => {
-        if (!db) {
-            reject('Banco não inicializado. Chame iniciarBanco() primeiro.');
-            return;
-        }
-
-        const transaction = db.transaction([STORE_NAME], 'readonly');
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.get(id);
-
-        request.onsuccess = function(event) {
-            resolve(event.target.result);
-        };
-
-        request.onerror = function(event) {
-            console.error('[StudyFlow] Erro ao buscar tarefa:', event.target.error);
-            reject(event.target.error);
-        };
-    });
+function buscarItemPorId(id, store = 'tarefas') {
+  return getDB().then(db => new Promise((resolve, reject) => {
+    const tx  = db.transaction([store], 'readonly');
+    const req = tx.objectStore(store).get(id);
+    req.onsuccess = e => resolve(e.target.result ?? null);
+    req.onerror   = e => reject(new Error(`Erro ao buscar por id: ${e.target.error?.message}`));
+  }));
 }
 
-/**
- * Atualiza uma tarefa existente
- * @param {Object} tarefa - Objeto com os dados atualizados (deve conter id)
- * @returns {Promise} - Retorna o ID da tarefa atualizada
- */
-function atualizarItem(tarefa) {
-    return new Promise((resolve, reject) => {
-        if (!db) {
-            reject('Banco não inicializado. Chame iniciarBanco() primeiro.');
-            return;
-        }
-
-        const transaction = db.transaction([STORE_NAME], 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
-        
-        tarefa.atualizadoEm = new Date().toISOString();
-        
-        const request = store.put(tarefa);
-
-        request.onsuccess = function(event) {
-            console.log('[StudyFlow] Tarefa atualizada com ID:', event.target.result);
-            resolve(event.target.result);
-        };
-
-        request.onerror = function(event) {
-            console.error('[StudyFlow] Erro ao atualizar tarefa:', event.target.error);
-            reject(event.target.error);
-        };
+function atualizarItem(item, store = 'tarefas') {
+  return getDB().then(db => new Promise((resolve, reject) => {
+    const tx  = db.transaction([store], 'readwrite');
+    const req = tx.objectStore(store).put({
+      ...item,
+      atualizadoEm: new Date().toISOString()
     });
+    req.onsuccess = e => resolve(e.target.result);
+    req.onerror   = e => reject(new Error(`Erro ao atualizar: ${e.target.error?.message}`));
+  }));
 }
 
-/**
- * Deleta uma tarefa pelo ID
- * @param {Number} id - ID da tarefa a ser deletada
- * @returns {Promise} - Confirma a exclusão
- */
-function deletarItem(id) {
-    return new Promise((resolve, reject) => {
-        if (!db) {
-            reject('Banco não inicializado. Chame iniciarBanco() primeiro.');
-            return;
-        }
-
-        const transaction = db.transaction([STORE_NAME], 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.delete(id);
-
-        request.onsuccess = function() {
-            console.log('[StudyFlow] Tarefa deletada com ID:', id);
-            resolve(true);
-        };
-
-        request.onerror = function(event) {
-            console.error('[StudyFlow] Erro ao deletar tarefa:', event.target.error);
-            reject(event.target.error);
-        };
-    });
+function deletarItem(id, store = 'tarefas') {
+  return getDB().then(db => new Promise((resolve, reject) => {
+    const tx  = db.transaction([store], 'readwrite');
+    const req = tx.objectStore(store).delete(id);
+    req.onsuccess = () => resolve(true);
+    req.onerror   = e => reject(new Error(`Erro ao deletar: ${e.target.error?.message}`));
+  }));
 }
 
-/**
- * Limpa todas as tarefas do banco
- * @returns {Promise} - Confirma a limpeza
- */
-function limparBanco() {
-    return new Promise((resolve, reject) => {
-        if (!db) {
-            reject('Banco não inicializado. Chame iniciarBanco() primeiro.');
-            return;
-        }
-
-        const transaction = db.transaction([STORE_NAME], 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.clear();
-
-        request.onsuccess = function() {
-            console.log('[StudyFlow] Banco limpo com sucesso!');
-            resolve(true);
-        };
-
-        request.onerror = function(event) {
-            console.error('[StudyFlow] Erro ao limpar banco:', event.target.error);
-            reject(event.target.error);
-        };
-    });
+function limparStore(store = 'tarefas') {
+  return getDB().then(db => new Promise((resolve, reject) => {
+    const tx  = db.transaction([store], 'readwrite');
+    const req = tx.objectStore(store).clear();
+    req.onsuccess = () => resolve(true);
+    req.onerror   = e => reject(new Error(`Erro ao limpar: ${e.target.error?.message}`));
+  }));
 }
 
-console.log('[StudyFlow] db.js carregado! Funções disponíveis: iniciarBanco(), adicionarItem(), buscarItens(), buscarItemPorId(), atualizarItem(), deletarItem(), limparBanco()');
+// ── Busca por índice ────────────────────────────────────────
+function buscarPorIndice(store, indice, valor) {
+  return getDB().then(db => new Promise((resolve, reject) => {
+    const tx  = db.transaction([store], 'readonly');
+    const idx = tx.objectStore(store).index(indice);
+    const req = idx.getAll(valor);
+    req.onsuccess = e => resolve(e.target.result);
+    req.onerror   = e => reject(new Error(`Erro ao buscar por índice: ${e.target.error?.message}`));
+  }));
+}
+
+// Alias retrocompatível — não quebra código existente
+const limparBanco = () => limparStore('tarefas');
