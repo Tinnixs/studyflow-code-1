@@ -1,0 +1,7 @@
+Dificuldade na Injeção de Dependência: No início, foi confuso entender por que o index.php precisava criar o Repositório, o Service e o Controller em ordem. Entendemos depois que é para o Controller já nascer com tudo o que precisa.
+
+Dúvida no Router: Tivemos dúvida se a sanitização deveria ficar no Router ou no Middleware. Decidimos pelo Middleware para manter o Router focado apenas em rotas.
+
+Tratamento de Erros: Ficamos em dúvida se o try-catch deveria estar no Service ou no Controller. Aprendemos que o Service lança a exceção (throw) e o Controller a captura para mostrar ao usuário.
+
+Interface: Foi um conceito novo entender por que criar um arquivo (IEstudanteRepository) que não tem código, apenas os nomes dos métodos.
