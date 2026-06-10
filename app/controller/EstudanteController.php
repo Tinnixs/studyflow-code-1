@@ -1,8 +1,8 @@
 <?php
-// controller.php
+// EstudanteController.php
 
-require_once 'service.php';
-require_once 'BusinessRuleException.php';
+require_once __DIR__ . '/../services/StudyFlowService.php';
+require_once __DIR__ . '/../model/BusinessRuleException.php';
 
 class EstudanteController {
     private StudyFlowService $service;
@@ -17,7 +17,7 @@ class EstudanteController {
             $this->service->registrarEstudante($dados);
             
             // Redireciona o usuário para o cronograma
-            header("Location: cronograma.html");
+            header("Location: /app/view/html/cronograma.html");
             exit; // Importante para parar a execução do script após o redirecionamento
             
         } catch (BusinessRuleException $e) {

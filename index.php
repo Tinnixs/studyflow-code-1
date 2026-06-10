@@ -1,8 +1,8 @@
 <?php
-require_once 'EstudanteRepository.php';
-require_once 'service.php';
-require_once 'controller.php';
-require_once 'router.php';
+require_once 'app/model/EstudanteRepository.php';
+require_once 'app/services/StudyFlowService.php';
+require_once 'app/controller/EstudanteController.php';
+require_once 'app/router/Router.php';
 
 // Aqui criamos as dependências "de baixo para cima" (Passo 5)
 $repository = new EstudanteRepository();

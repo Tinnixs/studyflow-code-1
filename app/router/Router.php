@@ -1,5 +1,5 @@
 <?php
-require_once 'middleware.php';
+require_once __DIR__ . '/../middleware/Middleware.php';
 
 class Router {
     private EstudanteController $controller;
@@ -21,6 +21,6 @@ class Router {
                 $GLOBALS['mensagem_feedback'] = "❌ " . $e->getMessage();
             }
         }
-        require 'view.php';
+        require __DIR__ . '/../view/php/view.php';
     }
 }

@@ -1,7 +1,7 @@
 <?php
 require_once 'Database.php';
 require_once 'IEstudanteRepository.php';
-require_once 'model.php';
+require_once 'Model.php';
 
 class EstudanteRepository implements IEstudanteRepository {
     private PDO $pdo;

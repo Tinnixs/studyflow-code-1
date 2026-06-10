@@ -143,7 +143,7 @@ $msg = $GLOBALS['mensagem_feedback'] ?? null;
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="index.php">
+        <form method="POST" action="/index.php">
             <div class="input-wrapper">
                 <label>Como quer ser chamado?</label>
                 <input type="text" name="nome" placeholder="Digite seu nome..." required>

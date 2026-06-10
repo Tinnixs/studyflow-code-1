@@ -1,8 +1,8 @@
 <?php
 // service.php
 
-require_once 'BusinessRuleException.php';
-require_once 'model.php'; // IMPORTANTE: Faltava o model para criar o objeto EstudanteModel
+require_once __DIR__ . '/../model/BusinessRuleException.php';
+require_once __DIR__ . '/../model/Model.php';
 
 class StudyFlowService {
     private IEstudanteRepository $repository;
