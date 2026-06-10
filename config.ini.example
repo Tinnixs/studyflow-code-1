@@ -1,0 +1,5 @@
+; Exemplo de configuração para o banco de dados
+; Copie este arquivo para config.ini e ajuste as configurações conforme necessário
+
+driver=sqlite
+path=database.sqlite
