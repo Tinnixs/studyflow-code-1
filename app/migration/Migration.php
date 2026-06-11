@@ -12,7 +12,7 @@ class Migration
 
     public function __construct()
     {
-        $this->dbPath = __DIR__ . '/database.sqlite';
+        $this->dbPath = __DIR__ . '/../../database.sqlite';
     }
 
     private function conectar(): void
